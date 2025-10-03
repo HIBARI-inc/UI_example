@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a7bd5" />
+      <stop offset="100%" stop-color="#00d2ff" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="36" fill="url(#g1)" />
+  <g fill="rgba(255,255,255,0.75)">
+    <rect x="72" y="86" width="160" height="120" rx="18" />
+    <rect x="260" y="104" width="160" height="16" rx="8" />
+    <rect x="260" y="136" width="140" height="16" rx="8" />
+    <rect x="260" y="168" width="180" height="16" rx="8" />
+  </g>
+  <text x="72" y="260" fill="#ffffff" font-size="52" font-family="'Hiragino Sans','Noto Sans JP',sans-serif" font-weight="700">SUPPLY</text>
+</svg>

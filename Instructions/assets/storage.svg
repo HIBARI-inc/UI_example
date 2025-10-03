@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8360c3" />
+      <stop offset="100%" stop-color="#2ebf91" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="36" fill="url(#g4)" />
+  <g fill="rgba(255,255,255,0.72)">
+    <rect x="96" y="96" width="288" height="140" rx="24" />
+    <rect x="136" y="128" width="220" height="18" rx="9" />
+    <rect x="136" y="162" width="200" height="18" rx="9" />
+    <rect x="136" y="196" width="170" height="18" rx="9" />
+  </g>
+  <text x="72" y="260" fill="#ffffff" font-size="52" font-family="'Hiragino Sans','Noto Sans JP',sans-serif" font-weight="700">STORAGE</text>
+</svg>

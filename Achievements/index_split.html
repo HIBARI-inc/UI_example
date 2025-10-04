@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スプリットビュー実績モニター</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans JP", sans-serif;
+            min-height: 100vh;
+            background: #f8fafc;
+            color: #0f172a;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+        header {
+            background: #1d4ed8;
+            color: #fff;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .range-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .range-controls input,
+        .range-controls select {
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: none;
+        }
+        .range-controls button {
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: none;
+            background-color: #22c55e;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        main {
+            display: grid;
+            grid-template-columns: minmax(300px, 360px) 1fr;
+            gap: 24px;
+            padding: 24px 32px;
+        }
+        .left-panel {
+            display: grid;
+            gap: 16px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+        }
+        .stat-card strong {
+            font-size: 28px;
+        }
+        .stat-card span {
+            display: block;
+            margin-bottom: 4px;
+            color: #64748b;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+        }
+        .scenario-list {
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+        }
+        .scenario-list button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+        .right-panel {
+            display: grid;
+            grid-template-rows: 1fr minmax(220px, 0.45fr);
+            gap: 24px;
+        }
+        .table-wrap {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.1);
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+        .table-wrap header {
+            background: #e2e8f0;
+            color: #0f172a;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-wrap header button {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid #1d4ed8;
+            color: #1d4ed8;
+            background: #fff;
+            cursor: pointer;
+        }
+        .table-frame {
+            width: 100%;
+            height: 360px;
+            border: none;
+        }
+        .assistant-area {
+            background: #0f172a;
+            border-radius: 16px;
+            color: #e2e8f0;
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            padding: 24px;
+            gap: 24px;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.2);
+        }
+        .assistant-feed {
+            display: grid;
+            gap: 12px;
+            overflow-y: auto;
+        }
+        .assistant-feed article {
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: rgba(226, 232, 240, 0.1);
+        }
+        .assistant-actions {
+            display: grid;
+            gap: 12px;
+        }
+        .assistant-actions textarea {
+            width: 100%;
+            min-height: 120px;
+            border-radius: 12px;
+            border: none;
+            padding: 12px;
+            resize: vertical;
+        }
+        .assistant-actions button {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        @media (max-width: 1080px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            .right-panel {
+                grid-template-rows: auto auto;
+            }
+            .assistant-area {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>スプリットビュー実績モニター</h1>
+            <p>左でコンテキストを選び、右で詳細とAIの提案を参照します。</p>
+        </div>
+        <div class="range-controls">
+            <input type="date" id="split-from" value="2024-09-01">
+            <span>〜</span>
+            <input type="date" id="split-to" value="2024-10-01">
+            <select id="split-category">
+                <option value="">すべて</option>
+                <option value="disposal">処理・廃棄</option>
+                <option value="equipment">機器・制御</option>
+                <option value="extraction">抽出・取出</option>
+                <option value="maintenance">メンテナンス</option>
+                <option value="measurement">計測・測定</option>
+                <option value="plant">プラント・設備</option>
+                <option value="storage">貯蔵・保管</option>
+                <option value="supply">供給・投入</option>
+                <option value="transport">搬送・運搬</option>
+            </select>
+            <button type="button" id="split-search">反映</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="left-panel">
+            <article class="stat-card">
+                <span>対象期間</span>
+                <strong id="split-range-label">2024/09/01 - 2024/10/01</strong>
+                <p id="split-records">10件のレコード (ダミー)</p>
+            </article>
+            <article class="stat-card">
+                <span>注意ステータス</span>
+                <strong id="split-alerts">1</strong>
+                <p>選択期間内の注意件数</p>
+            </article>
+            <div class="scenario-list">
+                <h2>クイック質問</h2>
+                <button type="button" data-question="注意が必要な設備は?">注意が必要な設備は?</button>
+                <button type="button" data-question="搬送ラインの稼働率は?">搬送ラインの稼働率は?</button>
+                <button type="button" data-question="温度データの傾向を教えて">温度データの傾向を教えて</button>
+            </div>
+        </section>
+
+        <section class="right-panel">
+            <div class="table-wrap">
+                <header>
+                    <h2>詳細データ</h2>
+                    <button type="button" id="split-export">Excel出力</button>
+                </header>
+                <iframe class="table-frame" src="data_table.html" title="実績データ表"></iframe>
+            </div>
+            <div class="assistant-area">
+                <div class="assistant-feed" id="split-feed"></div>
+                <div class="assistant-actions">
+                    <textarea id="split-input" placeholder="AIへの指示を記入"></textarea>
+                    <button type="button" id="split-send">AIに依頼</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // コメント: 期間とカテゴリを表示へ反映
+        document.getElementById('split-search').addEventListener('click', function() {
+            const from = document.getElementById('split-from').value;
+            const to = document.getElementById('split-to').value;
+            const category = document.getElementById('split-category').value;
+            document.getElementById('split-range-label').textContent = `${formatDate(from)} - ${formatDate(to)}`;
+            document.getElementById('split-records').textContent = `${categoryLabel(category)}のデータ10件 (ダミー)`;
+            pushFeed('AI', '期間とカテゴリのフィルタを更新しました。(ダミー)');
+        });
+
+        // コメント: クイック質問ボタンでAIへ送信
+        document.querySelectorAll('.scenario-list button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const question = button.dataset.question;
+                pushFeed('You', question);
+                respondLater();
+            });
+        });
+
+        // コメント: テキストエリア送信
+        document.getElementById('split-send').addEventListener('click', function() {
+            const input = document.getElementById('split-input');
+            const message = input.value.trim();
+            if (!message) {
+                return;
+            }
+            pushFeed('You', message);
+            input.value = '';
+            respondLater();
+        });
+
+        // コメント: エクスポートボタンクリック
+        document.getElementById('split-export').addEventListener('click', function() {
+            pushFeed('AI', 'Excel出力処理を開始しました。(ダミー)');
+        });
+
+        // コメント: AIのダミー応答
+        function respondLater() {
+            setTimeout(function() {
+                pushFeed('AI', 'ダミー応答: 実際には統計情報や異常検知結果を返します。');
+            }, 800);
+        }
+
+        // コメント: フィードへメッセージを追記
+        function pushFeed(author, text) {
+            const feed = document.getElementById('split-feed');
+            const item = document.createElement('article');
+            item.innerHTML = `<strong>${author}</strong><p>${text}</p>`;
+            feed.appendChild(item);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        // コメント: 日付書式を揃える
+        function formatDate(value) {
+            return value ? value.replaceAll('-', '/') : '未選択';
+        }
+
+        // コメント: カテゴリ値を表示用に変換
+        function categoryLabel(value) {
+            const map = {
+                '': '全カテゴリ',
+                disposal: '処理・廃棄',
+                equipment: '機器・制御',
+                extraction: '抽出・取出',
+                maintenance: 'メンテナンス',
+                measurement: '計測・測定',
+                plant: 'プラント・設備',
+                storage: '貯蔵・保管',
+                supply: '供給・投入',
+                transport: '搬送・運搬'
+            };
+            return map[value] || '全カテゴリ';
+        }
+
+        pushFeed('AI', 'ここではAIの提案を時系列で確認できます。(ダミー)');
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイムライン型実績ビュー</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            color-scheme: only light;
+        }
+        body {
+            margin: 0;
+            font-family: "Noto Sans JP", sans-serif;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+            background-color: #f1f5f9;
+        }
+        header {
+            grid-column: 1 / -1;
+            padding: 24px 32px;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        header h1 {
+            margin: 0 0 8px 0;
+        }
+        header p {
+            margin: 0;
+            color: rgba(226, 232, 240, 0.8);
+        }
+        .timeline-panel {
+            background-color: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 24px;
+            display: grid;
+            gap: 24px;
+        }
+        .timeline-calendar {
+            display: grid;
+            gap: 12px;
+        }
+        .timeline-calendar label {
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .timeline-calendar input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #cbd5f5;
+        }
+        .timeline-scroll {
+            border: 1px solid #cbd5f5;
+            border-radius: 16px;
+            padding: 16px;
+            background: linear-gradient(180deg, #e2e8f0, #f8fafc);
+            overflow-y: auto;
+            max-height: calc(100vh - 280px);
+        }
+        .timeline-entry {
+            display: grid;
+            gap: 6px;
+            padding: 12px;
+            border-radius: 12px;
+            background-color: #fff;
+            margin-bottom: 12px;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+        .timeline-entry:hover {
+            border-color: #38bdf8;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+        .timeline-entry strong {
+            color: #0f172a;
+        }
+        .timeline-entry span {
+            color: #475569;
+            font-size: 13px;
+        }
+        .main-panel {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            padding: 24px 40px;
+            gap: 24px;
+        }
+        .main-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .main-toolbar button {
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid #38bdf8;
+            background: #38bdf8;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .table-shell {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+        .table-shell header {
+            background: linear-gradient(90deg, #0ea5e9, #2563eb);
+            color: #fff;
+            padding: 20px 28px;
+        }
+        .table-shell iframe {
+            width: 100%;
+            height: 420px;
+            border: none;
+            background: #fff;
+        }
+        .assistant-bar {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px 24px;
+            border-radius: 18px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: center;
+        }
+        .assistant-input {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .assistant-input input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 14px;
+            border: none;
+        }
+        .assistant-input button {
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid #38bdf8;
+            background: transparent;
+            color: #38bdf8;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .assistant-log {
+            display: flex;
+            gap: 12px;
+        }
+        .assistant-log div {
+            background: rgba(30, 58, 138, 0.6);
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        @media (max-width: 960px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+            .timeline-panel {
+                order: 2;
+            }
+            .main-panel {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>タイムライン型実績ビュー</h1>
+        <p>時間軸から期間を選択し、右ペインで詳細を確認できます</p>
+    </header>
+
+    <aside class="timeline-panel">
+        <section class="timeline-calendar">
+            <label for="timeline-from">開始日</label>
+            <input type="date" id="timeline-from" value="2024-09-15">
+            <label for="timeline-to">終了日</label>
+            <input type="date" id="timeline-to" value="2024-10-01">
+            <button type="button" id="timeline-apply">期間を適用</button>
+        </section>
+        <section>
+            <h2>ハイライト</h2>
+            <div class="timeline-scroll" id="timeline-scroll"></div>
+        </section>
+    </aside>
+
+    <main class="main-panel">
+        <div class="main-toolbar">
+            <div>
+                <h2 id="timeline-heading">2024/09/15 - 2024/10/01 の実績</h2>
+                <p id="timeline-subheading">選択期間のうち注意は1件です</p>
+            </div>
+            <button type="button" id="timeline-export">CSVを出力</button>
+        </div>
+
+        <div class="table-shell">
+            <header>
+                <h3>選択期間の詳細テーブル</h3>
+            </header>
+            <iframe src="data_table.html" title="実績データ表"></iframe>
+        </div>
+
+        <div class="assistant-bar">
+            <div class="assistant-input">
+                <input type="text" id="timeline-chat-input" placeholder="例: 注意項目を一覧して">
+                <button type="button" id="timeline-chat-send">質問</button>
+            </div>
+            <div class="assistant-log" id="timeline-log"></div>
+        </div>
+    </main>
+
+    <script>
+        // コメント: タイムラインにダミーデータを表示
+        const timelineData = [
+            { time: '2024-10-01 11:00', label: '排出ガス_NOx濃度', status: '注意' },
+            { time: '2024-10-01 10:15', label: '定期点検_フィルタC', status: '正常' },
+            { time: '2024-10-01 08:30', label: 'AGV_01_稼働率', status: '正常' },
+            { time: '2024-09-25 14:15', label: '冷蔵庫_A温度', status: '正常' }
+        ];
+
+        const timelineScroll = document.getElementById('timeline-scroll');
+        timelineData.forEach(function(item) {
+            const entry = document.createElement('div');
+            entry.className = 'timeline-entry';
+            entry.innerHTML = `<strong>${item.time}</strong><span>${item.label} / ${item.status}</span>`;
+            entry.addEventListener('click', function() {
+                addLog(`選択: ${item.label}`);
+            });
+            timelineScroll.appendChild(entry);
+        });
+
+        // コメント: 期間適用のボタンで見出しを更新
+        document.getElementById('timeline-apply').addEventListener('click', function() {
+            const from = document.getElementById('timeline-from').value;
+            const to = document.getElementById('timeline-to').value;
+            document.getElementById('timeline-heading').textContent = `${formatDate(from)} - ${formatDate(to)} の実績`;
+            document.getElementById('timeline-subheading').textContent = '期間内の注意件数はダミー表示です';
+            addLog('期間を適用しました');
+        });
+
+        // コメント: 日付文字列を整形
+        function formatDate(value) {
+            return value ? value.replaceAll('-', '/') : '未選択';
+        }
+
+        // コメント: CSV出力ボタンのダミー処理
+        document.getElementById('timeline-export').addEventListener('click', function() {
+            addLog('CSV出力を開始します (ダミー)');
+        });
+
+        // コメント: チャット入力処理
+        document.getElementById('timeline-chat-send').addEventListener('click', handleChat);
+        document.getElementById('timeline-chat-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                handleChat();
+            }
+        });
+
+        function handleChat() {
+            const input = document.getElementById('timeline-chat-input');
+            const message = input.value.trim();
+            if (!message) {
+                return;
+            }
+            addLog(`You: ${message}`);
+            input.value = '';
+            setTimeout(function() {
+                addLog('AI: ダミー応答です。実装時にはタイムラインに基づく洞察を返します。');
+            }, 600);
+        }
+
+        // コメント: 下部ログ欄にメッセージを追記
+        function addLog(text) {
+            const log = document.getElementById('timeline-log');
+            const chip = document.createElement('div');
+            chip.textContent = text;
+            log.appendChild(chip);
+            log.scrollLeft = log.scrollWidth;
+        }
+
+        addLog('AI: 過去7日の実績を確認できます。');
+    </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モーダル型実績ビュー</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans JP", sans-serif;
+            background-color: #101828;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+        header {
+            padding: 24px clamp(16px, 4vw, 64px);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(22px, 3vw, 36px);
+        }
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .filter-bar label {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .filter-bar input,
+        .filter-bar select {
+            padding: 10px 12px;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(148, 163, 184, 0.18);
+            color: #f8fafc;
+        }
+        .filter-bar button {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: none;
+            background: linear-gradient(135deg, #0ea5e9, #7c3aed);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .table-only-wrapper {
+            padding: clamp(16px, 4vw, 64px);
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 24px;
+        }
+        .table-frame-shell {
+            background-color: rgba(15, 23, 42, 0.72);
+            border-radius: 32px;
+            padding: 32px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 0 32px 80px rgba(15, 23, 42, 0.4);
+        }
+        .table-frame-shell h2 {
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .table-frame {
+            width: 100%;
+            height: 440px;
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            background: transparent;
+        }
+        .floating-ai {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: grid;
+            gap: 12px;
+            align-items: end;
+        }
+        .floating-ai button {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #38bdf8, #22d3ee);
+            color: #0f172a;
+            font-weight: 900;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.4);
+        }
+        .ai-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .ai-modal.active {
+            display: flex;
+        }
+        .ai-window {
+            width: min(520px, 90vw);
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 24px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.32);
+        }
+        .ai-window header {
+            padding: 0;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ai-window header h2 {
+            margin: 0;
+        }
+        .ai-close {
+            border: none;
+            background: none;
+            color: #94a3b8;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .ai-body {
+            background: rgba(15, 23, 42, 0.65);
+            border-radius: 16px;
+            padding: 16px;
+            overflow-y: auto;
+            display: grid;
+            gap: 12px;
+        }
+        .ai-message {
+            padding: 12px 16px;
+            border-radius: 14px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .ai-message.ai {
+            background: rgba(14, 165, 233, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #e0f2fe;
+        }
+        .ai-message.user {
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+        .ai-footer {
+            display: flex;
+            gap: 12px;
+        }
+        .ai-footer input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(15, 23, 42, 0.72);
+            color: #f8fafc;
+        }
+        .ai-footer button {
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .info-banner {
+            padding: 12px 18px;
+            border-radius: 16px;
+            background: rgba(56, 189, 248, 0.12);
+            color: #e0f2fe;
+        }
+        @media (max-width: 720px) {
+            .floating-ai {
+                right: 16px;
+                bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>モーダル型実績ビュー</h1>
+            <p>シンプルな表中心レイアウト。AIはモーダルで詳細を提案します。</p>
+        </div>
+        <div class="filter-bar">
+            <label for="modal-from">開始</label>
+            <input type="date" id="modal-from" value="2024-09-20">
+            <label for="modal-to">終了</label>
+            <input type="date" id="modal-to" value="2024-10-01">
+            <label for="modal-category">カテゴリ</label>
+            <select id="modal-category">
+                <option value="">すべて</option>
+                <option value="disposal">処理・廃棄</option>
+                <option value="equipment">機器・制御</option>
+                <option value="extraction">抽出・取出</option>
+                <option value="maintenance">メンテナンス</option>
+                <option value="measurement">計測・測定</option>
+                <option value="plant">プラント・設備</option>
+                <option value="storage">貯蔵・保管</option>
+                <option value="supply">供給・投入</option>
+                <option value="transport">搬送・運搬</option>
+            </select>
+            <button type="button" id="modal-search">適用</button>
+        </div>
+    </header>
+
+    <div class="table-only-wrapper">
+        <div class="info-banner" id="modal-summary">2024/09/20 〜 2024/10/01 / すべて / 10件のレコード (ダミー)</div>
+        <div class="table-frame-shell">
+            <h2>実績詳細テーブル</h2>
+            <iframe class="table-frame" src="data_table.html" title="実績データ表"></iframe>
+        </div>
+    </div>
+
+    <div class="floating-ai">
+        <button type="button" id="modal-open">AI</button>
+    </div>
+
+    <div class="ai-modal" id="modal-window">
+        <div class="ai-window">
+            <header>
+                <h2>AIアシスタント</h2>
+                <button type="button" class="ai-close" id="modal-close">×</button>
+            </header>
+            <div class="ai-body" id="modal-chat"></div>
+            <div class="ai-footer">
+                <input type="text" id="modal-chat-input" placeholder="AIに確認したいことを入力してください">
+                <button type="button" id="modal-chat-send">送信</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // コメント: モーダル開閉の処理
+        const modalWindow = document.getElementById('modal-window');
+        document.getElementById('modal-open').addEventListener('click', function() {
+            modalWindow.classList.add('active');
+        });
+        document.getElementById('modal-close').addEventListener('click', function() {
+            modalWindow.classList.remove('active');
+        });
+        modalWindow.addEventListener('click', function(event) {
+            if (event.target === modalWindow) {
+                modalWindow.classList.remove('active');
+            }
+        });
+
+        // コメント: 検索適用時に要約を更新
+        document.getElementById('modal-search').addEventListener('click', function() {
+            const from = document.getElementById('modal-from').value;
+            const to = document.getElementById('modal-to').value;
+            const category = document.getElementById('modal-category').value;
+            const summary = `${formatDate(from)} 〜 ${formatDate(to)} / ${categoryLabel(category)} / 10件(ダミー)`;
+            document.getElementById('modal-summary').textContent = summary;
+            pushAi('ai', '指定期間のデータで表を再表示しました。(ダミー)');
+        });
+
+        // コメント: AIチャット処理
+        document.getElementById('modal-chat-send').addEventListener('click', handleSend);
+        document.getElementById('modal-chat-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                handleSend();
+            }
+        });
+
+        function handleSend() {
+            const input = document.getElementById('modal-chat-input');
+            const message = input.value.trim();
+            if (!message) {
+                return;
+            }
+            pushAi('user', message);
+            input.value = '';
+            setTimeout(function() {
+                pushAi('ai', 'AI: こちらはダミー返信です。本実装では分析結果を提示します。');
+            }, 700);
+        }
+
+        // コメント: チャット欄にメッセージを追加
+        function pushAi(role, text) {
+            const chat = document.getElementById('modal-chat');
+            const bubble = document.createElement('div');
+            bubble.className = `ai-message ${role}`;
+            bubble.textContent = text;
+            chat.appendChild(bubble);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // コメント: 日付表記を整える
+        function formatDate(value) {
+            return value ? value.replaceAll('-', '/') : '未選択';
+        }
+
+        // コメント: カテゴリ値をラベルへ変換
+        function categoryLabel(value) {
+            const map = {
+                '': 'すべて',
+                disposal: '処理・廃棄',
+                equipment: '機器・制御',
+                extraction: '抽出・取出',
+                maintenance: 'メンテナンス',
+                measurement: '計測・測定',
+                plant: 'プラント・設備',
+                storage: '貯蔵・保管',
+                supply: '供給・投入',
+                transport: '搬送・運搬'
+            };
+            return map[value] || 'すべて';
+        }
+
+        pushAi('ai', 'こんにちは。期間やカテゴリを指定すると要約が更新されます。(ダミー)');
+    </script>
+</body>
+</html>

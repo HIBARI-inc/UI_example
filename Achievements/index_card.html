@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>実績検索表ダッシュボード</title>
+    <title>カード型実績ビュー</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body>
     <main class="shell shell--wide">
         <header class="masthead">
-            <h1>実績検索表ダッシュボード</h1>
+            <h1>カード型実績ビュー</h1>
             <p>システム実績を検索し、AIアシスタントで分析します</p>
         </header>
 
@@ -19,16 +19,16 @@
             <div class="dashboard-content">
                 <section class="filters">
                     <div class="filter-control">
-                        <label for="card-date-from">開始日</label>
-                        <input type="date" id="card-date-from" value="2024-09-01">
+                        <label for="card-date-from" class="filter-label">開始日</label>
+                        <input type="date" id="card-date-from" value="2024-01-01" data-jshook="date-from">
                     </div>
                     <div class="filter-control">
-                        <label for="card-date-to">終了日</label>
-                        <input type="date" id="card-date-to" value="2024-10-04">
+                        <label for="card-date-to" class="filter-label">終了日</label>
+                        <input type="date" id="card-date-to" value="2025-12-31" data-jshook="date-to">
                     </div>
                     <div class="filter-control">
                         <label for="card-category">カテゴリ</label>
-                        <select id="card-category">
+                        <select id="card-category" data-jshook="category-select">
                             <option value="">すべて</option>
                             <option value="disposal">処理・廃棄</option>
                             <option value="equipment">機器・制御</option>
@@ -42,14 +42,14 @@
                         </select>
                     </div>
                     <div class="filter-control">
-                        <button type="button" id="card-search">検索</button>
+                        <button type="button" id="card-search" data-jshook="search-button">検索</button>
                     </div>
                 </section>
 
                 <section class="table-panel">
                     <div class="table-header">
                         <h2>詳細表</h2>
-                        <button type="button" id="card-export">エクスポート</button>
+                        <button type="button" id="card-export" data-jshook="export-button">エクスポート</button>
                     </div>
                     <div class="table-body">
                         <table class="card-table">
@@ -64,7 +64,7 @@
                                     <th>備考</th>
                                 </tr>
                             </thead>
-                            <tbody id="card-table-body"></tbody>
+                            <tbody id="card-table-body" data-jshook="table-body"></tbody>
                         </table>
                     </div>
                 </section>
@@ -111,24 +111,27 @@
 
                 <div class="ai-suggestions">
                     <p class="ai-question">このような情報も回答できますが、何が知りたいですか？</p>
-                    <div class="suggestion-buttons">
-                        <button type="button" class="suggestion-btn">今日の異常は？</button>
-                        <button type="button" class="suggestion-btn">最高効率の装置は？</button>
-                        <button type="button" class="suggestion-btn">メンテナンス予定は？</button>
-                        <button type="button" class="suggestion-btn">週毎サマリー</button>
-                        <button type="button" class="suggestion-btn">エネルギー消費傾向</button>
-                        <button type="button" class="suggestion-btn">品質指標達成状況</button>
+                    <div class="suggestion-buttons" data-jshook="suggestion-buttons">
+                        <button type="button" class="suggestion-btn" data-question="今日の異常は？">今日の異常は？</button>
+                        <button type="button" class="suggestion-btn" data-question="最高効率の装置はどれですか？">最高効率の装置は？</button>
+                        <button type="button" class="suggestion-btn"
+                            data-question="メンテナンスが必要な機器はありますか？">メンテナンス予定は？</button>
+                        <button type="button" class="suggestion-btn"
+                            data-question="週毎のパフォーマンスサマリーを教えてください">週毎サマリー</button>
+                        <button type="button" class="suggestion-btn"
+                            data-question="エネルギー消費量の傾向を教えてください">エネルギー消費傾向</button>
+                        <button type="button" class="suggestion-btn" data-question="品質指標の達成状況は？">品質指標達成状況</button>
                     </div>
                 </div>
 
                 <div class="ai-chat-section">
-                    <div class="ai-messages" id="card-chat">
+                    <div class="ai-messages" id="card-chat" data-jshook="chat-display">
                     </div>
                     <div class="ai-input-container">
                         <div class="ai-input-wrapper">
                             <input type="text" id="card-chat-input" class="ai-input"
-                                placeholder="実績データについて何でもお聞かせください...">
-                            <button type="button" id="card-chat-send" class="ai-send-button">
+                                placeholder="実績データについて何でもお聞かせください..." data-jshook="chat-input">
+                            <button type="button" id="card-chat-send" class="ai-send-button" data-jshook="chat-send">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <line x1="22" y1="2" x2="11" y2="13"></line>
                                     <polygon points="22,2 15,22 11,13 2,9"></polygon>
@@ -140,7 +143,7 @@
             </aside>
         </div>
     </main>
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

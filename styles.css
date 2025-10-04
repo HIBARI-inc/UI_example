@@ -1982,11 +1982,12 @@ body.mode-fullscreen {
 
 /* index_card.html 用の追加スタイル */
 
+/* ↓↓↓↓ こちらのコードに置き換えてください ↓↓↓↓ */
 .dashboard-container {
-  display: grid;
-  grid-template-columns: 1fr 340px; /* メインコンテンツとアシスタントの幅を定義 */
+  display: flex; /* レイアウトの仕組みをFlexboxに変更 */
+  flex-wrap: wrap; /* 幅が足りなければ自動で折り返す設定 */
   gap: var(--space-lg);
-  align-items: start;
+  align-items: flex-start; /* 上端を揃える */
 }
 
 .dashboard-header {
@@ -2257,14 +2258,50 @@ body.mode-fullscreen {
   opacity: 0.85;
 }
 
-/* レスポンシブ対応 */
-@media (max-width: 1024px) {
-  .dashboard-container {
-    grid-template-columns: 1fr; /* 画面が狭い場合は1列にする */
-  }
+/* ↓↓↓↓ このコードをstyles.cssの一番下に追加（または既存のものを置き換え）してください ↓↓↓↓ */
 
-  .assistant {
-    position: static; /* 縦並びになるので追従を解除 */
-    top: auto;
-  }
+/* --- 柔軟なレイアウト設定 --- */
+
+/* ダッシュボード全体のレイアウト */
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  align-items: flex-start;
+}
+
+/* メインコンテンツ（表など）の幅設定 */
+.dashboard-content {
+  flex: 2 1 500px;
+  min-width: 0;
+}
+
+/* AIアシスタントの幅と追従設定 */
+.assistant {
+  flex: 1 1 380px;
+  position: sticky;
+  top: var(--space-lg);
+}
+
+/* --- 表の横スクロール設定 --- */
+
+/* 表を囲むボックスに横スクロールを適用 */
+.table-body,
+.data-table-wrapper {
+  overflow-x: auto;
+}
+
+/* 表自体の設定 */
+.card-table,
+.data-table {
+  width: 100%; /* 親要素いっぱいに広がるよう試みる */
+  min-width: 800px; /* ただし、最低でも800pxの幅を確保する */
+}
+
+/* 表のセル（ヘッダーとデータ）の設定 */
+.card-table th,
+.card-table td,
+.data-table th,
+.data-table td {
+  white-space: nowrap; /* セル内のテキストが改行されるのを防ぐ */
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>不適合情報ダッシュボード構成案</title>
+    <title>不適合情報ダッシュボード案B</title>
     <link rel="stylesheet" href="../styles.css" />
     <style>
       body.blue-dashboard {
@@ -35,12 +35,15 @@
         letter-spacing: 0.06em;
       }
 
-      .blue-dashboard__filters {
-        display: flex;
-        justify-content: center;
+      .blue-dashboard__top {
+        display: grid;
+        grid-template-columns: minmax(18rem, 1.35fr) minmax(18rem, 1fr);
+        gap: clamp(1rem, 2vw, 1.6rem);
       }
 
       .dashboard-filters {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(10rem, 1fr));
         background: var(--panel);
         border-radius: var(--radius-lg);
         border: 0.0625rem solid var(--border);
@@ -49,11 +52,11 @@
         gap: clamp(0.7rem, 1.2vw, 1rem);
       }
 
-      .blue-dashboard__layout {
-        display: grid;
-        grid-template-columns: minmax(26rem, 1.45fr) minmax(15rem, 0.85fr) minmax(15rem, 0.85fr);
-        grid-auto-rows: minmax(9rem, auto);
-        gap: clamp(1.2rem, 2.2vw, 2rem);
+      .dash-filter__hint {
+        grid-column: 1 / -1;
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.85rem;
       }
 
       .blue-card {
@@ -68,20 +71,11 @@
         overflow: hidden;
       }
 
-      .blue-card--main {
-        grid-column: 1;
-        grid-row: 1 / span 2;
-      }
-
       .blue-card__header {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
         gap: 0.6rem;
-      }
-
-      /* ヘッダーを前面に出して、スクロール中にテーブルの sticky ヘッダーと重ならないようにする */
-      .blue-card__header {
         position: relative;
         z-index: 3;
       }
@@ -93,14 +87,26 @@
         letter-spacing: 0.04em;
       }
 
-      .blue-card--amount {
-        grid-column: 2 / span 2;
-        grid-row: 1;
+      .blue-dashboard__layout {
+        display: grid;
+        grid-template-columns: minmax(26rem, 2fr) minmax(16rem, 1fr) minmax(16rem, 1fr);
+        grid-auto-rows: minmax(10rem, auto);
+        gap: clamp(1.2rem, 2.2vw, 2rem);
+        align-items: stretch;
+      }
+
+      .blue-card--summary {
+        min-height: 100%;
+      }
+
+      .blue-card--main {
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 2;
       }
 
       .blue-card--cause-bar {
-        grid-column: 2;
-        grid-row: 2;
+        grid-column: 3;
+        grid-row: 1;
       }
 
       .blue-card--cause-pie {
@@ -135,78 +141,15 @@
       }
 
       .component-frame--table {
-        min-height: 26rem;
+        min-height: 27rem;
         display: block;
         padding: 0;
       }
 
-      .component-frame--bar {
-        min-height: 18rem;
-        aspect-ratio: 16 / 9;
-      }
-
+      .component-frame--bar,
       .component-frame--pie {
-        min-height: 18rem;
+        min-height: 16rem;
         aspect-ratio: 16 / 9;
-      }
-
-      .data-table-container {
-        position: relative;
-        border: 0.0625rem solid var(--border);
-        border-radius: var(--radius-md);
-        background: var(--panel);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-      }
-
-      /* テーブルがカード内部で浮かないように調整
-         - カード内でテーブルコンテナを端まで広げ、カードのパディング分の余白を調整
-         - ヘッダー下の余白（gap）を維持したい場合は padding-top を調整してください */
-      .blue-card--main .data-table-container {
-        /* negative margin を使わずカード内に常時余白を持たせる。
-           表は左右に常時 padding を持ち、縦横スクロールを維持
-           さらにコンテナ背景をカードパネルと合わせて、
-           パディング領域に表の行が見えないようにする */
-        margin: 0;
-        padding: 0.6rem; /* 常時の左右・上下の余白 */
-        background: var(--panel);
-        border: none;
-        box-shadow: none;
-        border-radius: calc(var(--radius-md) - 2px);
-        box-sizing: border-box;
-        /* スクロールは内側のラッパーに移動（下で定義） */
-        -webkit-overflow-scrolling: touch;
-      }
-
-      /* 内部ラッパーがスクロールを担当する（Achievements と同じ動作） */
-      .blue-card--main .data-table-wrapper {
-        max-height: 32rem;
-        overflow: auto;
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid var(--border);
-        box-sizing: border-box;
-      }
-
-      /* ヘッダーとテーブルの間の隙間を詰めたい場合 */
-      .blue-card--main .blue-card__header {
-        margin-bottom: 0;
-        padding-bottom: 0.4rem;
-      }
-
-      /* テーブル自体の余白を詰める（行間などは変えない） */
-      .blue-card--main .data-table {
-        margin: 0;
-        background: transparent;
-      }
-
-      /* テーブル行の背景が白で浮いて見える場合に備えて透明化（ヘッダーは別指定） */
-      .blue-card--main .data-table tbody tr,
-      .blue-card--main .data-table tbody td {
-        background: transparent;
-      }
-
-      /* ヘッダーは視認性のため背景を保持する */
-      .blue-card--main .data-table thead th {
-        background: #f5f7ff;
       }
 
       .component-image {
@@ -216,6 +159,24 @@
         max-height: 100%;
         object-fit: contain;
         cursor: zoom-in;
+      }
+
+      .data-table-container {
+        position: relative;
+        border-radius: var(--radius-md);
+        background: var(--panel);
+      }
+
+      .blue-card--main .data-table-container {
+        padding: 0.6rem;
+      }
+
+      .blue-card--main .data-table-wrapper {
+        max-height: 32rem;
+        overflow: auto;
+        border-radius: var(--radius-md);
+        border: 0.0625rem solid var(--border);
+        box-sizing: border-box;
       }
 
       .data-table {
@@ -233,11 +194,10 @@
 
       .data-table thead th {
         position: sticky;
-        /* コンテナ内で先頭に固定（パディング領域はコンテナ背景で覆われる） */
         top: 0;
         background: #f5f7ff;
         box-shadow: inset 0 -0.0625rem 0 var(--border);
-        z-index: 2; /* .blue-card__header の z-index:3 より下 */
+        z-index: 2;
       }
 
       .chart-modal {
@@ -309,14 +269,37 @@
         background: rgba(15, 23, 42, 0.8);
       }
 
-      @media (max-width: 960px) {
+      @media (max-width: 1200px) {
+        .blue-dashboard__top {
+          grid-template-columns: 1fr;
+        }
+
+        .blue-dashboard__layout {
+          grid-template-columns: repeat(2, minmax(18rem, 1fr));
+        }
+
+        .blue-card--main {
+          grid-column: 1 / -1;
+          grid-row: 1 / span 2;
+        }
+
+        .blue-card--cause-bar,
+        .blue-card--cause-pie,
+        .blue-card--customer,
+        .blue-card--phenomenon-bar,
+        .blue-card--phenomenon-pie {
+          grid-column: auto;
+          grid-row: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
         .blue-dashboard__layout {
           grid-template-columns: 1fr;
           grid-auto-rows: auto;
         }
 
         .blue-card--main,
-        .blue-card--amount,
         .blue-card--cause-bar,
         .blue-card--cause-pie,
         .blue-card--customer,
@@ -330,8 +313,8 @@
   </head>
   <body class="blue-dashboard">
     <main class="shell shell--wide blue-dashboard__wrap">
-      <h1 class="blue-dashboard__header">不適合情報ダッシュボード</h1>
-      <div class="blue-dashboard__filters">
+      <h1 class="blue-dashboard__header">不適合情報ダッシュボード案B</h1>
+      <div class="blue-dashboard__top">
         <form class="dashboard-filters" aria-label="期間指定フォーム">
           <div class="filter-group">
             <label for="date-from" class="filter-label">開始日</label>
@@ -342,9 +325,24 @@
             <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
           </div>
           <button type="button" class="filter-button">検索</button>
-          <p>※現在検索機能はつけていません</p>
+          <p class="dash-filter__hint">※現在検索機能はつけていません</p>
         </form>
+
+        <section class="blue-card blue-card--summary">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">期別対応コスト推移</h2>
+          </header>
+          <div class="component-frame component-frame--bar">
+            <img
+              id="img-amount"
+              alt="期別対応コストの棒グラフ"
+              class="component-image"
+              loading="lazy"
+            />
+          </div>
+        </section>
       </div>
+
       <div class="blue-dashboard__layout">
         <section class="blue-card blue-card--main">
           <header class="blue-card__header">
@@ -362,20 +360,6 @@
                 </table>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section class="blue-card blue-card--amount">
-          <header class="blue-card__header">
-            <h2 class="blue-card__title">期別対応コスト推移</h2>
-          </header>
-          <div class="component-frame component-frame--bar">
-            <img
-              id="img-amount"
-              alt="期別対応コストの棒グラフ"
-              class="component-image"
-              loading="lazy"
-            />
           </div>
         </section>
 
@@ -451,187 +435,181 @@
       </div>
     </main>
 
-    <div id="chartModal" class="chart-modal" aria-hidden="true">
-      <div class="chart-modal__content" role="dialog" aria-modal="true" aria-labelledby="chartModalCaption">
-        <button type="button" id="chartModalClose" class="chart-modal__close" aria-label="拡大表示を閉じる">×</button>
+    <div id="chartModal" class="chart-modal" role="dialog" aria-modal="true" aria-labelledby="chartModalCaption">
+      <div class="chart-modal__content">
+        <button id="chartModalClose" type="button" class="chart-modal__close" aria-label="閉じる">×</button>
         <img id="chartModalImg" class="chart-modal__img" alt="" />
         <p id="chartModalCaption" class="chart-modal__caption"></p>
       </div>
     </div>
 
-    <script>
-    // 画像ファイル名を定義
-    const imageFiles = {
-      "img-amount": "amount-bar.png",
-      "img-cause-bar": "cause-bar.png",
-      "img-cause-pie": "cause-pie.png",
-      "img-customer": "customer-bar.png",
-      "img-phenomenon-bar": "phenomenon-bar.png",
-      "img-phenomenon-pie": "phenomenon-pie.png",
-    };
+        <script>
+      const imageFiles = {
+        "img-amount": "amount-bar.png",
+        "img-cause-bar": "cause-bar.png",
+        "img-cause-pie": "cause-pie.png",
+        "img-customer": "customer-bar.png",
+        "img-phenomenon-bar": "phenomenon-bar.png",
+        "img-phenomenon-pie": "phenomenon-pie.png",
+      };
 
-    // CSVヘッダーの日本語対応表
-    const headerTranslations = {
-      date: "年月日",
-      period: "年月日",
-      product_no: "製番",
-      customer: "客先",
-      item_name: "品名",
-      powder_name: "粉体名",
-    };
+      const headerTranslations = {
+        date: "年月日",
+        period: "年月日",
+        product_no: "製番",
+        customer: "客先",
+        item_name: "品名",
+        powder_name: "粉体名",
+      };
 
-    // 表示用に日付文字列を整形
-    function formatDisplayDate(value) {
-      const match = value.match(/^(\d{4})Q([1-4])$/);
-      if (!match) {
-        const isoLike = value.match(/^(\d{4})[-\/](\d{2})[-\/](\d{2})$/);
-        if (isoLike) {
-          const [, year, month, day] = isoLike;
-          return `${year}/${month}/${day}`;
+      function formatDisplayDate(value) {
+        const match = value.match(/^(\d{4})Q([1-4])$/);
+        if (!match) {
+          const isoLike = value.match(/^(\d{4})[-\/](\d{2})[-\/](\d{2})$/);
+          if (isoLike) {
+            const [, year, month, day] = isoLike;
+            return `${year}/${month}/${day}`;
+          }
+          return value;
         }
-        return value;
+
+        const [, year, quarter] = match;
+        const monthMap = {
+          1: "01",
+          2: "04",
+          3: "07",
+          4: "10",
+        };
+        const month = monthMap[quarter];
+        return `${year}/${month}/01`;
       }
 
-      const [, year, quarter] = match;
-      const monthMap = {
-        1: "01",
-        2: "04",
-        3: "07",
-        4: "10",
-      };
-      const month = monthMap[quarter];
-      return `${year}/${month}/01`;
-    }
+      function setImages() {
+        const basePath = "./data";
+        Object.entries(imageFiles).forEach(([id, file]) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.src = `${basePath}/${file}`;
+          }
+        });
+      }
 
-    // 画像要素へパスを設定
-    function setImages() {
-      const basePath = "./data";
-      Object.entries(imageFiles).forEach(([id, file]) => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.src = `${basePath}/${file}`;
+      async function loadCsvTable() {
+        const csvUrl = "./data/nonconformities.csv";
+        const tableHead = document.querySelector("#data-table thead");
+        const tableBody = document.querySelector("#data-table tbody");
+        if (!tableHead || !tableBody) return;
+
+        try {
+          const response = await fetch(csvUrl);
+          if (!response.ok) {
+            throw new Error(`${response.status} ${response.statusText}`);
+          }
+
+          const text = await response.text();
+          const rows = text
+            .replace(/\r/g, "")
+            .split("\n")
+            .map((line) => line.trim())
+            .filter((line) => line.length > 0)
+            .map((line) => line.split(","));
+
+          tableHead.innerHTML = "";
+          tableBody.innerHTML = "";
+
+          if (rows.length === 0) {
+            return;
+          }
+
+          const header = rows[0];
+          const headerRow = document.createElement("tr");
+          header.forEach((label) => {
+            const key = label.trim();
+            const th = document.createElement("th");
+            th.textContent = headerTranslations[key] || key;
+            headerRow.appendChild(th);
+          });
+          tableHead.appendChild(headerRow);
+
+          rows.slice(1).forEach((row) => {
+            const bodyRow = document.createElement("tr");
+            header.forEach((_, index) => {
+              const rawCell = row[index] || "";
+              const td = document.createElement("td");
+              const value = index === 0 ? formatDisplayDate(rawCell.trim()) : rawCell.trim();
+              td.textContent = value;
+              bodyRow.appendChild(td);
+            });
+            tableBody.appendChild(bodyRow);
+          });
+        } catch (error) {
+          console.error(error);
+          alert(`CSVの読み込みに失敗しました: ${error.message}`);
         }
-      });
-    }
+      }
 
-    // CSVを読み込み表へ整形
-    async function loadCsvTable() {
-      const csvUrl = "./data/nonconformities.csv";
-      const tableHead = document.querySelector("#data-table thead");
-      const tableBody = document.querySelector("#data-table tbody");
-      if (!tableHead || !tableBody) return;
-
-      try {
-        const response = await fetch(csvUrl);
-        if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
-        }
-
-        const text = await response.text();
-        const rows = text
-          .replace(/\r/g, "")
-          .split("\n")
-          .map((line) => line.trim())
-          .filter((line) => line.length > 0)
-          .map((line) => line.split(","));
-
-        tableHead.innerHTML = "";
-        tableBody.innerHTML = "";
-
-        if (rows.length === 0) {
+      function registerImageModal() {
+        const modal = document.getElementById("chartModal");
+        const modalImg = document.getElementById("chartModalImg");
+        const modalCaption = document.getElementById("chartModalCaption");
+        const closeButton = document.getElementById("chartModalClose");
+        if (!modal || !modalImg || !modalCaption) {
           return;
         }
 
-        const header = rows[0];
-        const headerRow = document.createElement("tr");
-        header.forEach((label) => {
-          const key = label.trim();
-          const th = document.createElement("th");
-          th.textContent = headerTranslations[key] || key;
-          headerRow.appendChild(th);
-        });
-        tableHead.appendChild(headerRow);
+        const openModal = (img) => {
+          modalImg.src = img.src;
+          modalImg.alt = img.alt;
+          modalCaption.textContent = img.alt || "";
+          modal.classList.add("is-active");
+          document.body.classList.add("modal-open");
+        };
 
-        rows.slice(1).forEach((row) => {
-          const bodyRow = document.createElement("tr");
-          header.forEach((_, index) => {
-            const rawCell = row[index] || "";
-            const td = document.createElement("td");
-            const value = index === 0 ? formatDisplayDate(rawCell.trim()) : rawCell.trim();
-            td.textContent = value;
-            bodyRow.appendChild(td);
+        const closeModal = () => {
+          modal.classList.remove("is-active");
+          document.body.classList.remove("modal-open");
+          modalImg.src = "";
+          modalImg.alt = "";
+          modalCaption.textContent = "";
+        };
+
+        document.querySelectorAll(".component-image").forEach((img) => {
+          img.addEventListener("click", () => openModal(img));
+        });
+
+        if (closeButton) {
+          closeButton.addEventListener("click", closeModal);
+        }
+
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            closeModal();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && modal.classList.contains("is-active")) {
+            closeModal();
+          }
+        });
+      }
+
+      function initDashboard() {
+        setImages();
+        loadCsvTable();
+        registerImageModal();
+
+        const refreshButton = document.querySelector(".filter-button");
+        if (refreshButton) {
+          refreshButton.addEventListener("click", () => {
+            setImages();
+            loadCsvTable();
           });
-          tableBody.appendChild(bodyRow);
-        });
-      } catch (error) {
-        console.error(error);
-        alert(`CSVの読み込みに失敗しました: ${error.message}`);
-      }
-    }
-
-    // 画像クリック時にモーダルを表示
-    function registerImageModal() {
-      const modal = document.getElementById("chartModal");
-      const modalImg = document.getElementById("chartModalImg");
-      const modalCaption = document.getElementById("chartModalCaption");
-      const closeButton = document.getElementById("chartModalClose");
-      if (!modal || !modalImg || !modalCaption) {
-        return;
-      }
-
-      const openModal = (img) => {
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
-        modalCaption.textContent = img.alt || "";
-        modal.classList.add("is-active");
-        document.body.classList.add("modal-open");
-      };
-
-      const closeModal = () => {
-        modal.classList.remove("is-active");
-        document.body.classList.remove("modal-open");
-        modalImg.src = "";
-        modalImg.alt = "";
-        modalCaption.textContent = "";
-      };
-
-      document.querySelectorAll(".component-image").forEach((img) => {
-        img.addEventListener("click", () => openModal(img));
-      });
-
-      if (closeButton) {
-        closeButton.addEventListener("click", closeModal);
-      }
-
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) {
-          closeModal();
         }
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && modal.classList.contains("is-active")) {
-          closeModal();
-        }
-      });
-    }
-
-    // 初期表示処理
-    function initDashboard() {
-      setImages();
-      loadCsvTable();
-      registerImageModal();
-
-      const refreshButton = document.querySelector(".filter-button");
-      if (refreshButton) {
-        refreshButton.addEventListener("click", () => {
-          setImages();
-          loadCsvTable();
-        });
       }
-    }
 
-    document.addEventListener("DOMContentLoaded", initDashboard);
+      document.addEventListener("DOMContentLoaded", initDashboard);
     </script>
+
   </body>
 </html>

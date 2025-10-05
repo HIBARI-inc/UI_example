@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>不適合ダッシュボード案ギャラリー</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Noto Sans JP", "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 48px 24px 80px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      main {
+        width: min(880px, 100%);
+        display: grid;
+        gap: 40px;
+      }
+
+      header {
+        text-align: center;
+        display: grid;
+        gap: 16px;
+        padding: 32px 0;
+      }
+
+      .logo {
+        font-size: 0.95rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #38bdf8;
+        margin: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.4rem, 6vw, 3.4rem);
+        background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #94a3b8;
+        line-height: 1.6;
+      }
+
+      .gallery-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      .gallery-card {
+        background: rgba(15, 23, 42, 0.82);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 20px;
+        padding: 28px;
+        display: grid;
+        gap: 16px;
+        transition: all 280ms ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gallery-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #38bdf8, #06b6d4);
+        opacity: 0;
+        transition: opacity 280ms ease;
+      }
+
+      .gallery-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(56, 189, 248, 0.4);
+        box-shadow: 0 20px 48px rgba(2, 8, 23, 0.45);
+      }
+
+      .gallery-card:hover::before {
+        opacity: 1;
+      }
+
+      .card-header {
+        display: grid;
+        gap: 6px;
+      }
+
+      .card-label {
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #38bdf8;
+        margin: 0;
+      }
+
+      .card-title {
+        margin: 0;
+        font-size: 1.45rem;
+        font-weight: 700;
+      }
+
+      .card-description {
+        margin: 0;
+        color: #94a3b8;
+        line-height: 1.6;
+      }
+
+      .card-link {
+        color: #bae6fd;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        transition: all 200ms ease;
+        text-align: center;
+        display: inline-block;
+        margin-top: 8px;
+      }
+
+      .card-link:hover,
+      .card-link:focus-visible {
+        background: rgba(56, 189, 248, 0.16);
+        border-color: rgba(56, 189, 248, 0.6);
+        outline: none;
+        transform: translateY(-1px);
+      }
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+        margin-top: 16px;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.54);
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-number {
+        display: block;
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #38bdf8;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 32px 16px 64px;
+        }
+
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .gallery-card {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body class="blue-dashboard">
+    <main>
+      <header>
+        <p class="logo">6graph Showcase</p>
+        <h1>不適合ダッシュボード案ギャラリー</h1>
+        <p class="subtitle">
+          6graph 配下にまとめた不適合情報ダッシュボードのレイアウトバリエーションです。<br />
+          元の構成案と、配置を変えた5つの代替案を比較検討できます。
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-number">6</span>
+            <span class="stat-label">公開中のレイアウト案</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">1</span>
+            <span class="stat-label">共通データソース</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">3</span>
+            <span class="stat-label">想定ユースケース</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Original</p>
+            <h2 class="card-title">ベース構成（index1）</h2>
+          </div>
+          <p class="card-description">
+            既存のグリッドレイアウトを維持しつつ、テーブル＋5つのグラフを3カラムで配置したベース案です。現在の色味とインタラクションの基準となります。
+          </p>
+          <a class="card-link" href="index1.html">レイアウトを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Layout A</p>
+            <h2 class="card-title">中央テーブル集中型</h2>
+          </div>
+          <p class="card-description">
+            テーブルを中央に固定し、左右に指標カードを配置。サマリーと詳細の導線を短縮する構成で、分析の主眼をテーブルに置く場面に向きます。
+          </p>
+          <a class="card-link" href="indexA.html">レイアウトを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Layout B</p>
+            <h2 class="card-title">トップサマリー+下段3分割</h2>
+          </div>
+          <p class="card-description">
+            上段にフィルターとサマリー、中央にテーブル、下段に現象別3分割カードを配置。会議資料にそのまま転用しやすいエリア構成です。
+          </p>
+          <a class="card-link" href="indexB.html">レイアウトを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Layout C</p>
+            <h2 class="card-title">セクション分割型</h2>
+          </div>
+          <p class="card-description">
+            条件・テーブル・詳細指標の3セクションで縦構成。レビュー時にセクションごとに確認でき、タブレット幅でも順序が保たれます。
+          </p>
+          <a class="card-link" href="indexC.html">レイアウトを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Layout D</p>
+            <h2 class="card-title">サイドバー分析型</h2>
+          </div>
+          <p class="card-description">
+            左サイドにフィルターと原因指標を集約し、右カラムでテーブルと現象指標を展開。分析コメントカードを追加して運用メモを書き込める構成です。
+          </p>
+          <a class="card-link" href="indexD.html">レイアウトを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Layout E</p>
+            <h2 class="card-title">三層レビュー型</h2>
+          </div>
+          <p class="card-description">
+            サマリー→テーブル→現象詳細の三層で構成し、運用ヒントカードを添付。レビュー会議での議題順に沿って確認できる導線です。
+          </p>
+          <a class="card-link" href="indexE.html">レイアウトを開く</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>不適合情報ダッシュボード案C</title>
+  <title>不適合情報ダッシュボード案4</title>
   <link rel="stylesheet" href="../styles.css" />
   <style>
     body.blue-dashboard {
@@ -102,7 +102,7 @@
 
     .board-bottom {
       display: grid;
-      grid-template-columns: repeat(3, minmax(14rem, 1fr));
+      grid-template-columns: repeat(2, minmax(16rem, 1fr));
       gap: clamp(1.2rem, 2vw, 1.8rem);
     }
 
@@ -171,15 +171,6 @@
       background: #f5f7ff;
       box-shadow: inset 0 -0.0625rem 0 var(--border);
       z-index: 2;
-    }
-
-    .note-card {
-      gap: 0.6rem;
-    }
-
-    .note-card p {
-      margin: 0;
-      line-height: 1.6;
     }
 
     .chart-modal {
@@ -285,7 +276,7 @@
 
 <body class="blue-dashboard">
   <main class="shell shell--wide blue-dashboard__wrap">
-    <h1 class="blue-dashboard__header">不適合情報ダッシュボード案C</h1>
+    <h1 class="blue-dashboard__header">不適合情報ダッシュボード案4</h1>
 
     <section class="board-top" aria-label="集計条件とサマリー">
       <form class="dashboard-filters" aria-label="期間指定フォーム">
@@ -376,15 +367,6 @@
         <div class="component-frame component-frame--pie">
           <img id="img-phenomenon-pie" alt="現象コード構成比の円グラフ" class="component-image" loading="lazy" />
         </div>
-      </section>
-
-      <section class="blue-card note-card" aria-label="運用ヒント">
-        <header class="blue-card__header">
-          <h2 class="blue-card__title">運用ヒント</h2>
-        </header>
-        <p>・現象別の傾向を週次でレビューし、顧客別一覧と照合する運用を想定しています。</p>
-        <p>・グラフの拡大表示は会議での共有やテンプレート出力に活用してください。</p>
-        <p>・必要に応じてCSVを差し替えれば最新データに自動更新します。</p>
       </section>
     </section>
   </main>

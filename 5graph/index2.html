@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>粉体ダッシュボード案2</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      :root {
+        --summary-grid-gap: clamp(0.8rem, 1.5vw, 1.4rem);
+      }
+
+      body.blue-dashboard {
+        margin: 0;
+        min-height: 100vh;
+        display: block;
+        background: var(--gradient-base);
+        color: var(--text-strong);
+        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+        padding: clamp(1.5rem, 4vw, 3rem);
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      .blue-dashboard__wrap {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1rem, 2vw, 1.6rem);
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .blue-dashboard__header {
+        margin: 0;
+        text-align: center;
+        color: var(--text-strong);
+        font-size: clamp(1.85rem, 2.2vw, 2.35rem);
+        font-weight: 800;
+        letter-spacing: 0.06em;
+      }
+
+      .dashboard-filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: clamp(0.7rem, 1.2vw, 1rem);
+        background: var(--panel);
+        border-radius: var(--radius-lg);
+        border: 0.0625rem solid var(--border);
+        box-shadow: var(--shadow-md);
+        padding: clamp(1rem, 1.6vw, 1.3rem);
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .filter-label {
+        font-size: clamp(0.85rem, 0.3vw + 0.8rem, 0.9rem);
+        color: var(--text-muted);
+      }
+
+      .filter-input {
+        padding: 0.55rem 0.75rem;
+        border-radius: var(--radius-sm);
+        border: 0.0625rem solid var(--border);
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--text-strong);
+      }
+
+      .filter-button {
+        padding: 0.65rem 1.3rem;
+        border: none;
+        border-radius: var(--radius-sm);
+        background: var(--accent-primary);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .filter-button:hover,
+      .filter-button:focus-visible {
+        opacity: 0.9;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        gap: var(--summary-grid-gap);
+      }
+
+      .summary-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: var(--radius-lg);
+        border: 0.0625rem solid var(--border);
+        padding: 1rem 1.2rem;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .summary-card__label {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        letter-spacing: 0.04em;
+      }
+
+      .summary-card__value {
+        margin: 0;
+        font-size: clamp(1.55rem, 1.6vw, 1.9rem);
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .summary-card__sub {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .blue-dashboard__layout {
+        display: grid;
+        grid-template-columns: minmax(24rem, 1.4fr) minmax(18rem, 1fr);
+        grid-auto-rows: minmax(10rem, auto);
+        gap: clamp(1.1rem, 2vw, 1.8rem);
+      }
+
+      .blue-card {
+        background: var(--panel);
+        border: 0.0625rem solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: clamp(1rem, 1.4vw, 1.35rem);
+        box-shadow: var(--shadow-md);
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.8rem, 1.4vw, 1.1rem);
+        overflow: hidden;
+      }
+
+      .blue-card__header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.6rem;
+        position: relative;
+        z-index: 3;
+      }
+
+      .blue-card__title {
+        margin: 0;
+        font-size: clamp(1.05rem, 1.55vw, 1.3rem);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .blue-card--table {
+        grid-column: 1;
+        grid-row: 1 / span 3;
+      }
+
+      .blue-card--wide {
+        grid-column: 2;
+      }
+
+      .blue-card--wide:last-of-type {
+        grid-row: span 2;
+      }
+
+      .component-frame {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.92);
+        border: 0.0625rem solid rgba(32, 45, 74, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+      }
+
+      .component-frame--table {
+        display: block;
+        padding: clamp(0.4rem, 0.6vw, 0.75rem);
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .component-frame--bar {
+        min-height: 16rem;
+        padding: clamp(0.8rem, 1.4vw, 1.2rem);
+      }
+
+      .data-table-container {
+        border: 0.0625rem solid var(--border);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .data-table-wrapper {
+        max-height: 34rem;
+        overflow: auto;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 0.6rem 0.7rem;
+        text-align: left;
+        border-bottom: 0.0625rem solid var(--border);
+      }
+
+      .data-table thead th {
+        position: sticky;
+        top: 0;
+        background: #f5f7ff;
+        box-shadow: inset 0 -0.0625rem 0 var(--border);
+      }
+
+      .component-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: zoom-in;
+      }
+
+      .chart-modal {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 23, 42, 0.65);
+        padding: clamp(1rem, 4vw, 3rem);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease;
+        z-index: 999;
+      }
+
+      .chart-modal.is-active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .chart-modal__content {
+        position: relative;
+        max-width: min(90vw, 72rem);
+        max-height: 90vh;
+        border-radius: var(--radius-lg);
+        background: var(--panel);
+        box-shadow: var(--shadow-lg);
+        padding: clamp(1rem, 2vw, 1.8rem);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .chart-modal__img {
+        width: 100%;
+        height: 100%;
+        max-height: calc(90vh - 6rem);
+        object-fit: contain;
+        border-radius: var(--radius-md);
+        background: #fff;
+      }
+
+      .chart-modal__caption {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        text-align: center;
+      }
+
+      .chart-modal__close {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+        border: none;
+        background: rgba(25, 34, 56, 0.55);
+        color: #fff;
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .chart-modal__close:hover,
+      .chart-modal__close:focus-visible {
+        background: rgba(15, 23, 42, 0.8);
+      }
+
+      @media (max-width: 1140px) {
+        .blue-dashboard__layout {
+          grid-template-columns: 1fr;
+        }
+
+        .blue-card--table {
+          grid-column: 1;
+          grid-row: auto;
+        }
+
+        .blue-card--wide {
+          grid-column: 1;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .summary-card {
+          padding: 0.8rem 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+          padding: 0.5rem 0.55rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="blue-dashboard">
+    <main class="shell shell--wide blue-dashboard__wrap">
+      <h1 class="blue-dashboard__header">粉体物性ダッシュボード案2</h1>
+      <form class="dashboard-filters" aria-label="期間指定フォーム">
+        <div class="filter-group">
+          <label for="date-from" class="filter-label">開始日</label>
+          <input type="date" id="date-from" class="filter-input" value="2024-01-01" />
+        </div>
+        <div class="filter-group">
+          <label for="date-to" class="filter-label">終了日</label>
+          <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
+        </div>
+        <button type="button" class="filter-button">更新</button>
+        <p class="filter-note">※検索機能はダミーです</p>
+      </form>
+
+      <section class="summary-grid" aria-label="集計サマリー">
+        <article class="summary-card" data-summary="count">
+          <h2 class="summary-card__label">対象件数</h2>
+          <p class="summary-card__value">--</p>
+          <p class="summary-card__sub">サンプル数</p>
+        </article>
+        <article class="summary-card" data-summary="flowability">
+          <h2 class="summary-card__label">平均流動性指数</h2>
+          <p class="summary-card__value">--</p>
+          <p class="summary-card__sub">Flowability Index</p>
+        </article>
+        <article class="summary-card" data-summary="angle">
+          <h2 class="summary-card__label">平均安息角</h2>
+          <p class="summary-card__value">--</p>
+          <p class="summary-card__sub">Angle of Repose</p>
+        </article>
+        <article class="summary-card" data-summary="bulk">
+          <h2 class="summary-card__label">平均かさ密度</h2>
+          <p class="summary-card__value">--</p>
+          <p class="summary-card__sub">Bulk Density</p>
+        </article>
+      </section>
+
+      <div class="blue-dashboard__layout">
+        <section class="blue-card blue-card--table">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">粉体物性情報一覧</h2>
+          </header>
+          <div class="component-frame component-frame--table">
+            <div class="data-table-container">
+              <div class="data-table-wrapper">
+                <table id="data-table" class="data-table" aria-label="粉体物性一覧">
+                  <thead></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="blue-card blue-card--wide">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">流動性指数（棒グラフ）</h2>
+          </header>
+          <div class="component-frame component-frame--bar">
+            <img id="img-flowability" alt="流動性指数の棒グラフ" class="component-image" loading="lazy" />
+          </div>
+        </section>
+
+        <section class="blue-card blue-card--wide">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">噴流性指数（棒グラフ）</h2>
+          </header>
+          <div class="component-frame component-frame--bar">
+            <img id="img-spray" alt="噴流性指数の棒グラフ" class="component-image" loading="lazy" />
+          </div>
+        </section>
+
+        <section class="blue-card blue-card--wide">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">安息角（棒グラフ）</h2>
+          </header>
+          <div class="component-frame component-frame--bar">
+            <img id="img-angle" alt="安息角の棒グラフ" class="component-image" loading="lazy" />
+          </div>
+        </section>
+
+        <section class="blue-card blue-card--wide">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">かさ密度（棒グラフ）</h2>
+          </header>
+          <div class="component-frame component-frame--bar">
+            <img id="img-bulk" alt="かさ密度の棒グラフ" class="component-image" loading="lazy" />
+          </div>
+        </section>
+
+        <section class="blue-card blue-card--wide">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">圧縮度（棒グラフ）</h2>
+          </header>
+          <div class="component-frame component-frame--bar">
+            <img id="img-compression" alt="圧縮度の棒グラフ" class="component-image" loading="lazy" />
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="chartModal" class="chart-modal" aria-hidden="true">
+      <div class="chart-modal__content" role="dialog" aria-modal="true" aria-labelledby="chartModalCaption">
+        <button type="button" id="chartModalClose" class="chart-modal__close" aria-label="拡大表示を閉じる">×</button>
+        <img id="chartModalImg" class="chart-modal__img" alt="" />
+        <p id="chartModalCaption" class="chart-modal__caption"></p>
+      </div>
+    </div>
+
+    <script>
+    const imageFiles = {
+      "img-flowability": "bar_流動性指数.png",
+      "img-spray": "bar_噴流性指数.png",
+      "img-angle": "bar_安息角.png",
+      "img-bulk": "bar_かさ密度.png",
+      "img-compression": "bar_圧縮度.png",
+    };
+
+    const csvUrl = "./data/powder_properties.csv";
+
+    function parseDateString(value) {
+      if (!value) return null;
+      const parts = value.split("-");
+      if (parts.length !== 3) return null;
+      const [year, month, day] = parts.map((part) => Number(part));
+      if (!year || !month || !day) return null;
+      return new Date(year, month - 1, day);
+    }
+
+    function formatNumericCell(rawValue) {
+      if (rawValue === "" || rawValue === null || rawValue === undefined) {
+        return "";
+      }
+      const numeric = Number(rawValue);
+      if (Number.isNaN(numeric)) {
+        return rawValue;
+      }
+      return numeric.toLocaleString("ja-JP", { maximumFractionDigits: 2 });
+    }
+
+    function setImages() {
+      const basePath = "./data";
+      Object.entries(imageFiles).forEach(([id, file]) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.src = `${basePath}/${file}`;
+        }
+      });
+    }
+
+    function calculateSummary(rows) {
+      const summary = {
+        count: rows.length,
+        flowability: null,
+        angle: null,
+        bulk: null,
+      };
+
+      if (rows.length === 0) {
+        return summary;
+      }
+
+      let flowabilityTotal = 0;
+      let angleTotal = 0;
+      let bulkTotal = 0;
+      let flowabilityCount = 0;
+      let angleCount = 0;
+      let bulkCount = 0;
+
+      rows.forEach((row) => {
+        const flowability = Number(row[3]);
+        if (!Number.isNaN(flowability)) {
+          flowabilityTotal += flowability;
+          flowabilityCount += 1;
+        }
+
+        const angle = Number(row[5]);
+        if (!Number.isNaN(angle)) {
+          angleTotal += angle;
+          angleCount += 1;
+        }
+
+        const bulk = Number(row[6]);
+        if (!Number.isNaN(bulk)) {
+          bulkTotal += bulk;
+          bulkCount += 1;
+        }
+      });
+
+      summary.flowability = flowabilityCount > 0 ? flowabilityTotal / flowabilityCount : null;
+      summary.angle = angleCount > 0 ? angleTotal / angleCount : null;
+      summary.bulk = bulkCount > 0 ? bulkTotal / bulkCount : null;
+
+      return summary;
+    }
+
+    function updateSummaryCards(summary) {
+      const countCard = document.querySelector('[data-summary="count"] .summary-card__value');
+      const flowCard = document.querySelector('[data-summary="flowability"] .summary-card__value');
+      const angleCard = document.querySelector('[data-summary="angle"] .summary-card__value');
+      const bulkCard = document.querySelector('[data-summary="bulk"] .summary-card__value');
+
+      if (countCard) {
+        countCard.textContent = summary.count.toLocaleString("ja-JP");
+      }
+
+      if (flowCard) {
+        flowCard.textContent = summary.flowability !== null
+          ? summary.flowability.toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+          : "--";
+      }
+
+      if (angleCard) {
+        angleCard.textContent = summary.angle !== null
+          ? summary.angle.toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+          : "--";
+      }
+
+      if (bulkCard) {
+        bulkCard.textContent = summary.bulk !== null
+          ? summary.bulk.toLocaleString("ja-JP", { minimumFractionDigits: 3, maximumFractionDigits: 3 })
+          : "--";
+      }
+    }
+
+    async function loadCsvTable() {
+      const tableHead = document.querySelector("#data-table thead");
+      const tableBody = document.querySelector("#data-table tbody");
+      if (!tableHead || !tableBody) return;
+
+      const fromInput = document.getElementById("date-from");
+      const toInput = document.getElementById("date-to");
+      const fromDate = fromInput?.value ? parseDateString(fromInput.value) : null;
+      const toDate = toInput?.value ? parseDateString(toInput.value) : null;
+
+      try {
+        const response = await fetch(csvUrl);
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+
+        const text = (await response.text()).replace(/^\uFEFF/, "");
+        const rows = text
+          .replace(/\r/g, "")
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0)
+          .map((line) => line.split(","));
+
+        tableHead.innerHTML = "";
+        tableBody.innerHTML = "";
+
+        if (rows.length === 0) {
+          updateSummaryCards({ count: 0, flowability: null, angle: null, bulk: null });
+          return;
+        }
+
+        const header = rows[0];
+        const headerRow = document.createElement("tr");
+        header.forEach((label) => {
+          const th = document.createElement("th");
+          th.textContent = label.trim();
+          headerRow.appendChild(th);
+        });
+        tableHead.appendChild(headerRow);
+
+        const filteredRows = rows.slice(1).filter((row) => {
+          if (!row[0]) return false;
+          const recordDate = parseDateString(row[0].trim());
+          if (!recordDate) return true;
+          if (fromDate && recordDate < fromDate) {
+            return false;
+          }
+          if (toDate && recordDate > toDate) {
+            return false;
+          }
+          return true;
+        });
+
+        if (filteredRows.length === 0) {
+          const emptyRow = document.createElement("tr");
+          const emptyCell = document.createElement("td");
+          emptyCell.colSpan = header.length;
+          emptyCell.className = "data-table-empty";
+          emptyCell.textContent = "指定期間のデータはありません";
+          emptyRow.appendChild(emptyCell);
+          tableBody.appendChild(emptyRow);
+          updateSummaryCards({ count: 0, flowability: null, angle: null, bulk: null });
+          return;
+        }
+
+        filteredRows.forEach((row) => {
+          const bodyRow = document.createElement("tr");
+          row.forEach((cell, index) => {
+            const td = document.createElement("td");
+            const value = index <= 2 ? cell.trim() : formatNumericCell(cell.trim());
+            td.textContent = value;
+            bodyRow.appendChild(td);
+          });
+          tableBody.appendChild(bodyRow);
+        });
+
+        const summary = calculateSummary(filteredRows);
+        updateSummaryCards(summary);
+      } catch (error) {
+        console.error(error);
+        alert(`CSVの読み込みに失敗しました: ${error.message}`);
+      }
+    }
+
+    function registerImageModal() {
+      const modal = document.getElementById("chartModal");
+      const modalImg = document.getElementById("chartModalImg");
+      const modalCaption = document.getElementById("chartModalCaption");
+      const closeButton = document.getElementById("chartModalClose");
+      if (!modal || !modalImg || !modalCaption) {
+        return;
+      }
+
+      const openModal = (img) => {
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        modalCaption.textContent = img.alt || "";
+        modal.classList.add("is-active");
+        document.body.classList.add("modal-open");
+      };
+
+      const closeModal = () => {
+        modal.classList.remove("is-active");
+        document.body.classList.remove("modal-open");
+        modalImg.src = "";
+        modalImg.alt = "";
+        modalCaption.textContent = "";
+      };
+
+      document.querySelectorAll(".component-image").forEach((img) => {
+        img.addEventListener("click", () => openModal(img));
+      });
+
+      if (closeButton) {
+        closeButton.addEventListener("click", closeModal);
+      }
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("is-active")) {
+          closeModal();
+        }
+      });
+    }
+
+    function initDashboard() {
+      setImages();
+      loadCsvTable();
+      registerImageModal();
+
+      const refreshButton = document.querySelector(".filter-button");
+      const fromInput = document.getElementById("date-from");
+      const toInput = document.getElementById("date-to");
+
+      if (refreshButton) {
+        refreshButton.addEventListener("click", () => {
+          setImages();
+          loadCsvTable();
+        });
+      }
+
+      [fromInput, toInput].forEach((input) => {
+        if (!input) return;
+        input.addEventListener("change", () => {
+          loadCsvTable();
+        });
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", initDashboard);
+    </script>
+  </body>
+</html>

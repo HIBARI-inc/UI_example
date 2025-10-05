@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>不適合情報ダッシュボード案D</title>
+    <title>不適合情報ダッシュボード案5</title>
     <link rel="stylesheet" href="../styles.css" />
     <style>
       body.blue-dashboard {
@@ -134,12 +134,6 @@
         gap: clamp(1rem, 2vw, 1.6rem);
       }
 
-      .section-trio {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(14rem, 1fr));
-        gap: clamp(1rem, 2vw, 1.6rem);
-      }
-
       .table-card {
         padding: clamp(1rem, 1.4vw, 1.4rem);
       }
@@ -254,15 +248,13 @@
           grid-template-columns: 1fr;
         }
 
-        .section-duo,
-        .section-trio {
+        .section-duo {
           grid-template-columns: repeat(2, minmax(14rem, 1fr));
         }
       }
 
       @media (max-width: 768px) {
-        .section-duo,
-        .section-trio {
+        .section-duo {
           grid-template-columns: 1fr;
         }
       }
@@ -270,7 +262,7 @@
   </head>
   <body class="blue-dashboard">
     <main class="shell shell--wide blue-dashboard__wrap">
-      <h1 class="blue-dashboard__header">不適合情報ダッシュボード案D</h1>
+      <h1 class="blue-dashboard__header">不適合情報ダッシュボード案5</h1>
       <div class="layout-shell">
         <aside class="layout-sidebar" aria-label="サイドバー">
           <form class="dashboard-filters" aria-label="期間指定フォーム">
@@ -365,7 +357,7 @@
             </section>
           </section>
 
-          <section class="section-trio" aria-label="現象別詳細">
+          <section class="section-duo" aria-label="現象別詳細">
             <section class="blue-card">
               <header class="blue-card__header">
                 <h2 class="blue-card__title">現象コード別件数</h2>
@@ -391,16 +383,6 @@
                   class="component-image"
                   loading="lazy"
                 />
-              </div>
-            </section>
-            <section class="blue-card" aria-label="分析メモ">
-              <header class="blue-card__header">
-                <h2 class="blue-card__title">分析メモ</h2>
-              </header>
-              <div>
-                <p>・サイドバーの原因指標と現象指標を組み合わせ、重点対策領域を把握できます。</p>
-                <p>・テーブルのソートなど詳細分析は別途BIツールと連携する想定です。</p>
-                <p>・必要に応じてモーダル拡大でグラフを共有する利用を想定しています。</p>
               </div>
             </section>
           </section>

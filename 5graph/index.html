@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UI Example - プロトタイプギャラリー</title>
+    <title>粉体物性ダッシュボード案ギャラリー</title>
     <style>
       :root {
         color-scheme: light dark;
@@ -34,8 +34,8 @@
       }
 
       .logo {
-        font-size: 1rem;
-        letter-spacing: 0.22em;
+        font-size: 0.95rem;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
         color: #38bdf8;
         margin: 0;
@@ -43,7 +43,7 @@
 
       h1 {
         margin: 0;
-        font-size: clamp(2.5rem, 6vw, 3.5rem);
+        font-size: clamp(2.4rem, 6vw, 3.4rem);
         background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -52,36 +52,9 @@
 
       .subtitle {
         margin: 0;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         color: #94a3b8;
-        line-height: 1.7;
-      }
-
-      .stats {
-        display: flex;
-        justify-content: center;
-        gap: 32px;
-        margin-top: 12px;
-        padding: 18px 24px;
-        border-radius: 16px;
-        background: rgba(15, 23, 42, 0.52);
-      }
-
-      .stat {
-        text-align: center;
-      }
-
-      .stat-number {
-        display: block;
-        font-size: 1.9rem;
-        font-weight: 700;
-        color: #38bdf8;
-      }
-
-      .stat-label {
-        font-size: 0.9rem;
-        color: #94a3b8;
-        margin-top: 4px;
+        line-height: 1.6;
       }
 
       .gallery-grid {
@@ -179,11 +152,6 @@
           grid-template-columns: 1fr;
         }
 
-        .stats {
-          flex-direction: column;
-          gap: 16px;
-        }
-
         .gallery-card {
           padding: 22px;
         }
@@ -193,82 +161,68 @@
   <body class="blue-dashboard">
     <main>
       <header>
-        <p class="logo">UI Gallery</p>
-        <h1>プロトタイプギャラリー</h1>
+        <p class="logo">5graph Showcase</p>
+        <h1>粉体物性ダッシュボード案ギャラリー</h1>
         <p class="subtitle">
-          様々なUIレイアウトとデータダッシュボード案を横断的にまとめています。<br />
-          画面構成の検討からインタラクション確認まで、カテゴリ別に比較できます。
+          5graph配下にまとめた粉体物性ダッシュボードのレイアウトバリエーションです。<br />
+          基本構成と個別のアレンジを比較し、利用シーンに合う構成を検討できます。
         </p>
-        <div class="stats">
-          <div class="stat">
-            <span class="stat-number">5</span>
-            <span class="stat-label">ギャラリーカテゴリ</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">2</span>
-            <span class="stat-label">最新追加ダッシュボード</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">継続更新</span>
-            <span class="stat-label">試作アップデート状況</span>
-          </div>
-        </div>
       </header>
 
       <div class="gallery-grid">
         <div class="gallery-card">
           <div class="card-header">
-            <p class="card-label">UI Patterns</p>
-            <h2 class="card-title">Instructions</h2>
+            <p class="card-label">案1</p>
+            <h2 class="card-title">ベースグリッド構成</h2>
           </div>
           <p class="card-description">
-            基本的なダッシュボード／業務画面の骨組みを扱うコレクションです。ベースレイアウトから詳細タブ構成まで、多様な12案を連続で確認できます。
+            テーブルを主役に据え、5種類の物性指標グラフを3カラムで展開した標準案です。座組みやトーン&マナーの基準として利用できます。
           </p>
-          <a href="Instructions/index.html" class="card-link">ギャラリーを開く</a>
+          <a class="card-link" href="index1.html">レイアウトを開く</a>
         </div>
 
         <div class="gallery-card">
           <div class="card-header">
-            <p class="card-label">UI Patterns</p>
-            <h2 class="card-title">Instructions_2</h2>
+            <p class="card-label">案2</p>
+            <h2 class="card-title">チャート強調型</h2>
           </div>
           <p class="card-description">
-            カスタマイズ性の高いレイアウトを集めた応用編です。フィルターの配置やカードグリッドのバリエーションなど、より実装を意識した提案が揃っています。
+            テーブルを左カラムに集約し、上段に横幅の広い指標チャートを配置。グラフの視認性を高めて比較検討をしやすくした構成です。
           </p>
-          <a href="Instructions_2/index.html" class="card-link">ギャラリーを開く</a>
+          <a class="card-link" href="index2.html">レイアウトを開く</a>
         </div>
 
         <div class="gallery-card">
           <div class="card-header">
-            <p class="card-label">Data View</p>
-            <h2 class="card-title">Achievements</h2>
+            <p class="card-label">案3</p>
+            <h2 class="card-title">サイドメニュー型</h2>
           </div>
           <p class="card-description">
-            実績管理にフォーカスしたカードUI・タイムライン・モーダルなどの提案集です。進捗可視化やアクション導線の検討にご活用ください。
+            左側にフィルターとナビゲーションを置き、右側でテーブルとチャートギャラリーを展開。目的の指標へすぐアクセスできる導線を備えています。
           </p>
-          <a href="Achievements/index.html" class="card-link">ギャラリーを開く</a>
+          <a class="card-link" href="index3.html">レイアウトを開く</a>
         </div>
 
         <div class="gallery-card">
           <div class="card-header">
-            <p class="card-label">Data Dashboard</p>
-            <h2 class="card-title">Powder Dashboard (5案)</h2>
+            <p class="card-label">案4</p>
+            <h2 class="card-title">縦スクロール型</h2>
           </div>
           <p class="card-description">
-            粉体物性データを扱う5つのレイアウト案をまとめたギャラリーです。テーブル中心の構成からサイドバー切り替え型まで、分析シーンに応じた導線を確認できます。
+            テーブルとチャートセクションを縦に積み上げ、スクロールで一連の分析が完結する構成です。タブレット表示でも順番を崩さず確認できます。
           </p>
-          <a href="5graph/index.html" class="card-link">ギャラリーを開く</a>
+          <a class="card-link" href="index4.html">レイアウトを開く</a>
         </div>
 
         <div class="gallery-card">
           <div class="card-header">
-            <p class="card-label">Data Dashboard</p>
-            <h2 class="card-title">Nonconformity Dashboard (6案)</h2>
+            <p class="card-label">案5</p>
+            <h2 class="card-title">インタラクティブ選択型</h2>
           </div>
           <p class="card-description">
-            不適合情報を整理した6つのダッシュボード案を掲載しています。サマリーカードやセクション分割など、レビュー用途に合わせて比較検討できます。
+            サイドバーで表示するグラフを切り替えられるインタラクティブ構成です。選択した指標を大きく表示し、モーダル拡大にも対応します。
           </p>
-          <a href="6graph/index.html" class="card-link">ギャラリーを開く</a>
+          <a class="card-link" href="index5.html">レイアウトを開く</a>
         </div>
       </div>
     </main>

@@ -6,10 +6,6 @@
     <title>粉体ダッシュボード案2</title>
     <link rel="stylesheet" href="../styles.css" />
     <style>
-      :root {
-        --summary-grid-gap: clamp(0.8rem, 1.5vw, 1.4rem);
-      }
-
       body.blue-dashboard {
         margin: 0;
         min-height: 100vh;
@@ -88,48 +84,11 @@
         opacity: 0.9;
       }
 
-      .summary-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-        gap: var(--summary-grid-gap);
-      }
-
-      .summary-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: var(--radius-lg);
-        border: 0.0625rem solid var(--border);
-        padding: 1rem 1.2rem;
-        box-shadow: var(--shadow-sm);
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
-
-      .summary-card__label {
-        margin: 0;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        letter-spacing: 0.04em;
-      }
-
-      .summary-card__value {
-        margin: 0;
-        font-size: clamp(1.55rem, 1.6vw, 1.9rem);
-        font-weight: 700;
-        letter-spacing: 0.03em;
-      }
-
-      .summary-card__sub {
-        margin: 0;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-      }
-
       .blue-dashboard__layout {
         display: grid;
-        grid-template-columns: minmax(24rem, 1.4fr) minmax(18rem, 1fr);
-        grid-auto-rows: minmax(10rem, auto);
-        gap: clamp(1.1rem, 2vw, 1.8rem);
+        grid-template-columns: minmax(26rem, 1.45fr) minmax(17rem, 0.85fr) minmax(17rem, 0.85fr);
+        grid-auto-rows: minmax(9rem, auto);
+        gap: clamp(1.2rem, 2.2vw, 2rem);
       }
 
       .blue-card {
@@ -160,17 +119,61 @@
         letter-spacing: 0.04em;
       }
 
-      .blue-card--table {
+      .blue-card--main {
         grid-column: 1;
         grid-row: 1 / span 3;
+        padding: clamp(0.6rem, 1vw, 1.1rem);
       }
 
-      .blue-card--wide {
+      .blue-card--main .component-frame--table {
+        padding: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .blue-card--main .data-table-container {
+        border: none;
+        border-radius: var(--radius-md);
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .blue-card--main .data-table-wrapper {
+        border: 0.0625rem solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .blue-card--main .data-table {
+        margin: 0;
+        background: transparent;
+      }
+
+      .blue-card--flowability {
+        grid-column: 2 / span 2;
+        grid-row: 1;
+      }
+
+      .blue-card--spray {
         grid-column: 2;
+        grid-row: 2;
       }
 
-      .blue-card--wide:last-of-type {
-        grid-row: span 2;
+      .blue-card--angle {
+        grid-column: 3;
+        grid-row: 2;
+      }
+
+      .blue-card--bulk {
+        grid-column: 2;
+        grid-row: 3;
+      }
+
+      .blue-card--compression {
+        grid-column: 3;
+        grid-row: 3;
       }
 
       .component-frame {
@@ -307,29 +310,59 @@
         background: rgba(15, 23, 42, 0.8);
       }
 
-      @media (max-width: 1140px) {
+      @media (max-width: 1280px) {
+        .blue-dashboard__layout {
+          grid-template-columns: minmax(22rem, 1fr) minmax(22rem, 1fr);
+        }
+
+        .blue-card--main {
+          grid-column: 1 / span 2;
+          grid-row: 1;
+        }
+
+        .blue-card--flowability {
+          grid-column: 1 / span 2;
+          grid-row: 2;
+        }
+
+        .blue-card--spray {
+          grid-column: 1;
+          grid-row: 3;
+        }
+
+        .blue-card--angle {
+          grid-column: 2;
+          grid-row: 3;
+        }
+
+        .blue-card--bulk {
+          grid-column: 1;
+          grid-row: 4;
+        }
+
+        .blue-card--compression {
+          grid-column: 2;
+          grid-row: 4;
+        }
+      }
+
+      @media (max-width: 900px) {
         .blue-dashboard__layout {
           grid-template-columns: 1fr;
         }
 
-        .blue-card--table {
+        .blue-card--main,
+        .blue-card--flowability,
+        .blue-card--spray,
+        .blue-card--angle,
+        .blue-card--bulk,
+        .blue-card--compression {
           grid-column: 1;
           grid-row: auto;
         }
 
-        .blue-card--wide {
-          grid-column: 1;
-        }
-      }
-
-      @media (max-width: 720px) {
-        .summary-card {
-          padding: 0.8rem 1rem;
-        }
-
-        .data-table th,
-        .data-table td {
-          padding: 0.5rem 0.55rem;
+        .component-frame--bar {
+          min-height: auto;
         }
       }
     </style>
@@ -347,34 +380,10 @@
           <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
         </div>
         <button type="button" class="filter-button">更新</button>
-        <p class="filter-note">※検索機能はダミーです</p>
       </form>
 
-      <section class="summary-grid" aria-label="集計サマリー">
-        <article class="summary-card" data-summary="count">
-          <h2 class="summary-card__label">対象件数</h2>
-          <p class="summary-card__value">--</p>
-          <p class="summary-card__sub">サンプル数</p>
-        </article>
-        <article class="summary-card" data-summary="flowability">
-          <h2 class="summary-card__label">平均流動性指数</h2>
-          <p class="summary-card__value">--</p>
-          <p class="summary-card__sub">Flowability Index</p>
-        </article>
-        <article class="summary-card" data-summary="angle">
-          <h2 class="summary-card__label">平均安息角</h2>
-          <p class="summary-card__value">--</p>
-          <p class="summary-card__sub">Angle of Repose</p>
-        </article>
-        <article class="summary-card" data-summary="bulk">
-          <h2 class="summary-card__label">平均かさ密度</h2>
-          <p class="summary-card__value">--</p>
-          <p class="summary-card__sub">Bulk Density</p>
-        </article>
-      </section>
-
       <div class="blue-dashboard__layout">
-        <section class="blue-card blue-card--table">
+        <section class="blue-card blue-card--main">
           <header class="blue-card__header">
             <h2 class="blue-card__title">粉体物性情報一覧</h2>
           </header>
@@ -390,7 +399,7 @@
           </div>
         </section>
 
-        <section class="blue-card blue-card--wide">
+        <section class="blue-card blue-card--flowability">
           <header class="blue-card__header">
             <h2 class="blue-card__title">流動性指数（棒グラフ）</h2>
           </header>
@@ -399,7 +408,7 @@
           </div>
         </section>
 
-        <section class="blue-card blue-card--wide">
+        <section class="blue-card blue-card--spray">
           <header class="blue-card__header">
             <h2 class="blue-card__title">噴流性指数（棒グラフ）</h2>
           </header>
@@ -408,7 +417,7 @@
           </div>
         </section>
 
-        <section class="blue-card blue-card--wide">
+        <section class="blue-card blue-card--angle">
           <header class="blue-card__header">
             <h2 class="blue-card__title">安息角（棒グラフ）</h2>
           </header>
@@ -417,7 +426,7 @@
           </div>
         </section>
 
-        <section class="blue-card blue-card--wide">
+        <section class="blue-card blue-card--bulk">
           <header class="blue-card__header">
             <h2 class="blue-card__title">かさ密度（棒グラフ）</h2>
           </header>
@@ -426,7 +435,7 @@
           </div>
         </section>
 
-        <section class="blue-card blue-card--wide">
+        <section class="blue-card blue-card--compression">
           <header class="blue-card__header">
             <h2 class="blue-card__title">圧縮度（棒グラフ）</h2>
           </header>
@@ -486,81 +495,6 @@
       });
     }
 
-    function calculateSummary(rows) {
-      const summary = {
-        count: rows.length,
-        flowability: null,
-        angle: null,
-        bulk: null,
-      };
-
-      if (rows.length === 0) {
-        return summary;
-      }
-
-      let flowabilityTotal = 0;
-      let angleTotal = 0;
-      let bulkTotal = 0;
-      let flowabilityCount = 0;
-      let angleCount = 0;
-      let bulkCount = 0;
-
-      rows.forEach((row) => {
-        const flowability = Number(row[3]);
-        if (!Number.isNaN(flowability)) {
-          flowabilityTotal += flowability;
-          flowabilityCount += 1;
-        }
-
-        const angle = Number(row[5]);
-        if (!Number.isNaN(angle)) {
-          angleTotal += angle;
-          angleCount += 1;
-        }
-
-        const bulk = Number(row[6]);
-        if (!Number.isNaN(bulk)) {
-          bulkTotal += bulk;
-          bulkCount += 1;
-        }
-      });
-
-      summary.flowability = flowabilityCount > 0 ? flowabilityTotal / flowabilityCount : null;
-      summary.angle = angleCount > 0 ? angleTotal / angleCount : null;
-      summary.bulk = bulkCount > 0 ? bulkTotal / bulkCount : null;
-
-      return summary;
-    }
-
-    function updateSummaryCards(summary) {
-      const countCard = document.querySelector('[data-summary="count"] .summary-card__value');
-      const flowCard = document.querySelector('[data-summary="flowability"] .summary-card__value');
-      const angleCard = document.querySelector('[data-summary="angle"] .summary-card__value');
-      const bulkCard = document.querySelector('[data-summary="bulk"] .summary-card__value');
-
-      if (countCard) {
-        countCard.textContent = summary.count.toLocaleString("ja-JP");
-      }
-
-      if (flowCard) {
-        flowCard.textContent = summary.flowability !== null
-          ? summary.flowability.toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-          : "--";
-      }
-
-      if (angleCard) {
-        angleCard.textContent = summary.angle !== null
-          ? summary.angle.toLocaleString("ja-JP", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-          : "--";
-      }
-
-      if (bulkCard) {
-        bulkCard.textContent = summary.bulk !== null
-          ? summary.bulk.toLocaleString("ja-JP", { minimumFractionDigits: 3, maximumFractionDigits: 3 })
-          : "--";
-      }
-    }
-
     async function loadCsvTable() {
       const tableHead = document.querySelector("#data-table thead");
       const tableBody = document.querySelector("#data-table tbody");
@@ -589,7 +523,6 @@
         tableBody.innerHTML = "";
 
         if (rows.length === 0) {
-          updateSummaryCards({ count: 0, flowability: null, angle: null, bulk: null });
           return;
         }
 
@@ -623,7 +556,6 @@
           emptyCell.textContent = "指定期間のデータはありません";
           emptyRow.appendChild(emptyCell);
           tableBody.appendChild(emptyRow);
-          updateSummaryCards({ count: 0, flowability: null, angle: null, bulk: null });
           return;
         }
 
@@ -637,9 +569,6 @@
           });
           tableBody.appendChild(bodyRow);
         });
-
-        const summary = calculateSummary(filteredRows);
-        updateSummaryCards(summary);
       } catch (error) {
         console.error(error);
         alert(`CSVの読み込みに失敗しました: ${error.message}`);

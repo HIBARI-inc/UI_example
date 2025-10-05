@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>粉体ダッシュボード案3</title>
+    <title>粉体ダッシュボード案5</title>
     <link rel="stylesheet" href="../styles.css" />
     <style>
       body.blue-dashboard {
@@ -32,54 +32,31 @@
         margin: 0;
         text-align: left;
         color: var(--text-strong);
-        font-size: clamp(1.85rem, 2.3vw, 2.4rem);
+        font-size: clamp(1.9rem, 2.3vw, 2.4rem);
         font-weight: 800;
         letter-spacing: 0.05em;
       }
 
-      .dashboard-grid {
-        display: grid;
-        grid-template-columns: minmax(16rem, 0.75fr) 1fr;
-        gap: clamp(1rem, 2.4vw, 2rem);
-        align-items: start;
-      }
-
-      .dashboard-sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: clamp(1rem, 1.8vw, 1.5rem);
-        position: sticky;
-        top: clamp(1rem, 2vw, 1.6rem);
-        height: fit-content;
-      }
-
-      .sidebar-card {
-        background: var(--panel);
-        color: var(--text-strong);
-        border-radius: var(--radius-lg);
-        padding: clamp(1rem, 1.5vw, 1.4rem);
-        box-shadow: var(--shadow-md);
-        border: 0.0625rem solid var(--border);
-        display: flex;
-        flex-direction: column;
-        gap: clamp(0.7rem, 1.1vw, 1rem);
-      }
-
       .dashboard-filters {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
-        align-items: end;
-        gap: 0.7rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: clamp(0.7rem, 1.2vw, 1rem);
+        background: var(--panel);
+        border-radius: var(--radius-lg);
+        border: 0.0625rem solid var(--border);
+        box-shadow: var(--shadow-md);
+        padding: clamp(1rem, 1.6vw, 1.3rem);
       }
 
       .filter-group {
         display: flex;
         flex-direction: column;
-        gap: 0.35rem;
+        gap: 0.3rem;
       }
 
       .filter-label {
-        font-size: 0.82rem;
+        font-size: clamp(0.85rem, 0.3vw + 0.8rem, 0.9rem);
         color: var(--text-muted);
       }
 
@@ -87,12 +64,12 @@
         padding: 0.55rem 0.75rem;
         border-radius: var(--radius-sm);
         border: 0.0625rem solid var(--border);
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.92);
         color: var(--text-strong);
       }
 
       .filter-button {
-        padding: 0.65rem 1rem;
+        padding: 0.65rem 1.3rem;
         border: none;
         border-radius: var(--radius-sm);
         background: var(--accent-primary);
@@ -107,72 +84,174 @@
         opacity: 0.9;
       }
 
-      .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-      }
-
-      .sidebar-nav__title {
+      .filter-note {
         margin: 0;
-        font-size: 0.9rem;
         color: var(--text-muted);
+        font-size: 0.85rem;
       }
 
-      .sidebar-nav__link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.45rem 0.6rem;
-        border-radius: var(--radius-sm);
-        color: var(--text-strong);
-        text-decoration: none;
-        background: rgba(96, 165, 250, 0.16);
-        transition: var(--transition);
-        border: 0.0625rem solid rgba(96, 165, 250, 0.35);
+      .blue-dashboard__layout {
+        display: grid;
+        grid-template-columns: minmax(26rem, 1.45fr) minmax(18rem, 0.95fr);
+        grid-auto-rows: minmax(10rem, auto);
+        gap: clamp(1.2rem, 2.2vw, 2rem);
+        align-items: start;
       }
 
-      .sidebar-nav__link:hover,
-      .sidebar-nav__link:focus-visible {
-        background: rgba(59, 130, 246, 0.25);
-      }
-
-      .dashboard-main {
+      .dashboard-side {
         display: flex;
         flex-direction: column;
-        gap: clamp(1rem, 2vw, 1.6rem);
+        gap: clamp(1rem, 1.8vw, 1.5rem);
       }
 
-      .blue-section {
+      .blue-card {
         background: var(--panel);
         border: 0.0625rem solid var(--border);
         border-radius: var(--radius-lg);
-        padding: clamp(1rem, 1.4vw, 1.35rem);
+        padding: clamp(1rem, 1.35vw, 1.3rem);
         box-shadow: var(--shadow-md);
         display: flex;
         flex-direction: column;
-        gap: clamp(0.8rem, 1.4vw, 1.1rem);
+        gap: clamp(0.8rem, 1.3vw, 1.1rem);
+        overflow: hidden;
       }
 
-      .section-header {
+      .blue-card__header {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         justify-content: space-between;
         gap: 0.6rem;
+        position: relative;
+        z-index: 3;
       }
 
-      .section-title {
+      .blue-card__title {
         margin: 0;
-        font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+        font-size: clamp(1.05rem, 1.55vw, 1.3rem);
         font-weight: 700;
         letter-spacing: 0.04em;
       }
 
-      .table-wrapper {
+      .blue-card--main {
+        grid-column: 1;
+        padding: clamp(0.6rem, 1vw, 1.1rem);
+        align-self: start;
+      }
+
+      .blue-card--main .component-frame--table {
+        padding: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .blue-card--main .data-table-container {
+        border: none;
+        border-radius: var(--radius-md);
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .blue-card--main .data-table-wrapper {
+        border: 0.0625rem solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .blue-card--main .data-table {
+        margin: 0;
+        background: transparent;
+      }
+
+      .chart-menu {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+
+      .chart-menu__button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.8rem;
+        padding: 0.75rem 1rem;
         border-radius: var(--radius-md);
         border: 0.0625rem solid var(--border);
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.97);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-strong);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .chart-menu__button:hover,
+      .chart-menu__button:focus-visible {
+        border-color: var(--accent-primary);
+        color: var(--accent-primary);
+        box-shadow: 0 0 0 0.125rem rgba(63, 114, 255, 0.2);
+      }
+
+      .chart-menu__button.is-active {
+        background: var(--accent-soft);
+        border-color: var(--accent-primary);
+        color: var(--accent-primary);
+        box-shadow: 0 0 0 0.125rem rgba(63, 114, 255, 0.25);
+      }
+
+      .chart-menu__hint {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .blue-card--display .component-frame {
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.92);
+        border: 0.0625rem solid rgba(32, 45, 74, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+      }
+
+      .component-frame--table {
+        display: block;
+        padding: clamp(0.4rem, 0.6vw, 0.75rem);
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .component-frame--display {
+        min-height: 18rem;
+        padding: clamp(0.8rem, 1.4vw, 1.2rem);
+      }
+
+      .component-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: zoom-in;
+      }
+
+      .chart-display__caption {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .data-table-container {
+        border: 0.0625rem solid var(--border);
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .data-table-wrapper {
+        max-height: 34rem;
+        overflow: auto;
       }
 
       .data-table {
@@ -183,7 +262,7 @@
 
       .data-table th,
       .data-table td {
-        padding: 0.6rem 0.75rem;
+        padding: 0.45rem 0.6rem;
         text-align: left;
         border-bottom: 0.0625rem solid var(--border);
       }
@@ -195,53 +274,10 @@
         box-shadow: inset 0 -0.0625rem 0 var(--border);
       }
 
-      .chart-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-        gap: clamp(1rem, 1.6vw, 1.4rem);
-      }
-
-      .chart-card {
-        display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid var(--border);
-        background: rgba(255, 255, 255, 0.96);
-        padding: clamp(0.9rem, 1.3vw, 1.2rem);
-        box-shadow: var(--shadow-sm);
-      }
-
-      .chart-card__title {
-        margin: 0;
-        font-size: 0.95rem;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-      }
-
-      .chart-card__frame {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid rgba(32, 45, 74, 0.12);
-        background: rgba(255, 255, 255, 0.92);
-        min-height: 15rem;
-        overflow: hidden;
-      }
-
-      .section-note {
-        margin: 0;
-        font-size: 0.85rem;
+      .data-table-empty {
+        padding: 1.8rem;
+        text-align: center;
         color: var(--text-muted);
-      }
-
-      .component-image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        cursor: zoom-in;
       }
 
       .chart-modal {
@@ -316,61 +352,51 @@
       }
 
       @media (max-width: 1080px) {
-        .dashboard-grid {
+        .blue-dashboard__layout {
           grid-template-columns: 1fr;
         }
 
-        .dashboard-sidebar {
-          position: static;
+        .blue-card--main {
+          grid-column: 1;
+          grid-row: auto;
         }
       }
 
       @media (max-width: 720px) {
-        .chart-card__frame {
-          min-height: 12rem;
+        .chart-menu {
+          grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        }
+
+        .component-frame--display {
+          min-height: 14rem;
         }
       }
     </style>
   </head>
   <body class="blue-dashboard">
     <main class="shell shell--wide blue-dashboard__wrap">
-      <h1 class="blue-dashboard__header">粉体物性ダッシュボード案3</h1>
-      <div class="dashboard-grid">
-        <aside class="dashboard-sidebar" aria-label="フィルターとナビゲーション">
-          <section class="sidebar-card">
-            <h2 class="sr-only">期間フィルター</h2>
-            <form class="dashboard-filters" aria-label="期間指定フォーム">
-              <div class="filter-group">
-                <label for="date-from" class="filter-label">開始日</label>
-                <input type="date" id="date-from" class="filter-input" value="2024-01-01" />
-              </div>
-              <div class="filter-group">
-                <label for="date-to" class="filter-label">終了日</label>
-                <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
-              </div>
-              <button type="button" class="filter-button">再読み込み</button>
-            </form>
-          </section>
+      <h1 class="blue-dashboard__header">粉体物性ダッシュボード案5</h1>
 
-          <section class="sidebar-card">
-            <h2 class="sidebar-nav__title">チャートナビゲーション</h2>
-            <nav class="sidebar-nav" aria-label="チャートリンク">
-              <a class="sidebar-nav__link" href="#chart-flowability">流動性指数</a>
-              <a class="sidebar-nav__link" href="#chart-spray">噴流性指数</a>
-              <a class="sidebar-nav__link" href="#chart-angle">安息角</a>
-              <a class="sidebar-nav__link" href="#chart-bulk">かさ密度</a>
-              <a class="sidebar-nav__link" href="#chart-compression">圧縮度</a>
-            </nav>
-          </section>
+      <form class="dashboard-filters" aria-label="期間指定フォーム">
+        <div class="filter-group">
+          <label for="date-from" class="filter-label">開始日</label>
+          <input type="date" id="date-from" class="filter-input" value="2024-01-01" />
+        </div>
+        <div class="filter-group">
+          <label for="date-to" class="filter-label">終了日</label>
+          <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
+        </div>
+        <button type="button" class="filter-button">データ更新</button>
+        <p class="filter-note">※検索機能はデモです</p>
+      </form>
 
-        </aside>
-
-        <section class="dashboard-main">
-          <section class="blue-section" aria-labelledby="table-title">
-            <header class="section-header">
-              <h2 id="table-title" class="section-title">粉体物性情報一覧</h2>
-            </header>
-            <div class="table-wrapper">
+      <div class="blue-dashboard__layout">
+        <section class="blue-card blue-card--main">
+          <header class="blue-card__header">
+            <h2 class="blue-card__title">粉体物性情報一覧</h2>
+          </header>
+          <div class="component-frame component-frame--table">
+            <div class="data-table-container">
               <div class="data-table-wrapper">
                 <table id="data-table" class="data-table" aria-label="粉体物性一覧">
                   <thead></thead>
@@ -378,51 +404,43 @@
                 </table>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="blue-section" aria-label="チャートギャラリー">
-            <header class="section-header">
-              <h2 class="section-title">チャートギャラリー</h2>
-              <p class="section-note">* グラフをクリックすると拡大表示されます</p>
+        <div class="dashboard-side">
+          <section class="blue-card blue-card--menu">
+            <header class="blue-card__header">
+              <h2 class="blue-card__title">表示するグラフ</h2>
             </header>
-            <div class="chart-grid">
-              <article class="chart-card" id="chart-flowability">
-                <h3 class="chart-card__title">流動性指数（棒グラフ）</h3>
-                <div class="chart-card__frame">
-                  <img id="img-flowability" alt="流動性指数の棒グラフ" class="component-image" loading="lazy" />
-                </div>
-              </article>
-
-              <article class="chart-card" id="chart-spray">
-                <h3 class="chart-card__title">噴流性指数（棒グラフ）</h3>
-                <div class="chart-card__frame">
-                  <img id="img-spray" alt="噴流性指数の棒グラフ" class="component-image" loading="lazy" />
-                </div>
-              </article>
-
-              <article class="chart-card" id="chart-angle">
-                <h3 class="chart-card__title">安息角（棒グラフ）</h3>
-                <div class="chart-card__frame">
-                  <img id="img-angle" alt="安息角の棒グラフ" class="component-image" loading="lazy" />
-                </div>
-              </article>
-
-              <article class="chart-card" id="chart-bulk">
-                <h3 class="chart-card__title">かさ密度（棒グラフ）</h3>
-                <div class="chart-card__frame">
-                  <img id="img-bulk" alt="かさ密度の棒グラフ" class="component-image" loading="lazy" />
-                </div>
-              </article>
-
-              <article class="chart-card" id="chart-compression">
-                <h3 class="chart-card__title">圧縮度（棒グラフ）</h3>
-                <div class="chart-card__frame">
-                  <img id="img-compression" alt="圧縮度の棒グラフ" class="component-image" loading="lazy" />
-                </div>
-              </article>
+            <div class="chart-menu" role="group" aria-label="グラフの種類選択">
+              <button type="button" class="chart-menu__button" data-chart-key="flowability" aria-pressed="false">
+                流動性指数<br /><span class="chart-menu__hint">Flowability Index</span>
+              </button>
+              <button type="button" class="chart-menu__button" data-chart-key="spray" aria-pressed="false">
+                噴流性指数<br /><span class="chart-menu__hint">Sprayability Index</span>
+              </button>
+              <button type="button" class="chart-menu__button" data-chart-key="angle" aria-pressed="false">
+                安息角<br /><span class="chart-menu__hint">Angle of Repose</span>
+              </button>
+              <button type="button" class="chart-menu__button" data-chart-key="bulk" aria-pressed="false">
+                かさ密度<br /><span class="chart-menu__hint">Bulk Density</span>
+              </button>
+              <button type="button" class="chart-menu__button" data-chart-key="compression" aria-pressed="false">
+                圧縮度<br /><span class="chart-menu__hint">Compressibility</span>
+              </button>
             </div>
           </section>
-        </section>
+
+          <section class="blue-card blue-card--display" aria-live="polite">
+            <header class="blue-card__header">
+              <h2 id="chartDisplayTitle" class="blue-card__title">グラフを選択してください</h2>
+            </header>
+            <div class="component-frame component-frame--display">
+              <img id="chartDisplayImg" class="component-image" alt="" loading="lazy" />
+            </div>
+            <p id="chartDisplayCaption" class="chart-display__caption"></p>
+          </section>
+        </div>
       </div>
     </main>
 
@@ -435,15 +453,36 @@
     </div>
 
     <script>
-    const imageFiles = {
-      "img-flowability": "bar_流動性指数.png",
-      "img-spray": "bar_噴流性指数.png",
-      "img-angle": "bar_安息角.png",
-      "img-bulk": "bar_かさ密度.png",
-      "img-compression": "bar_圧縮度.png",
-    };
-
     const csvUrl = "./data/powder_properties.csv";
+    const chartBasePath = "./data";
+
+    const chartConfigs = {
+      flowability: {
+        file: "bar_流動性指数.png",
+        title: "流動性指数（棒グラフ）",
+        caption: "粉体の流動性指数を棒グラフで表示しています。",
+      },
+      spray: {
+        file: "bar_噴流性指数.png",
+        title: "噴流性指数（棒グラフ）",
+        caption: "噴流性指数の分布を棒グラフで比較します。",
+      },
+      angle: {
+        file: "bar_安息角.png",
+        title: "安息角（棒グラフ）",
+        caption: "各サンプルの安息角を棒グラフで表示しています。",
+      },
+      bulk: {
+        file: "bar_かさ密度.png",
+        title: "かさ密度（棒グラフ）",
+        caption: "かさ密度の傾向を棒グラフで確認できます。",
+      },
+      compression: {
+        file: "bar_圧縮度.png",
+        title: "圧縮度（棒グラフ）",
+        caption: "圧縮度の値を棒グラフで比較しています。",
+      },
+    };
 
     function parseDateString(value) {
       if (!value) return null;
@@ -463,16 +502,6 @@
         return rawValue;
       }
       return numeric.toLocaleString("ja-JP", { maximumFractionDigits: 2 });
-    }
-
-    function setImages() {
-      const basePath = "./data";
-      Object.entries(imageFiles).forEach(([id, file]) => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.src = `${basePath}/${file}`;
-        }
-      });
     }
 
     async function loadCsvTable() {
@@ -549,11 +578,46 @@
           });
           tableBody.appendChild(bodyRow);
         });
-
       } catch (error) {
         console.error(error);
         alert(`CSVの読み込みに失敗しました: ${error.message}`);
       }
+    }
+
+    function showChart(chartKey) {
+      const displayTitle = document.getElementById("chartDisplayTitle");
+      const displayImg = document.getElementById("chartDisplayImg");
+      const displayCaption = document.getElementById("chartDisplayCaption");
+      const buttons = document.querySelectorAll("[data-chart-key]");
+      const config = chartConfigs[chartKey];
+      if (!config || !displayTitle || !displayImg || !displayCaption) {
+        return;
+      }
+
+      displayTitle.textContent = config.title;
+      displayImg.src = `${chartBasePath}/${config.file}`;
+      displayImg.alt = config.title;
+      displayCaption.textContent = config.caption;
+
+      buttons.forEach((button) => {
+        const isActive = button.dataset.chartKey === chartKey;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    function registerChartMenu() {
+      const buttons = document.querySelectorAll("[data-chart-key]");
+      if (buttons.length === 0) return;
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          showChart(button.dataset.chartKey);
+        });
+      });
+
+      const defaultKey = buttons[0].dataset.chartKey;
+      showChart(defaultKey);
     }
 
     function registerImageModal() {
@@ -603,8 +667,8 @@
     }
 
     function initDashboard() {
-      setImages();
       loadCsvTable();
+      registerChartMenu();
       registerImageModal();
 
       const refreshButton = document.querySelector(".filter-button");
@@ -613,7 +677,6 @@
 
       if (refreshButton) {
         refreshButton.addEventListener("click", () => {
-          setImages();
           loadCsvTable();
         });
       }

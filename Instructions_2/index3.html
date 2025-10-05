@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ドキュメントカタログビュー（統合ビュー）</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <h1>ドキュメントカタログビュー</h1>
+      </header>
+
+      <section class="layout layout--combined" aria-labelledby="layout-combined-heading">
+        <h2 id="layout-combined-heading" class="sr-only">カテゴリーと資料を縦方向に並べた統合ビュー</h2>
+
+        <section class="catalog-stack" aria-label="カテゴリーと資料リスト">
+          <h3 class="sr-only">カテゴリーを選択</h3>
+          <div class="catalog-stack__selectors">
+            <p class="catalog-stack__eyebrow">カテゴリーを選択</p>
+            <ul class="catalog-stack__categories category-folders">
+              <li class="category-folder">
+                <details class="category-folder__panel" open>
+                  <summary class="category-folder__summary">供給・搬送オペレーション</summary>
+                  <ul class="category-folder__list">
+                    <li><button class="category" type="button" data-folder="supply">供給システム</button></li>
+                    <li><button class="category" type="button" data-folder="transport">搬送・輸送</button></li>
+                    <li><button class="category" type="button" data-folder="extraction">取出し・ハンドリング</button></li>
+                  </ul>
+                </details>
+              </li>
+              <li class="category-folder">
+                <details class="category-folder__panel">
+                  <summary class="category-folder__summary">監視・処理・保全</summary>
+                  <ul class="category-folder__list">
+                    <li><button class="category" type="button" data-folder="measurement">計測・監視</button></li>
+                    <li><button class="category" type="button" data-folder="disposal">排出・処理</button></li>
+                    <li><button class="category" type="button" data-folder="maintenance">テスト・メンテナンス</button></li>
+                  </ul>
+                </details>
+              </li>
+              <li class="category-folder">
+                <details class="category-folder__panel">
+                  <summary class="category-folder__summary">保管・設備・導入事例</summary>
+                  <ul class="category-folder__list">
+                    <li><button class="category" type="button" data-folder="storage">貯蔵・保管</button></li>
+                    <li><button class="category" type="button" data-folder="equipment">関連機器</button></li>
+                    <li><button class="category" type="button" data-folder="plant">プラント事例</button></li>
+                  </ul>
+                </details>
+              </li>
+            </ul>
+          </div>
+
+          <div class="catalog-stack__list catalog-list" aria-live="polite" aria-label="資料一覧">
+            <header class="catalog-list__header">
+              <span class="catalog-list__eyebrow">資料リスト</span>
+              <h3 id="catalog-list-title"></h3>
+              <p id="catalog-list-description" class="catalog-list__description"></p>
+            </header>
+            <ul id="catalog-items" class="catalog-items"></ul>
+          </div>
+        </section>
+
+        <section class="catalog-insight" aria-live="polite" aria-label="資料詳細">
+          <div id="insight-placeholder" class="insight-placeholder">
+          </div>
+
+          <div id="insight-content" class="insight-content is-hidden">
+            <figure class="insight-visual">
+              <img id="insight-image" src="" alt="" />
+              <figcaption id="insight-caption"></figcaption>
+            </figure>
+            <div class="insight-text">
+              <h3 id="insight-title"></h3>
+              <p id="insight-summary"></p>
+              <p id="insight-meta" class="insight-meta"></p>
+            </div>
+            <div class="insight-queries">
+              <p class="insight-queries__label">チャットボットに聞いてみる</p>
+              <p class="insight-queries__hint">質問例をクリックすると、チャット用キーワードとして選択状態になります。</p>
+              <div id="insight-suggestions" class="insight-suggestions" role="list"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

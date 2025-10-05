@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instructions_2 UI Prototype List</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Noto Sans JP", "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 48px 24px 80px;
+        background: #0f172a;
+        color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+      }
+
+      main {
+        width: min(720px, 100%);
+        display: grid;
+        gap: 32px;
+      }
+
+      header {
+        display: grid;
+        gap: 12px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #38bdf8;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+      }
+
+      .intro {
+        margin: 0;
+        color: #94a3b8;
+        line-height: 1.6;
+      }
+
+      ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 16px;
+      }
+
+      li {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        border-radius: 16px;
+        padding: 18px 20px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .label {
+        font-size: 0.85rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(148, 163, 184, 0.8);
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .summary {
+        margin: 0;
+        color: #94a3b8;
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      a {
+        color: #bae6fd;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        transition: background 180ms ease;
+      }
+
+      a:hover,
+      a:focus-visible {
+        background: rgba(56, 189, 248, 0.16);
+        outline: none;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 32px 16px 64px;
+        }
+
+        li {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a href="../index.html" class="eyebrow">ホームへ戻る</a>
+        <h1>UI プロトタイプ案一覧（Instructions_2）</h1>
+        <p class="intro">
+          Instructions_2配下のUIプロトタイプ案を一覧化しています。案1〜案12の各リンクから詳細ページを開き、挙動や構成をご確認ください。
+        </p>
+      </header>
+
+      <ol>
+        <li>
+          <span class="label">案 1</span>
+          <h2>ブランチレイアウト</h2>
+          <p class="summary">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+          <div class="links">
+            <a href="index1.html" target="_blank" rel="noopener">通常ビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 2</span>
+          <h2>ベースラインビュー</h2>
+          <p class="summary">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+          <div class="links">
+            <a href="index2.html" target="_blank" rel="noopener">通常ビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 3</span>
+          <h2>統合ビュー</h2>
+          <p class="summary">縦方向の帯でカテゴリと資料を連結し、スクロールで俯瞰から詳細へ一気通貫で辿れます。</p>
+          <div class="links">
+            <a href="index3.html" target="_blank" rel="noopener">通常ビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 4</span>
+          <h2>セクションビュー</h2>
+          <p class="summary">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+          <div class="links">
+            <a href="index4.html" target="_blank" rel="noopener">通常ビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 5</span>
+          <h2>カスタムレイアウト</h2>
+          <p class="summary">ユーザーの用途に応じてカスタマイズ可能なレイアウト構成です。</p>
+          <div class="links">
+            <a href="index5.html" target="_blank" rel="noopener">通常ビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 6</span>
+          <h2>ブランチレイアウト（フルスクリーン）</h2>
+          <p class="summary">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+          <div class="links">
+            <a href="index7.html" target="_blank" rel="noopener">フルスクリーンビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 7</span>
+          <h2>1 画面ビュー（フルスクリーン）</h2>
+          <p class="summary">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+          <div class="links">
+            <a href="index8.html" target="_blank" rel="noopener">フルスクリーンビュー</a>
+          </div>
+        </li>
+      </ol>
+    </main>
+  </body>
+</html>

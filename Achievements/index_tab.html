@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タブ型実績ダッシュボード</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <h1>タブ型実績ダッシュボード</h1>
+      <p>「データ検索」と「AIアシスタント」のタブを切り替えて作業します。</p>
+    </header>
+
+    <nav class="catalog-tabs__nav" id="tab-nav">
+      <button type="button" class="category is-active" data-tab="data-search">データ検索</button>
+      <button type="button" class="category" data-tab="ai-assistant">AIアシスタント</button>
+    </nav>
+
+    <div class="catalog-tabs__content">
+
+      <div id="tab-content-data-search" class="tab-panel is-active">
+        <div style="display: flex; flex-direction: column; gap: var(--space-lg);">
+          <div class="dashboard-filters">
+            <div class="filter-group">
+              <label class="filter-label">開始日</label>
+              <input type="date" class="filter-input" value="2024-01-01" data-jshook="date-from">
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">終了日</label>
+              <input type="date" class="filter-input" value="2025-12-31" data-jshook="date-to">
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">カテゴリ</label>
+              <select class="filter-select" data-jshook="category-select">
+                <option value="">すべて</option>
+                <option value="disposal">処理・廃棄</option>
+                <option value="equipment">機器・制御</option>
+                <option value="extraction">抽出・取出</option>
+                <option value="maintenance">メンテナンス</option>
+                <option value="measurement">計測・測定</option>
+                <option value="plant">プラント・設備</option>
+                <option value="storage">貯蔵・保管</option>
+                <option value="supply">供給・投入</option>
+                <option value="transport">搬送・運搬</option>
+              </select>
+            </div>
+            <button type="button" class="filter-button" data-jshook="search-button">検索</button>
+          </div>
+          <div class="data-table-container">
+            <div class="data-table-header">
+              <h2>実績詳細データ</h2>
+              <button class="control-button" data-jshook="export-button">エクスポート</button>
+            </div>
+            <div class="data-table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>日付</th>
+                    <th>カテゴリ</th>
+                    <th>項目名</th>
+                    <th>実績値</th>
+                    <th>単位</th>
+                    <th>状態</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody data-jshook="table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-content-ai-assistant" class="tab-panel">
+        <div class="ai-assistant-container">
+          <div class="ai-assistant-header">
+            <h3>AIアシスタント</h3>
+            <div class="ai-status"><span class="status-indicator online"></span><span>オンライン</span></div>
+          </div>
+          <div class="ai-capabilities">
+            <h4>回答可能な情報</h4>
+            <div class="capability-grid">
+              <div class="capability-item">
+                <div class="capability-icon">📈</div>
+                <div class="capability-text"><strong>トレンド分析</strong><span>時系列変化、異常検知</span></div>
+              </div>
+              <div class="capability-item">
+                <div class="capability-icon">⚠️</div>
+                <div class="capability-text"><strong>アラート情報</strong><span>異常状態、注意項目</span></div>
+              </div>
+              <div class="capability-item">
+                <div class="capability-icon">🔍</div>
+                <div class="capability-text"><strong>パフォーマンス</strong><span>効率、稼働率、KPI</span></div>
+              </div>
+              <div class="capability-item">
+                <div class="capability-icon">🛠️</div>
+                <div class="capability-text"><strong>メンテナンス</strong><span>予防保全、点検状況</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="ai-suggestions">
+            <p class="ai-question">何が知りたいですか？</p>
+            <div class="suggestion-buttons" data-jshook="suggestion-buttons">
+              <button type="button" class="suggestion-btn" data-question="注意アラートを要約して">注意アラートを要約</button>
+              <button type="button" class="suggestion-btn" data-question="最も効率が良い装置は？">最高効率の装置は？</button>
+              <button type="button" class="suggestion-btn" data-question="メンテナンスが必要な機器はありますか？">メンテナンス予定は？</button>
+            </div>
+          </div>
+          <div class="ai-chat-section">
+            <div class="ai-messages" data-jshook="chat-display" style="min-height: 25vh;"></div>
+            <div class="ai-input-container">
+              <div class="ai-input-wrapper">
+                <input type="text" class="ai-input" placeholder="AIに質問..." data-jshook="chat-input">
+                <button type="button" class="ai-send-button" data-jshook="chat-send">送信</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // タブ切り替え用のスクリプト
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabNav = document.getElementById('tab-nav');
+      const tabButtons = tabNav.querySelectorAll('.category');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      // 非表示・表示を切り替えるためのスタイルを動的に追加
+      const style = document.createElement('style');
+      style.textContent = `.tab-panel { display: none; } .tab-panel.is-active { display: block; }`;
+      document.head.appendChild(style);
+
+      tabNav.addEventListener('click', (e) => {
+        const clickedTab = e.target.closest('button');
+        if (!clickedTab) return;
+
+        const tabId = clickedTab.dataset.tab;
+
+        // 全てのタブボタンとパネルからis-activeクラスを削除
+        tabButtons.forEach(btn => btn.classList.remove('is-active'));
+        tabPanels.forEach(panel => panel.classList.remove('is-active'));
+
+        // クリックされたタブと対応するパネルにis-activeクラスを追加
+        clickedTab.classList.add('is-active');
+        document.getElementById(`tab-content-${tabId}`).classList.add('is-active');
+      });
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Example - プロトタイプギャラリー</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Noto Sans JP", "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 48px 24px 80px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      main {
+        width: min(800px, 100%);
+        display: grid;
+        gap: 40px;
+      }
+
+      header {
+        text-align: center;
+        display: grid;
+        gap: 16px;
+        padding: 32px 0;
+      }
+
+      .logo {
+        font-size: 1rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #38bdf8;
+        margin: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 6vw, 3.5rem);
+        background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #94a3b8;
+        line-height: 1.6;
+      }
+
+      .gallery-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+
+      .gallery-card {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 20px;
+        padding: 28px;
+        display: grid;
+        gap: 16px;
+        transition: all 300ms ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gallery-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #38bdf8, #06b6d4);
+        opacity: 0;
+        transition: opacity 300ms ease;
+      }
+
+      .gallery-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(56, 189, 248, 0.4);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .gallery-card:hover::before {
+        opacity: 1;
+      }
+
+      .card-header {
+        display: grid;
+        gap: 8px;
+      }
+
+      .card-label {
+        font-size: 0.8rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #38bdf8;
+        margin: 0;
+      }
+
+      .card-title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .card-description {
+        margin: 0;
+        color: #94a3b8;
+        line-height: 1.6;
+      }
+
+      .card-link {
+        color: #bae6fd;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        transition: all 200ms ease;
+        text-align: center;
+        display: inline-block;
+        margin-top: 8px;
+      }
+
+      .card-link:hover,
+      .card-link:focus-visible {
+        background: rgba(56, 189, 248, 0.16);
+        border-color: rgba(56, 189, 248, 0.6);
+        outline: none;
+        transform: translateY(-1px);
+      }
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.5);
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #38bdf8;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 32px 16px 64px;
+        }
+
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .gallery-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="logo">UI Gallery</p>
+        <h1>プロトタイプギャラリー</h1>
+        <p class="subtitle">
+          様々なUIパターンとインタラクションデザインの提案を集めたプロトタイプ集です。<br>
+          カテゴリ別に整理されたデザイン案をご確認いただけます。
+        </p>
+      </header>
+
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Category 1</p>
+            <h2 class="card-title">Instructions</h2>
+          </div>
+          <p class="card-description">
+            基本的なUIレイアウトパターンと導線設計を提案するプロトタイプ集です。ブランチレイアウト、ベースラインビュー、統合ビューなど7つの案を収録しています。
+          </p>
+          <a href="Instructions/index.html" class="card-link">ギャラリーを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Category 2</p>
+            <h2 class="card-title">Instructions_2</h2>
+          </div>
+          <p class="card-description">
+            発展的なUIパターンとカスタマイズ可能なレイアウト構成を提案するプロトタイプ集です。よりバリエーション豊かな12の案を収録しています。
+          </p>
+          <a href="Instructions_2/index.html" class="card-link">ギャラリーを開く</a>
+        </div>
+
+        <div class="gallery-card">
+          <div class="card-header">
+            <p class="card-label">Category 3</p>
+            <h2 class="card-title">Achievements</h2>
+          </div>
+          <p class="card-description">
+            実績データの表示とインタラクションに特化したプロトタイプ集です。カードビュー、モーダル、タブ、タイムラインなど5つの表示パターンを提案します。
+          </p>
+          <a href="Achievements/index.html" class="card-link">ギャラリーを開く</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="g6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#de6161" />
+      <stop offset="100%" stop-color="#2657eb" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="36" fill="url(#g6)" />
+  <g fill="rgba(255,255,255,0.78)">
+    <rect x="96" y="126" width="120" height="120" rx="24" />
+    <rect x="240" y="126" width="168" height="20" rx="10" />
+    <rect x="240" y="160" width="140" height="20" rx="10" />
+    <rect x="240" y="194" width="150" height="20" rx="10" />
+  </g>
+  <text x="72" y="260" fill="#ffffff" font-size="52" font-family="'Hiragino Sans','Noto Sans JP',sans-serif" font-weight="700">EXTRACT</text>
+</svg>

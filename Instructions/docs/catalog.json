@@ -1,0 +1,347 @@
+{
+  "updated": "2024-05-30",
+  "categories": [
+    {
+      "id": "supply",
+      "title": "資材・供給管理",
+      "description": "資材の受入、保管、補充に関する標準ドキュメントやテンプレートをまとめています。",
+      "image": "assets/supply.svg",
+      "files": [
+        {
+          "name": "受入検査チェックリスト",
+          "file": "docs/supply/incoming_inspection_checklist.pdf",
+          "meta": "PDF | 2024/05/24 改訂",
+          "summary": "資材を受け取る際の基本確認項目と記録手順をまとめたチェックリストです。",
+          "questions": [
+            "受入検査で最低限確認すべき項目は何ですか?",
+            "検査記録を電子化する際のポイントを教えてください。"
+          ]
+        },
+        {
+          "name": "供給スケジュールテンプレート",
+          "file": "docs/supply/supply_schedule_template.xlsx",
+          "meta": "XLSX | 2024/05/18 更新",
+          "summary": "資材の発注・納品予定を一覧で管理できる汎用スケジュールテンプレートです。",
+          "questions": [
+            "納期遅延を早期に検知するための設定例はありますか?",
+            "複数ベンダーを管理する場合の入力例を知りたいです。"
+          ]
+        },
+        {
+          "name": "供給体制セルフチェック",
+          "file": "docs/supply/supply_system_selfcheck.docx",
+          "meta": "DOCX | 2024/05/12 更新",
+          "summary": "供給体制のリスクを洗い出し改善計画を立てるためのセルフチェックシートです。",
+          "questions": [
+            "供給体制の評価指標としておすすめの項目は何ですか?",
+            "改善計画を作成する際のステップを教えてください。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "measurement",
+      "title": "計測・モニタリング",
+      "description": "計測機器やモニタリング体制の整備に役立つ資料を収録しています。",
+      "image": "assets/measurement.svg",
+      "files": [
+        {
+          "name": "計測機器管理台帳",
+          "file": "docs/measurement/instrument_register.xlsx",
+          "meta": "XLSX | 2024/04/30 更新",
+          "summary": "校正期限や設置場所など計測機器の基本情報を管理するための台帳フォーマットです。",
+          "questions": [
+            "校正周期を設定する際の目安を教えてください。",
+            "機器の貸出状況を管理する方法はありますか?"
+          ]
+        },
+        {
+          "name": "監視ダッシュボード設計ガイド",
+          "file": "docs/measurement/monitoring_dashboard_guide.pdf",
+          "meta": "PDF | 2024/05/05 更新",
+          "summary": "主要指標を可視化するためのダッシュボード構成や設計ポイントを整理したガイドです。",
+          "questions": [
+            "監視指標を選定する際の考え方を知りたいです。",
+            "アラート設定の一般的な閾値例を教えてください。"
+          ]
+        },
+        {
+          "name": "データ収集フロー事例",
+          "file": "docs/measurement/data_collection_flow.pptx",
+          "meta": "PPTX | 2024/05/22 更新",
+          "summary": "現場からシステムまでのデータ収集フローを図解した標準的な事例集です。",
+          "questions": [
+            "異常値が発生した場合の通知フローをどう設計すればよいですか?",
+            "小規模ラインに適したシンプルなデータ収集方法はありますか?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "title": "搬送・物流",
+      "description": "工場内搬送や出荷に関連するガイドや事例を集約しています。",
+      "image": "assets/transport.svg",
+      "files": [
+        {
+          "name": "搬送装置レイアウト例",
+          "file": "docs/transport/transport_layout_examples.pdf",
+          "meta": "PDF | 2024/03/18 更新",
+          "summary": "搬送装置を効率良く配置するためのレイアウト例とポイントをまとめています。",
+          "questions": [
+            "搬送動線を最適化する際のチェック項目を知りたいです。",
+            "既存設備との干渉を確認する方法はありますか?"
+          ]
+        },
+        {
+          "name": "物流改善ケーススタディ",
+          "file": "docs/transport/logistics_improvement_case.pptx",
+          "meta": "PPTX | 2024/04/11 更新",
+          "summary": "入出庫の見直しや在庫配置の改善による効果を紹介したケーススタディ資料です。",
+          "questions": [
+            "改善活動を開始する際の調査項目は何がありますか?",
+            "成果を定量化するための指標例を教えてください。"
+          ]
+        },
+        {
+          "name": "AGV導入ガイドライン",
+          "file": "docs/transport/agv_guideline.pdf",
+          "meta": "PDF | 2024/05/09 更新",
+          "summary": "自律走行搬送車を導入する際の検討手順と運用ポイントを整理した資料です。",
+          "questions": [
+            "AGV導入時に確認しておくべき安全要件は何ですか?",
+            "段階的に導入する場合の進め方を知りたいです。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "title": "保管・在庫管理",
+      "description": "保管エリアの運用や在庫コントロールに使える標準資料を掲載しています。",
+      "image": "assets/storage.svg",
+      "files": [
+        {
+          "name": "倉庫安全点検リスト",
+          "file": "docs/storage/warehouse_safety_checklist.xlsx",
+          "meta": "XLSX | 2024/05/16 更新",
+          "summary": "保管エリアの安全点検に利用できるチェックリストと記録例です。",
+          "questions": [
+            "倉庫内で特に注意すべき安全ポイントは何ですか?",
+            "点検結果の傾向を分析する方法はありますか?"
+          ]
+        },
+        {
+          "name": "温湿度管理リファレンス",
+          "file": "docs/storage/environment_control_reference.pdf",
+          "meta": "PDF | 2024/04/28 更新",
+          "summary": "保管品の品質を維持するための温湿度管理例と装置構成をまとめた資料です。",
+          "questions": [
+            "環境監視センサーの配置例を知りたいです。",
+            "異常検出後の対応フローを教えてください。"
+          ]
+        },
+        {
+          "name": "在庫最適化の基本手順",
+          "file": "docs/storage/inventory_optimization_steps.pptx",
+          "meta": "PPTX | 2024/05/08 更新",
+          "summary": "在庫削減と欠品防止のバランスを取るための基本的な手順を紹介します。",
+          "questions": [
+            "在庫最適化プロジェクトの立ち上げ手順を知りたいです。",
+            "需要変動に合わせた在庫モデルの作り方を教えてください。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disposal",
+      "title": "環境・廃棄物管理",
+      "description": "環境対応や廃棄物管理に関する標準資料やチェックリストをまとめました。",
+      "image": "assets/disposal.svg",
+      "files": [
+        {
+          "name": "環境管理マニュアル",
+          "file": "docs/disposal/environment_management_manual.pdf",
+          "meta": "PDF | 2024/05/07 更新",
+          "summary": "環境影響を抑えるための基本ルールや日常点検の流れを整理したマニュアルです。",
+          "questions": [
+            "環境管理で押さえておくべき法規制の確認ポイントは何ですか?",
+            "年次レビューの実施方法を教えてください。"
+          ]
+        },
+        {
+          "name": "廃棄物分類ガイド",
+          "file": "docs/disposal/waste_classification_guide.xlsx",
+          "meta": "XLSX | 2024/04/30 更新",
+          "summary": "廃棄物の種類ごとに保管方法と処理手順を整理した分類ガイドです。",
+          "questions": [
+            "廃棄物を分類する際の判断基準を知りたいです。",
+            "外部委託時に確認すべき契約項目は何ですか?"
+          ]
+        },
+        {
+          "name": "リスク評価テンプレート",
+          "file": "docs/disposal/risk_assessment_template.docx",
+          "meta": "DOCX | 2024/05/21 更新",
+          "summary": "環境リスクを洗い出し対策を検討するための標準テンプレートです。",
+          "questions": [
+            "リスク評価を実施する際の体制づくりを教えてください。",
+            "評価結果を社内共有するためのポイントはありますか?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "extraction",
+      "title": "組立・ハンドリング",
+      "description": "組立作業やハンドリング機器の運用に役立つ資料を掲載しています。",
+      "image": "assets/extraction.svg",
+      "files": [
+        {
+          "name": "組立作業標準書",
+          "file": "docs/extraction/assembly_standard_work.pdf",
+          "meta": "PDF | 2024/05/18 改訂",
+          "summary": "組立工程で共通して使える標準作業手順と品質確認ポイントをまとめています。",
+          "questions": [
+            "標準作業手順書を更新する際の進め方を教えてください。",
+            "作業者教育で重視すべき事項は何ですか?"
+          ]
+        },
+        {
+          "name": "ハンドリング機器選定ガイド",
+          "file": "docs/extraction/handling_equipment_guide.xlsx",
+          "meta": "XLSX | 2024/05/10 更新",
+          "summary": "荷重や形状に応じたハンドリング機器を選ぶときの判断材料を整理したガイドです。",
+          "questions": [
+            "機器を選定する際の比較項目を知りたいです。",
+            "安全性を確保するための導入手順を教えてください。"
+          ]
+        },
+        {
+          "name": "工程サイクル分析シート",
+          "file": "docs/extraction/cycle_analysis_sheet.xlsm",
+          "meta": "XLSM | 2024/05/02 更新",
+          "summary": "作業時間と付帯時間を整理して工程の改善余地を可視化する分析シートです。",
+          "questions": [
+            "分析シートへの入力例を教えてください。",
+            "ボトルネック工程を特定するコツはありますか?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "equipment",
+      "title": "設備・付帯装置",
+      "description": "設備保全や付帯装置に関する設計・運用ドキュメントを掲載しています。",
+      "image": "assets/equipment.svg",
+      "files": [
+        {
+          "name": "設備レイアウト標準",
+          "file": "docs/equipment/equipment_layout_standard.pdf",
+          "meta": "PDF | 2024/05/20 更新",
+          "summary": "設備配置の際に参照できる標準レイアウトと設置チェックポイントをまとめています。",
+          "questions": [
+            "レイアウト変更時に確認するべき安全距離はありますか?",
+            "電源・配管計画を整理する方法を教えてください。"
+          ]
+        },
+        {
+          "name": "部品在庫リスト",
+          "file": "docs/equipment/spare_parts_list.csv",
+          "meta": "CSV | 2024/05/15 更新",
+          "summary": "保全に必要な予備部品を一覧で管理できるリストテンプレートです。",
+          "questions": [
+            "予備部品の適正在庫を見直すポイントは何ですか?",
+            "外注保全業者と共有する際の注意点を教えてください。"
+          ]
+        },
+        {
+          "name": "制御ロジック雛形",
+          "file": "docs/equipment/control_logic_template.l5x",
+          "meta": "L5X | 2024/04/26 更新",
+          "summary": "一般的なインターロックとアラーム処理を含む制御ロジックの雛形プロジェクトです。",
+          "questions": [
+            "制御ロジックを流用する際の注意点を教えてください。",
+            "テスト計画を作成する際の観点を知りたいです。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plant",
+      "title": "設備導入・事例",
+      "description": "設備導入プロジェクトの進め方や成功事例を収録しています。",
+      "image": "assets/plant.svg",
+      "files": [
+        {
+          "name": "導入プロジェクト標準フロー",
+          "file": "docs/plant/project_standard_flow.pdf",
+          "meta": "PDF | 2024/05/03 更新",
+          "summary": "計画立案から引き渡しまでの一般的な導入プロジェクトの進め方をまとめています。",
+          "questions": [
+            "プロジェクトを立ち上げる際の体制づくりを教えてください。",
+            "レビュー会議で確認すべき項目は何ですか?"
+          ]
+        },
+        {
+          "name": "設備配置モデル",
+          "file": "docs/plant/facility_layout_model.ifc",
+          "meta": "IFC | 2024/04/18 更新",
+          "summary": "標準的な工場レイアウトを3D形式で参照できるモデルデータです。",
+          "questions": [
+            "レイアウトモデルを活用して動線を確認する方法はありますか?",
+            "新設設備を反映させる際の手順を知りたいです。"
+          ]
+        },
+        {
+          "name": "投資計画テンプレート",
+          "file": "docs/plant/investment_plan_template.xlsx",
+          "meta": "XLSX | 2024/05/06 更新",
+          "summary": "費用と効果を整理しながら投資計画を作成できる汎用テンプレートです。",
+          "questions": [
+            "投資効果を評価する指標例を教えてください。",
+            "複数案を比較する際の観点を知りたいです。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "title": "保全・メンテナンス",
+      "description": "設備保全の計画や点検記録に使える一般的な資料を掲載しています。",
+      "image": "assets/maintenance.svg",
+      "files": [
+        {
+          "name": "定期点検スケジュール",
+          "file": "docs/maintenance/preventive_maintenance_schedule.xlsx",
+          "meta": "XLSX | 2024/05/21 更新",
+          "summary": "設備ごとの点検頻度と作業内容を整理できるスケジュールテンプレートです。",
+          "questions": [
+            "点検計画を更新するタイミングの目安はありますか?",
+            "点検履歴を共有する際のベストプラクティスを教えてください。"
+          ]
+        },
+        {
+          "name": "報告書テンプレート",
+          "file": "docs/maintenance/report_template.docx",
+          "meta": "DOCX | 2024/04/27 更新",
+          "summary": "点検や試運転の結果を記録するための汎用報告書テンプレートです。",
+          "questions": [
+            "報告書のフォーマットを統一する際のポイントは何ですか?",
+            "写真や図を効果的に活用するコツはありますか?"
+          ]
+        },
+        {
+          "name": "状態監視ガイド",
+          "file": "docs/maintenance/condition_monitoring_guide.pdf",
+          "meta": "PDF | 2024/05/13 更新",
+          "summary": "振動・温度・電流を活用した状態監視の基本的な考え方をまとめたガイドです。",
+          "questions": [
+            "状態監視を立ち上げる際の準備事項を教えてください。",
+            "アラーム設定のベースラインを作る方法はありますか?"
+          ]
+        }
+      ]
+    }
+  ]
+}

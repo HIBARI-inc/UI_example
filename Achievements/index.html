@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Achievements UI Prototype List</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Noto Sans JP", "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 48px 24px 80px;
+        background: #0f172a;
+        color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+      }
+
+      main {
+        width: min(720px, 100%);
+        display: grid;
+        gap: 32px;
+      }
+
+      header {
+        display: grid;
+        gap: 12px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #38bdf8;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+      }
+
+      .intro {
+        margin: 0;
+        color: #94a3b8;
+        line-height: 1.6;
+      }
+
+      ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 16px;
+      }
+
+      li {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        border-radius: 16px;
+        padding: 18px 20px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .label {
+        font-size: 0.85rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(148, 163, 184, 0.8);
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .summary {
+        margin: 0;
+        color: #94a3b8;
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      a {
+        color: #bae6fd;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        transition: background 180ms ease;
+      }
+
+      a:hover,
+      a:focus-visible {
+        background: rgba(56, 189, 248, 0.16);
+        outline: none;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 32px 16px 64px;
+        }
+
+        li {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a href="../index.html" class="eyebrow">ホームへ戻る</a>
+        <h1>Achievements UI プロトタイプ案一覧</h1>
+        <p class="intro">
+          Achievements配下のUIプロトタイプ案を一覧化しています。各リンクから詳細ページを開き、実績表示のデザインと挙動をご確認ください。
+        </p>
+      </header>
+
+      <ol>
+        <li>
+          <span class="label">案 1</span>
+          <h2>基本レイアウト</h2>
+          <p class="summary">実績データを一覧表示するベースとなるレイアウト構成です。</p>
+          <div class="links">
+            <a href="index1.html" target="_blank" rel="noopener">基本ビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 2</span>
+          <h2>カードビュー</h2>
+          <p class="summary">実績をカード形式で表示し、視覚的にわかりやすく整理したレイアウトです。</p>
+          <div class="links">
+            <a href="index_card.html" target="_blank" rel="noopener">カードビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 3</span>
+          <h2>モーダルビュー</h2>
+          <p class="summary">実績の詳細をモーダルウィンドウで表示し、深い情報にアクセスしやすくします。</p>
+          <div class="links">
+            <a href="index_modal.html" target="_blank" rel="noopener">モーダルビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 4</span>
+          <h2>タブビュー</h2>
+          <p class="summary">実績をカテゴリ別にタブで分類し、効率的にブラウジングできる構成です。</p>
+          <div class="links">
+            <a href="index_tab.html" target="_blank" rel="noopener">タブビュー</a>
+          </div>
+        </li>
+        <li>
+          <span class="label">案 5</span>
+          <h2>タイムラインビュー</h2>
+          <p class="summary">実績を時系列で表示し、進捗や履歴を直感的に把握できるビューです。</p>
+          <div class="links">
+            <a href="index_timeline.html" target="_blank" rel="noopener">タイムラインビュー</a>
+          </div>
+        </li>
+      </ol>
+    </main>
+  </body>
+</html>

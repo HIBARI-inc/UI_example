@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ドキュメントカタログビュー（セクションビュー）</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <h1>ドキュメントカタログビュー</h1>
+      </header>
+
+      <section class="layout layout--section" aria-labelledby="layout-section-heading">
+        <h2 id="layout-section-heading" class="sr-only">セクション形式の資料ブラウズ</h2>
+
+        <nav class="section-nav" aria-label="カテゴリー一覧">
+          <p class="section-nav__title">カテゴリー</p>
+          <ul class="section-nav__list">
+            <li><button class="category" type="button" data-folder="supply">供給システム</button></li>
+            <li><button class="category" type="button" data-folder="measurement">計測・監視</button></li>
+            <li><button class="category" type="button" data-folder="transport">搬送・輸送</button></li>
+            <li><button class="category" type="button" data-folder="storage">貯蔵・保管</button></li>
+            <li><button class="category" type="button" data-folder="disposal">排出・処理</button></li>
+            <li><button class="category" type="button" data-folder="extraction">取出し・ハンドリング</button></li>
+            <li><button class="category" type="button" data-folder="equipment">関連機器</button></li>
+            <li><button class="category" type="button" data-folder="plant">プラント事例</button></li>
+            <li><button class="category" type="button" data-folder="maintenance">テスト・メンテナンス</button></li>
+          </ul>
+        </nav>
+
+        <div class="section-main">
+          <section class="catalog-list" aria-live="polite" aria-label="資料一覧">
+            <header class="catalog-list__header">
+              <span class="catalog-list__eyebrow">資料リスト</span>
+              <h3 id="catalog-list-title"></h3>
+              <p id="catalog-list-description" class="catalog-list__description"></p>
+            </header>
+            <ul id="catalog-items" class="catalog-items"></ul>
+          </section>
+
+          <section class="catalog-insight" aria-live="polite" aria-label="資料詳細">
+            <div id="insight-placeholder" class="insight-placeholder">
+          </div>
+
+            <div id="insight-content" class="insight-content is-hidden">
+              <figure class="insight-visual">
+                <img id="insight-image" src="" alt="" />
+                <figcaption id="insight-caption"></figcaption>
+              </figure>
+              <div class="insight-text">
+                <h3 id="insight-title"></h3>
+                <p id="insight-summary"></p>
+                <p id="insight-meta" class="insight-meta"></p>
+              </div>
+              <div class="insight-queries">
+                <p class="insight-queries__label">チャットボットに聞いてみる</p>
+                <p class="insight-queries__hint">質問例をクリックすると、チャット用キーワードとして選択状態になります。</p>
+                <div id="insight-suggestions" class="insight-suggestions" role="list"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

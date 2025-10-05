@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>実績検索表ダッシュボード</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <main class="shell shell--wide">
+        <header class="masthead">
+            <h1>実績検索表ダッシュボード</h1>
+            <p>期間を指定して実績データを検索・表示します</p>
+        </header>
+
+        <div class="dashboard-main">
+            <div class="dashboard-filters">
+                <div class="filter-group">
+                    <label for="date-from" class="filter-label">開始日</label>
+                    <input type="date" id="date-from" class="filter-input" value="2024-01-01" data-jshook="date-from">
+                </div>
+                <div class="filter-group">
+                    <label for="date-to" class="filter-label">終了日</label>
+                    <input type="date" id="date-to" class="filter-input" value="2025-12-31" data-jshook="date-to">
+                </div>
+                <button type="button" class="filter-button" data-jshook="search-button">検索</button>
+                <select data-jshook="category-select" style="display: none;">
+                    <option value="" selected></option>
+                </select>
+            </div>
+
+            <div class="data-table-container">
+                <div class="data-table-header">
+                    <h2>実績データ</h2>
+                    <div class="table-controls">
+                        <button type="button" class="control-button" data-jshook="export-button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7,10 12,15 17,10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            エクスポート
+                        </button>
+                    </div>
+                </div>
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>日付</th>
+                                <th>カテゴリ</th>
+                                <th>項目名</th>
+                                <th>実績値</th>
+                                <th>単位</th>
+                                <th>状態</th>
+                                <th>備考</th>
+                            </tr>
+                        </thead>
+                        <tbody data-jshook="table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="ai-assistant-container">
+                <div class="ai-assistant-header">
+                    <h3>AIアシスタント</h3>
+                    <div class="ai-status">
+                        <span class="status-indicator online"></span>
+                        <span>実績データ分析中</span>
+                    </div>
+                </div>
+
+                <div class="ai-capabilities">
+                    <h4>回答可能な情報</h4>
+                    <div class="capability-grid">
+                        <div class="capability-item">
+                            <div class="capability-icon">📈</div>
+                            <div class="capability-text"><strong>トレンド分析</strong><span>時系列変化、異常検知</span></div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">⚠️</div>
+                            <div class="capability-text"><strong>アラート情報</strong><span>異常状態、注意項目</span></div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🔍</div>
+                            <div class="capability-text"><strong>パフォーマンス</strong><span>効率、稼働率、KPI</span></div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">🛠️</div>
+                            <div class="capability-text"><strong>メンテナンス</strong><span>予防保全、点検状況</span></div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">📊</div>
+                            <div class="capability-text"><strong>比較分析</strong><span>前日比、目標値比較</span></div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">📄</div>
+                            <div class="capability-text"><strong>レポート</strong><span>統計情報、サマリー</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-suggestions">
+                    <p class="ai-question">このような情報も回答できますが、何が知りたいですか？</p>
+                    <div class="suggestion-buttons" data-jshook="suggestion-buttons">
+                        <button type="button" class="suggestion-btn" data-question="今日の異常アラートはありますか？">今日の異常は？</button>
+                        <button type="button" class="suggestion-btn" data-question="最も効率が良い装置はどれですか？">最高効率の装置は？</button>
+                        <button type="button" class="suggestion-btn"
+                            data-question="メンテナンスが必要な機器はありますか？">メンテナンス予定は？</button>
+                        <button type="button" class="suggestion-btn"
+                            data-question="週毎のパフォーマンスサマリーを教えてください">週毎サマリー</button>
+                        <button type="button" class="suggestion-btn"
+                            data-question="エネルギー消費量の傾向を教えてください">エネルギー消費傾向</button>
+                        <button type="button" class="suggestion-btn" data-question="品質指標の達成状況は？">品質指標達成状況</button>
+                    </div>
+                </div>
+
+                <div class="ai-chat-section">
+                    <div class="ai-messages" id="aiMessages" data-jshook="chat-display">
+                    </div>
+                    <div class="ai-input-container">
+                        <div class="ai-input-wrapper">
+                            <input type="text" id="aiInput" class="ai-input" placeholder="実績データについて何でもお聞かせください..."
+                                data-jshook="chat-input">
+                            <button type="button" class="ai-send-button" data-jshook="chat-send">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

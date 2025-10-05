@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイムライン型実績ビュー</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* レイアウト調整用の追加スタイル */
+        .layout--side-filter {
+            display: grid;
+            grid-template-columns: minmax(14rem, 0.3fr) minmax(28rem, 1.15fr);
+            gap: var(--space-lg);
+            align-items: start;
+        }
+
+        @media (max-width: 720px) {
+            .layout--side-filter {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="shell">
+        <header class="masthead">
+            <h1>タイムライン型実績ビュー</h1>
+            <p>左のパネルで期間を選択し、右側で詳細を確認できます</p>
+        </header>
+
+        <div class="layout--side-filter">
+            <aside class="section-nav">
+                <h2 class="section-nav__title">期間選択</h2>
+                <div class="filter-group">
+                    <label class="filter-label" for="timeline-from">開始日</label>
+                    <input type="date" class="filter-input" id="timeline-from" value="2024-01-01"
+                        data-jshook="date-from">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="timeline-to">終了日</label>
+                    <input type="date" class="filter-input" id="timeline-to" value="2025-12-31" data-jshook="date-to">
+                </div>
+                <button type="button" class="filter-button" data-jshook="search-button"
+                    style="width:100%; margin-top: 1rem;">期間を適用</button>
+                <select data-jshook="category-select" style="display: none;">
+                    <option value="" selected></option>
+                </select>
+            </aside>
+
+            <div style="display: flex; flex-direction: column; gap: var(--space-lg);">
+                <div class="data-table-container">
+                    <div class="data-table-header">
+                        <h2>実績データ</h2>
+                        <button type="button" class="control-button" data-jshook="export-button">CSVを出力</button>
+                    </div>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>日付</th>
+                                    <th>カテゴリ</th>
+                                    <th>項目名</th>
+                                    <th>実績値</th>
+                                    <th>単位</th>
+                                    <th>状態</th>
+                                    <th>備考</th>
+                                </tr>
+                            </thead>
+                            <tbody data-jshook="table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ai-assistant-container">
+                    <div class="ai-capabilities" style="background: transparent; border: 0; padding: 0;">
+                        <div class="capability-grid">
+                            <div class="capability-item">
+                                <div class="capability-icon">📈</div>
+                                <div class="capability-text"><strong>トレンド分析</strong><span>時系列変化、異常検知</span></div>
+                            </div>
+                            <div class="capability-item">
+                                <div class="capability-icon">⚠️</div>
+                                <div class="capability-text"><strong>アラート情報</strong><span>異常状態、注意項目</span></div>
+                            </div>
+                            <div class="capability-item">
+                                <div class="capability-icon">🔍</div>
+                                <div class="capability-text"><strong>パフォーマンス</strong><span>効率、稼働率、KPI</span></div>
+                            </div>
+                            <div class="capability-item">
+                                <div class="capability-icon">🛠️</div>
+                                <div class="capability-text"><strong>メンテナンス</strong><span>予防保全、点検状況</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-chat-section" style="padding:0; border:0; background:transparent;">
+                        <div class="ai-messages" data-jshook="chat-display"></div>
+                        <div class="ai-input-container">
+                            <div class="ai-input-wrapper">
+                                <input type="text" class="ai-input" placeholder="例: 注意項目を一覧して" data-jshook="chat-input">
+                                <button type="button" class="ai-send-button" data-jshook="chat-send">質問</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-jshook="suggestion-buttons" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

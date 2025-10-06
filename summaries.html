@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="UI案コンセプト一覧 — ダッシュボード群・ドキュメントカタログ・実績ビューなどの各パターンをまとめたサマリーです。">
+  <!-- Open Graph basic -->
+  <meta property="og:title" content="UI案コンセプト一覧">
+  <meta property="og:description" content="ダッシュボード／ドキュメント／実績ビューの案を一覧化したサマリー">
+  <meta property="og:type" content="website">
+  <title>UI案コンセプト一覧</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #151923;
+      --text: #e9eef6;
+      --muted: #9aa8bd;
+      --border: #2a3344;
+      --chip: #2a3246;
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+      background: linear-gradient(180deg, #0f1115, #0c0f14);
+      color: var(--text)
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: rgba(15, 17, 21, .6);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    button.control-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    button.control-btn:focus {
+      outline: 3px solid rgba(90, 140, 255, .2);
+      outline-offset: 2px;
+    }
+
+    a.control-btn {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: transparent;
+      font-size: 13px;
+    }
+
+    a.control-btn:focus {
+      outline: 3px solid rgba(90, 140, 255, .2);
+      outline-offset: 2px;
+    }
+
+    .section-home {
+      margin-left: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+    }
+
+    .section-home:focus {
+      outline: 3px solid rgba(90, 140, 255, .18);
+      outline-offset: 2px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 8px 0 10px
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 14px
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: clip;
+      background: color-mix(in oklab, var(--panel) 86%, black 14%);
+      margin: 12px 0
+    }
+
+    details>summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in oklab, var(--panel) 85%, #0a0d12 15%)
+    }
+
+    details>summary::marker {
+      display: none
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      padding: 14px
+    }
+
+    article {
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01))
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start
+    }
+
+    .file {
+      font-weight: 700
+    }
+
+    .file a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .file a:focus {
+      outline: 3px solid rgba(90, 140, 255, .22);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    /* .chip rule removed because chip spans were deleted from markup */
+
+    .concept {
+      margin: 8px 0 0;
+      font-size: 14px;
+      line-height: 1.7
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      padding: 24px 0 40px
+    }
+
+    @media print {
+      header {
+        display: none
+      }
+
+      body {
+        background: #fff;
+        color: #111
+      }
+
+      details,
+      article {
+        border-color: #ddd
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="controls" aria-hidden="false">
+        <a class="control-btn" href="index.html">ホームへ戻る</a>
+        <button class="control-btn" id="openAll">すべて開く</button>
+        <button class="control-btn" id="closeAll">すべて閉じる</button>
+      </div>
+      <h1>UI案コンセプト一覧</h1>
+      <p class="lead">各セクションは初期状態では折りたたまれています。項目のタイトル（summary）をクリックすると展開され、案の詳細が表示されます。画面上部の「すべて開く／すべて閉じる」ボタンでも一度に開閉できます。</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Instructions -->
+    <details>
+      <summary>カタログダッシュボード <a class="section-home" href="Instructions/index.html">セクションホーム</a></summary>
+      <div class="list">
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index1.html">案1 ブランチレイアウト</a></div>
+          </div>
+          <p class="concept">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index2.html">案2 ベースラインビュー</a></div>
+          </div>
+          <p class="concept">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index3.html">案3 統合ビュー</a></div>
+          </div>
+          <p class="concept">複数ソースをまとめて俯瞰できるビューです。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index5.html">案4 セクションビュー</a></div>
+          </div>
+          <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index7.html">案5 ブランチレイアウト（フルスクリーン）</a></div>
+          </div>
+          <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index8.html">案6 1画面ビュー（フルスクリーン）</a></div>
+          </div>
+          <p class="concept">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions/index9.html">案7 統合フルスクリーン</a></div>
+          </div>
+          <p class="concept">タブ切り替えと大型表示を組み合わせ、会議やレビューでの共同確認に最適化しています。</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- Instructions_2 -->
+    <details>
+      <summary>ATSダッシュボード<a class="section-home" href="Instructions_2/index.html">セクションホーム</a></summary>
+      <div class="list">
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index1.html">案1 ブランチレイアウト</a></div>
+          </div>
+          <p class="concept">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index2.html">案2 ベースラインビュー</a></div>
+          </div>
+          <p class="concept">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index3.html">案3 統合ビュー</a></div>
+          </div>
+          <p class="concept">縦方向の帯でカテゴリと資料を連結し、スクロールで俯瞰から詳細へ一気通貫で辿れます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index4.html">案4 セクションビュー</a></div><span class="chip">セクション</span>
+          </div>
+          <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index5.html">案5 カスタムレイアウト</a></div><span class="chip">セクション＋説明</span>
+          </div>
+          <p class="concept">セクション（セクション化）＋説明付きの案（理解を促す）です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index7.html">案6 ブランチレイアウト（フルスクリーン）</a></div><span class="chip">フルスクリーン（ブランチ）</span>
+          </div>
+          <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Instructions_2/index8.html">案7 ギャラリー（全画面）</a></div>
+          </div>
+          <p class="concept">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- Achievements -->
+    <details>
+      <summary>実績ダッシュボード<a class="section-home" href="Achievements/index.html">セクションホーム</a></summary>
+      <div class="list">
+        <article>
+          <div class="row">
+            <div class="file"><a href="Achievements/index1.html">案1 基本レイアウト</a></div>
+          </div>
+          <p class="concept">実績データを一覧表示するベースとなるレイアウト構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Achievements/index_card.html">案2 カードビュー</a></div>
+          </div>
+          <p class="concept">実績をカード形式で表示し、視覚的にわかりやすく整理したレイアウトです。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Achievements/index_modal.html">案3 モーダルビュー</a></div>
+          </div>
+          <p class="concept">実績の詳細をモーダルウィンドウで表示し、深い情報にアクセスしやすくします。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Achievements/index_tab.html">案4 タブビュー</a></div>
+          </div>
+          <p class="concept">実績をカテゴリ別にタブで分類し、効率的にブラウジングできる構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="Achievements/index_timeline.html">案5 タイムラインビュー</a></div>
+          </div>
+          <p class="concept">実績を時系列で表示し、進捗や履歴を直感的に把握できるビューです。</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- 6graph -->
+    <details>
+      <summary>不適合情報ボード <a class="section-home" href="6graph/index.html">セクションホーム</a></summary>
+      <div class="list">
+        <article>
+          <div class="row">
+            <div class="file"><a href="6graph/index1.html">案1 ベース構成</a></div>
+          </div>
+          <p class="concept">既存のグリッドレイアウトを維持しつつ、テーブル＋5つのグラフを3カラムで配置したベース案です。現在の色味とインタラクションの基準となります。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="6graph/index2.html">案2 中央テーブル集中型</a></div>
+          </div>
+          <p class="concept">テーブルを中央に固定し、左右に指標カードを配置。サマリーと詳細の導線を短縮する構成で、分析の主眼をテーブルに置く場面に向きます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="6graph/index3.html">案3 トップサマリー+下段3分割</a></div>
+          </div>
+          <p class="concept">上段にフィルターとサマリー、中央にテーブル、下段に現象別3分割カードを配置。会議資料にそのまま転用しやすいエリア構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="6graph/index4.html">案4 セクション分割型</a></div>
+          </div>
+          <p class="concept">条件・テーブル・詳細指標の3セクションで縦構成。レビュー時にセクションごとに確認でき、タブレット幅でも順序が保たれます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="6graph/index5.html">案5 サイドバー分析型</a></div>
+          </div>
+          <p class="concept">左サイドにフィルターと原因指標を集約し、右カラムでテーブルと現象指標を展開。分析コメントカードを追加して運用メモを書き込める構成です。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="6graph/index6.html">案6 三層レビュー型</a></div>
+          </div>
+          <p class="concept">サマリー→テーブル→現象詳細の三層で構成した。レビュー会議での議題順に沿って確認できる導線です。</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- 5graph -->
+    <details>
+      <summary>粉体情報ボード<a class="section-home" href="5graph/index.html">セクションホーム</a></summary>
+      <div class="list">
+        <article>
+          <div class="row">
+            <div class="file"><a href="5graph/index1.html">案1 ベースグリッド構成</a></div>
+          </div>
+          <p class="concept">テーブルを主役に据え、5 種類の物性指標チャートを 3 カラムで展開した標準案です。着手しやすい基本構成として社内レビューに活用できます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="5graph/index2.html">案2 チャート強調型</a></div>
+          </div>
+          <p class="concept">上段に横幅の広い指標チャートを配置し、重要なトレンドを一目で確認できます。左側に集約したテーブルで該当データをすぐに掘り下げられます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="5graph/index3.html">案3 サイドメニュー型</a></div>
+          </div>
+          <p class="concept">左側にフィルターとナビゲーションをまとめ、右側にテーブルとチャートを展開する構成です。指標ごとの深掘りや担当者レビューに向きます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="5graph/index4.html">案4 縦スクロール型</a></div>
+          </div>
+          <p class="concept">チャートとテーブルを縦に積み上げ、スクロールだけで分析フローが完結します。タブレットでも同じ順序で確認できるよう配置を揃えました。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="5graph/index5.html">案5 インタラクティブ選択型</a></div>
+          </div>
+          <p class="concept">サイドバーから表示グラフを切り替え、拡大モーダルで詳細を確認できます。複数指標を比較しながらアクションを検討する場面に効果的です。</p>
+        </article>
+      </div>
+    </details>
+
+    <!-- test_information -->
+    <details>
+      <summary>粉体テストダッシュボード <a class="section-home" href="test_information/index.html">セクションホーム</a></summary>
+      <div class="list">
+        <article>
+          <div class="row">
+            <div class="file"><a href="test_information/index1.html">案1 標準テーブルビュー</a></div>
+          </div>
+          <p class="concept">テーブルを中心に置き、上部に期間フィルターと表示範囲ラベルを配置したベーシック構成です。初期導入時に必要な機能をそろえ、試験データの全体像を素早く把握できます。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="test_information/index2.html">案2 サイドバー集約型</a></div>
+          </div>
+          <p class="concept">左側にフィルターと表示状態を集約し、右側で一覧を広く表示する 2 カラム構成です。担当者がフィルターを切り替えながらデータを確認する場面で入力と確認を効率化します。</p>
+        </article>
+        <article>
+          <div class="row">
+            <div class="file"><a href="test_information/index3.html">案3 ハイブリッドカード型</a></div>
+          </div>
+          <p class="concept">ヒーローセクションで指標カードを提示しつつ、下段でフィルターとテーブルを組み合わせた構成です。試験状況のサマリーと詳細検索を同時に行いたい会議やナレッジ共有に適しています。</p>
+        </article>
+      </div>
+    </details>
+  </main>
+  <script>
+    (function () {
+      const details = Array.from(document.querySelectorAll('details'));
+      function sync() {
+        details.forEach(d => {
+          const sum = d.querySelector('summary');
+          if (sum) sum.setAttribute('aria-expanded', d.open ? 'true' : 'false');
+        });
+      }
+      sync();
+      details.forEach(d => d.addEventListener('toggle', sync));
+
+      const openAll = document.getElementById('openAll');
+      const closeAll = document.getElementById('closeAll');
+      if (openAll) openAll.addEventListener('click', () => { details.forEach(d => d.open = true); sync(); });
+      if (closeAll) closeAll.addEventListener('click', () => { details.forEach(d => d.open = false); sync(); });
+    })();
+  </script>
+</body>
+
+</html>

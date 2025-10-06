@@ -89,16 +89,65 @@
     .section-home {
       margin-left: 12px;
       font-size: 12px;
-      color: var(--muted);
+      color: #071020; /* dark text */
       text-decoration: none;
-      padding: 4px 8px;
-      border-radius: 8px;
-      border: 1px solid transparent;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(10,15,25,0.06);
+      background: #f3f5fa; /* toned down from pure white */
+      box-shadow: 0 1px 0 rgba(15,20,30,0.02) inset, 0 4px 10px rgba(2,6,12,0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .section-home:focus {
       outline: 3px solid rgba(90, 140, 255, .18);
       outline-offset: 2px;
+    }
+
+    /* remove emoji icon; use clearer colors and hover transition */
+    .section-home::before { display: none; }
+
+    .section-home {
+      transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, border-color .12s ease;
+    }
+
+    .section-home:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 26px rgba(3, 10, 25, 0.28);
+      background: linear-gradient(180deg, #fbfcff, #f4f6fb);
+      border-color: rgba(27,100,255,0.12);
+      color: #071020;
+      text-decoration: none;
+    }
+
+    /* Make the summary title look like a button */
+    details>summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+    }
+
+    .section-label {
+      display: inline-block;
+      background: #2f6ef6; /* clearer blue button */
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      border: 1px solid rgba(20,50,120,0.12);
+      cursor: pointer;
+      transition: background-color .12s ease, transform .12s ease, box-shadow .12s ease;
+      box-shadow: 0 4px 12px rgba(47,110,246,0.08);
+    }
+
+    .section-label:hover {
+      background: #195ee6;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(25,94,230,0.12);
     }
 
     h1 {
@@ -217,7 +266,7 @@
   <main class="wrap">
     <!-- Instructions -->
     <details>
-      <summary>カタログダッシュボード <a class="section-home" href="Instructions/index.html">セクションホーム</a></summary>
+      <summary><span class="section-label">カタログダッシュボード</span> <a class="section-home" href="Instructions/index.html">セクションホーム</a></summary>
       <div class="list">
         <article>
           <div class="row">
@@ -266,7 +315,7 @@
 
     <!-- Instructions_2 -->
     <details>
-      <summary>ATSダッシュボード<a class="section-home" href="Instructions_2/index.html">セクションホーム</a></summary>
+      <summary><span class="section-label">ATSダッシュボード</span><a class="section-home" href="Instructions_2/index.html">セクションホーム</a></summary>
       <div class="list">
         <article>
           <div class="row">
@@ -288,19 +337,19 @@
         </article>
         <article>
           <div class="row">
-            <div class="file"><a href="Instructions_2/index4.html">案4 セクションビュー</a></div><span class="chip">セクション</span>
+            <div class="file"><a href="Instructions_2/index4.html">案4 セクションビュー</a></div>
           </div>
           <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
         </article>
         <article>
           <div class="row">
-            <div class="file"><a href="Instructions_2/index5.html">案5 カスタムレイアウト</a></div><span class="chip">セクション＋説明</span>
+            <div class="file"><a href="Instructions_2/index5.html">案5 カスタムレイアウト</a></div>
           </div>
           <p class="concept">セクション（セクション化）＋説明付きの案（理解を促す）です。</p>
         </article>
         <article>
           <div class="row">
-            <div class="file"><a href="Instructions_2/index7.html">案6 ブランチレイアウト（フルスクリーン）</a></div><span class="chip">フルスクリーン（ブランチ）</span>
+            <div class="file"><a href="Instructions_2/index7.html">案6 ブランチレイアウト（フルスクリーン）</a></div>
           </div>
           <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
         </article>
@@ -315,7 +364,7 @@
 
     <!-- Achievements -->
     <details>
-      <summary>実績ダッシュボード<a class="section-home" href="Achievements/index.html">セクションホーム</a></summary>
+      <summary><span class="section-label">実績ダッシュボード</span><a class="section-home" href="Achievements/index.html">セクションホーム</a></summary>
       <div class="list">
         <article>
           <div class="row">
@@ -352,7 +401,7 @@
 
     <!-- 6graph -->
     <details>
-      <summary>不適合情報ボード <a class="section-home" href="6graph/index.html">セクションホーム</a></summary>
+      <summary><span class="section-label">不適合情報ボード</span> <a class="section-home" href="6graph/index.html">セクションホーム</a></summary>
       <div class="list">
         <article>
           <div class="row">
@@ -395,7 +444,7 @@
 
     <!-- 5graph -->
     <details>
-      <summary>粉体情報ボード<a class="section-home" href="5graph/index.html">セクションホーム</a></summary>
+      <summary><span class="section-label">粉体情報ボード</span><a class="section-home" href="5graph/index.html">セクションホーム</a></summary>
       <div class="list">
         <article>
           <div class="row">
@@ -432,7 +481,7 @@
 
     <!-- test_information -->
     <details>
-      <summary>粉体テストダッシュボード <a class="section-home" href="test_information/index.html">セクションホーム</a></summary>
+      <summary><span class="section-label">粉体テストダッシュボード</span> <a class="section-home" href="test_information/index.html">セクションホーム</a></summary>
       <div class="list">
         <article>
           <div class="row">

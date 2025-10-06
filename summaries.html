@@ -188,18 +188,99 @@
       padding: 14px
     }
 
-    article {
+    article.entry {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 20px;
       border: 1px dashed var(--border);
       border-radius: 12px;
       padding: 12px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01))
+      background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01));
+      align-items: flex-start
+    }
+
+    .thumb {
+      position: relative;
+      margin: 0;
+      width: 100%;
+      max-width: 260px;
+      height: 168px;
+      background: color-mix(in oklab, var(--panel) 92%, black 8%);
+      border: 1px solid color-mix(in srgb, var(--border) 86%, rgba(255, 255, 255, 0.08) 14%);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, .1);
+      transition: transform .18s ease, box-shadow .18s ease
+    }
+
+    .thumb iframe {
+      position: absolute;
+      inset: 0;
+      width: 1280px;
+      height: 800px;
+      transform: scale(.2);
+      transform-origin: 0 0;
+      border: 0;
+      pointer-events: none;
+      filter: saturate(.85) brightness(1.05);
+    }
+
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 14, 20, 0), rgba(12, 14, 20, .4));
+      pointer-events: none;
+    }
+
+    .thumb:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px rgba(3, 8, 18, .4);
+    }
+
+    .thumb:hover::after {
+      background: linear-gradient(180deg, rgba(12, 14, 20, 0), rgba(12, 14, 20, .1));
+    }
+
+    .entry-body {
+      display: grid;
+      gap: 8px;
     }
 
     .row {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      align-items: flex-start
+      align-items: flex-start;
+      flex-wrap: wrap
+    }
+
+    .badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badges:empty {
+      display: none
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+
+    .badge-push {
+      background: linear-gradient(120deg, #ffb86c, #ff6aa2 72%);
+      color: #2c0614;
+      box-shadow: 0 8px 18px rgba(255, 106, 162, .22);
     }
 
     .file {
@@ -243,8 +324,33 @@
       }
 
       details,
-      article {
+      article.entry {
         border-color: #ddd
+      }
+    }
+
+    @media (max-width: 780px) {
+      article.entry {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .thumb {
+        max-width: 100%;
+        height: 190px;
+      }
+
+      .thumb iframe {
+        transform: scale(.26);
+      }
+
+      .row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .badges {
+        order: 2;
       }
     }
   </style>
@@ -268,47 +374,93 @@
     <details>
       <summary><span class="section-label">カタログダッシュボード</span> <a class="section-home" href="Instructions/index.html">セクションホーム</a></summary>
       <div class="list">
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index1.html">案1 ブランチレイアウト</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index1.html" title="案1 ブランチレイアウトのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index1.html">案1 ブランチレイアウト</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index2.html">案2 ベースラインビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index2.html" title="案2 ベースラインビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index2.html">案2 ベースラインビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index3.html">案3 統合ビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index3.html" title="案3 統合ビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">複数ソースをまとめて俯瞰できるビューです。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index3.html">案3 統合ビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">複数ソースをまとめて俯瞰できるビューです。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index5.html">案4 セクションビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index5.html" title="案4 セクションビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index5.html">案4 セクションビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index7.html">案5 ブランチレイアウト（フルスクリーン）</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index7.html" title="案5 ブランチレイアウト（フルスクリーン）のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index7.html">案5 ブランチレイアウト（フルスクリーン）</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index8.html">案6 1画面ビュー（フルスクリーン）</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index8.html" title="案6 1画面ビュー（フルスクリーン）のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index8.html">案6 1画面ビュー（フルスクリーン）</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions/index9.html">案7 統合フルスクリーン</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions/index9.html" title="案7 統合フルスクリーンのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">タブ切り替えと大型表示を組み合わせ、会議やレビューでの共同確認に最適化しています。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions/index9.html">案7 統合フルスクリーン</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">タブ切り替えと大型表示を組み合わせ、会議やレビューでの共同確認に最適化しています。</p>
+          </div>
         </article>
       </div>
     </details>
@@ -317,47 +469,93 @@
     <details>
       <summary><span class="section-label">ATSダッシュボード</span><a class="section-home" href="Instructions_2/index.html">セクションホーム</a></summary>
       <div class="list">
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index1.html">案1 ブランチレイアウト</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index1.html" title="案1 ブランチレイアウトのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index1.html">案1 ブランチレイアウト</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">カテゴリと資料を枝線で結び、関係性を視覚的に把握できる 3 カラム構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index2.html">案2 ベースラインビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index2.html" title="案2 ベースラインビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index2.html">案2 ベースラインビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">カテゴリ・リスト・詳細を最短導線で行き来できる標準的な 3 ペイン構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index3.html">案3 統合ビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index3.html" title="案3 統合ビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">縦方向の帯でカテゴリと資料を連結し、スクロールで俯瞰から詳細へ一気通貫で辿れます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index3.html">案3 統合ビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">縦方向の帯でカテゴリと資料を連結し、スクロールで俯瞰から詳細へ一気通貫で辿れます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index4.html">案4 セクションビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index4.html" title="案4 セクションビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index4.html">案4 セクションビュー</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">長文ドキュメントをセクション単位で整理し、左右で比較しやすい段落構造を採用しています。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index5.html">案5 カスタムレイアウト</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index5.html" title="案5 カスタムレイアウトのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">セクション（セクション化）＋説明付きの案（理解を促す）です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index5.html">案5 カスタムレイアウト</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">セクション（セクション化）＋説明付きの案（理解を促す）です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index7.html">案6 ブランチレイアウト（フルスクリーン）</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index7.html" title="案6 ブランチレイアウト（フルスクリーン）のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index7.html">案6 ブランチレイアウト（フルスクリーン）</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">枝線演出を全面表示し、没入感と資料カードへのフォーカスを高めた全画面版です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Instructions_2/index8.html">案7 ギャラリー（全画面）</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Instructions_2/index8.html" title="案7 ギャラリー（全画面）のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Instructions_2/index8.html">案7 ギャラリー（全画面）</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">カテゴリ・リスト・詳細を 1 画面に固定し、監視用途でも視線移動を最小限に抑える配置です。</p>
+          </div>
         </article>
       </div>
     </details>
@@ -366,35 +564,67 @@
     <details>
       <summary><span class="section-label">実績ダッシュボード</span><a class="section-home" href="Achievements/index.html">セクションホーム</a></summary>
       <div class="list">
-        <article>
-          <div class="row">
-            <div class="file"><a href="Achievements/index1.html">案1 基本レイアウト</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Achievements/index1.html" title="案1 基本レイアウトのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">実績データを一覧表示するベースとなるレイアウト構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Achievements/index1.html">案1 基本レイアウト</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">実績データを一覧表示するベースとなるレイアウト構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Achievements/index_card.html">案2 カードビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Achievements/index_card.html" title="案2 カードビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">実績をカード形式で表示し、視覚的にわかりやすく整理したレイアウトです。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Achievements/index_card.html">案2 カードビュー</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">実績をカード形式で表示し、視覚的にわかりやすく整理したレイアウトです。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Achievements/index_modal.html">案3 モーダルビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Achievements/index_modal.html" title="案3 モーダルビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">実績の詳細をモーダルウィンドウで表示し、深い情報にアクセスしやすくします。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Achievements/index_modal.html">案3 モーダルビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">実績の詳細をモーダルウィンドウで表示し、深い情報にアクセスしやすくします。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Achievements/index_tab.html">案4 タブビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Achievements/index_tab.html" title="案4 タブビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">実績をカテゴリ別にタブで分類し、効率的にブラウジングできる構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Achievements/index_tab.html">案4 タブビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">実績をカテゴリ別にタブで分類し、効率的にブラウジングできる構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="Achievements/index_timeline.html">案5 タイムラインビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="Achievements/index_timeline.html" title="案5 タイムラインビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">実績を時系列で表示し、進捗や履歴を直感的に把握できるビューです。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="Achievements/index_timeline.html">案5 タイムラインビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">実績を時系列で表示し、進捗や履歴を直感的に把握できるビューです。</p>
+          </div>
         </article>
       </div>
     </details>
@@ -403,41 +633,79 @@
     <details>
       <summary><span class="section-label">不適合情報ボード</span> <a class="section-home" href="6graph/index.html">セクションホーム</a></summary>
       <div class="list">
-        <article>
-          <div class="row">
-            <div class="file"><a href="6graph/index1.html">案1 ベース構成</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="6graph/index1.html" title="案1 ベース構成のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">既存のグリッドレイアウトを維持しつつ、テーブル＋5つのグラフを3カラムで配置したベース案です。現在の色味とインタラクションの基準となります。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="6graph/index1.html">案1 ベース構成</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">既存のグリッドレイアウトを維持しつつ、テーブル＋5つのグラフを3カラムで配置したベース案です。現在の色味とインタラクションの基準となります。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="6graph/index2.html">案2 中央テーブル集中型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="6graph/index2.html" title="案2 中央テーブル集中型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">テーブルを中央に固定し、左右に指標カードを配置。サマリーと詳細の導線を短縮する構成で、分析の主眼をテーブルに置く場面に向きます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="6graph/index2.html">案2 中央テーブル集中型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">テーブルを中央に固定し、左右に指標カードを配置。サマリーと詳細の導線を短縮する構成で、分析の主眼をテーブルに置く場面に向きます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="6graph/index3.html">案3 トップサマリー+下段3分割</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="6graph/index3.html" title="案3 トップサマリー+下段3分割のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">上段にフィルターとサマリー、中央にテーブル、下段に現象別3分割カードを配置。会議資料にそのまま転用しやすいエリア構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="6graph/index3.html">案3 トップサマリー+下段3分割</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">上段にフィルターとサマリー、中央にテーブル、下段に現象別3分割カードを配置。会議資料にそのまま転用しやすいエリア構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="6graph/index4.html">案4 セクション分割型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="6graph/index4.html" title="案4 セクション分割型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">条件・テーブル・詳細指標の3セクションで縦構成。レビュー時にセクションごとに確認でき、タブレット幅でも順序が保たれます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="6graph/index4.html">案4 セクション分割型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">条件・テーブル・詳細指標の3セクションで縦構成。レビュー時にセクションごとに確認でき、タブレット幅でも順序が保たれます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="6graph/index5.html">案5 サイドバー分析型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="6graph/index5.html" title="案5 サイドバー分析型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">左サイドにフィルターと原因指標を集約し、右カラムでテーブルと現象指標を展開。分析コメントカードを追加して運用メモを書き込める構成です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="6graph/index5.html">案5 サイドバー分析型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">左サイドにフィルターと原因指標を集約し、右カラムでテーブルと現象指標を展開。分析コメントカードを追加して運用メモを書き込める構成です。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="6graph/index6.html">案6 三層レビュー型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="6graph/index6.html" title="案6 三層レビュー型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">サマリー→テーブル→現象詳細の三層で構成した。レビュー会議での議題順に沿って確認できる導線です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="6graph/index6.html">案6 三層レビュー型</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">サマリー→テーブル→現象詳細の三層で構成した。レビュー会議での議題順に沿って確認できる導線です。</p>
+          </div>
         </article>
       </div>
     </details>
@@ -446,35 +714,67 @@
     <details>
       <summary><span class="section-label">粉体情報ボード</span><a class="section-home" href="5graph/index.html">セクションホーム</a></summary>
       <div class="list">
-        <article>
-          <div class="row">
-            <div class="file"><a href="5graph/index1.html">案1 ベースグリッド構成</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="5graph/index1.html" title="案1 ベースグリッド構成のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">テーブルを主役に据え、5 種類の物性指標チャートを 3 カラムで展開した標準案です。着手しやすい基本構成として社内レビューに活用できます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="5graph/index1.html">案1 ベースグリッド構成</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">テーブルを主役に据え、5 種類の物性指標チャートを 3 カラムで展開した標準案です。着手しやすい基本構成として社内レビューに活用できます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="5graph/index2.html">案2 チャート強調型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="5graph/index2.html" title="案2 チャート強調型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">上段に横幅の広い指標チャートを配置し、重要なトレンドを一目で確認できます。左側に集約したテーブルで該当データをすぐに掘り下げられます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="5graph/index2.html">案2 チャート強調型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">上段に横幅の広い指標チャートを配置し、重要なトレンドを一目で確認できます。左側に集約したテーブルで該当データをすぐに掘り下げられます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="5graph/index3.html">案3 サイドメニュー型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="5graph/index3.html" title="案3 サイドメニュー型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">左側にフィルターとナビゲーションをまとめ、右側にテーブルとチャートを展開する構成です。指標ごとの深掘りや担当者レビューに向きます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="5graph/index3.html">案3 サイドメニュー型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">左側にフィルターとナビゲーションをまとめ、右側にテーブルとチャートを展開する構成です。指標ごとの深掘りや担当者レビューに向きます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="5graph/index4.html">案4 縦スクロール型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="5graph/index4.html" title="案4 縦スクロール型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">チャートとテーブルを縦に積み上げ、スクロールだけで分析フローが完結します。タブレットでも同じ順序で確認できるよう配置を揃えました。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="5graph/index4.html">案4 縦スクロール型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">チャートとテーブルを縦に積み上げ、スクロールだけで分析フローが完結します。タブレットでも同じ順序で確認できるよう配置を揃えました。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="5graph/index5.html">案5 インタラクティブ選択型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="5graph/index5.html" title="案5 インタラクティブ選択型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">サイドバーから表示グラフを切り替え、拡大モーダルで詳細を確認できます。複数指標を比較しながらアクションを検討する場面に効果的です。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="5graph/index5.html">案5 インタラクティブ選択型</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">サイドバーから表示グラフを切り替え、拡大モーダルで詳細を確認できます。複数指標を比較しながらアクションを検討する場面に効果的です。</p>
+          </div>
         </article>
       </div>
     </details>
@@ -483,23 +783,43 @@
     <details>
       <summary><span class="section-label">粉体テストダッシュボード</span> <a class="section-home" href="test_information/index.html">セクションホーム</a></summary>
       <div class="list">
-        <article>
-          <div class="row">
-            <div class="file"><a href="test_information/index1.html">案1 標準テーブルビュー</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="test_information/index1.html" title="案1 標準テーブルビューのサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">テーブルを中心に置き、上部に期間フィルターと表示範囲ラベルを配置したベーシック構成です。初期導入時に必要な機能をそろえ、試験データの全体像を素早く把握できます。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="test_information/index1.html">案1 標準テーブルビュー</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">テーブルを中心に置き、上部に期間フィルターと表示範囲ラベルを配置したベーシック構成です。初期導入時に必要な機能をそろえ、試験データの全体像を素早く把握できます。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="test_information/index2.html">案2 サイドバー集約型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="test_information/index2.html" title="案2 サイドバー集約型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">左側にフィルターと表示状態を集約し、右側で一覧を広く表示する 2 カラム構成です。担当者がフィルターを切り替えながらデータを確認する場面で入力と確認を効率化します。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="test_information/index2.html">案2 サイドバー集約型</a></div>
+              <div class="badges">
+                <span class="badge badge-push">推し案</span>
+              </div>
+            </div>
+            <p class="concept">左側にフィルターと表示状態を集約し、右側で一覧を広く表示する 2 カラム構成です。担当者がフィルターを切り替えながらデータを確認する場面で入力と確認を効率化します。</p>
+          </div>
         </article>
-        <article>
-          <div class="row">
-            <div class="file"><a href="test_information/index3.html">案3 ハイブリッドカード型</a></div>
+        <article class="entry">
+          <div class="thumb" aria-hidden="true">
+            <iframe src="test_information/index3.html" title="案3 ハイブリッドカード型のサムネイル" loading="lazy" tabindex="-1"></iframe>
           </div>
-          <p class="concept">ヒーローセクションで指標カードを提示しつつ、下段でフィルターとテーブルを組み合わせた構成です。試験状況のサマリーと詳細検索を同時に行いたい会議やナレッジ共有に適しています。</p>
+          <div class="entry-body">
+            <div class="row">
+              <div class="file"><a href="test_information/index3.html">案3 ハイブリッドカード型</a></div>
+              <div class="badges"></div>
+            </div>
+            <p class="concept">ヒーローセクションで指標カードを提示しつつ、下段でフィルターとテーブルを組み合わせた構成です。試験状況のサマリーと詳細検索を同時に行いたい会議やナレッジ共有に適しています。</p>
+          </div>
         </article>
       </div>
     </details>

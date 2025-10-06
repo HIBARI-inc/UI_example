@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>テスト情報一覧（左右レイアウト）</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body.information-dashboard {
+        margin: 0;
+        min-height: 100vh;
+        display: block;
+        background: var(--gradient-base);
+        color: var(--text-strong);
+        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+        padding: clamp(1.6rem, 3vw, 3rem);
+        overflow-y: auto;
+      }
+
+      .information-shell {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1.6rem, 2.4vw, 2.8rem);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
+        gap: clamp(1.6rem, 2.4vw, 2.6rem);
+        align-items: start;
+      }
+
+      @media (max-width: 960px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .information-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1rem, 1.4vw, 1.6rem);
+      }
+
+      .information-sidebar__panel {
+        background: var(--panel);
+        border: 0.0625rem solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: clamp(1.2rem, 1.4vw + 1rem, 1.8rem);
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.8rem, 1vw, 1.2rem);
+      }
+
+      .information-eyebrow {
+        margin: 0;
+        font-size: clamp(0.8rem, 0.25vw + 0.75rem, 0.95rem);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent-secondary);
+        font-weight: 700;
+      }
+
+      .information-title {
+        margin: 0;
+        font-size: clamp(1.8rem, 1vw + 1.5rem, 2.3rem);
+        letter-spacing: 0.04em;
+      }
+
+      .information-header__status {
+        background: rgba(63, 114, 255, 0.12);
+        border: 0.0625rem solid rgba(63, 114, 255, 0.22);
+        border-radius: var(--radius-lg);
+        padding: clamp(1rem, 1vw + 0.8rem, 1.4rem);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .information-header__status-label {
+        margin: 0;
+        font-size: clamp(0.85rem, 0.25vw + 0.8rem, 0.95rem);
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+
+      .information-header__status-value {
+        margin: 0;
+        font-size: clamp(1.1rem, 0.35vw + 1rem, 1.3rem);
+        font-weight: 700;
+        color: var(--accent-primary);
+      }
+
+      .dashboard-filters {
+        width: 100%;
+      }
+
+      .sidebar-footnote {
+        margin: 0;
+        font-size: clamp(0.85rem, 0.25vw + 0.8rem, 0.95rem);
+        color: var(--text-muted);
+      }
+
+      .data-table-meta {
+        margin: 0;
+        font-size: clamp(0.85rem, 0.25vw + 0.8rem, 0.95rem);
+        color: var(--text-muted);
+      }
+
+      .data-table-empty {
+        text-align: center;
+        padding: clamp(1.5rem, 1.8vw + 1rem, 2rem);
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body class="information-dashboard">
+    <div class="shell information-shell">
+      <main class="dashboard-main">
+        <div class="dashboard-grid">
+          <aside class="information-sidebar">
+            <div class="information-sidebar__panel">
+              <p class="information-eyebrow">Powder Insights</p>
+              <h1 class="information-title">粉体物性情報ダッシュボード</h1>
+              <div class="information-header__status">
+                <p class="information-header__status-label">現在の表示期間</p>
+                <p class="information-header__status-value" id="header-range">全期間</p>
+              </div>
+              <form class="dashboard-filters" id="filter-form" aria-label="期間フィルター">
+                <div class="filter-group">
+                  <label class="filter-label" for="date-from">開始日</label>
+                  <input class="filter-input" type="date" id="date-from" name="date-from" />
+                </div>
+                <div class="filter-group">
+                  <label class="filter-label" for="date-to">終了日</label>
+                  <input class="filter-input" type="date" id="date-to" name="date-to" />
+                </div>
+                <button type="button" class="filter-button" id="filter-button">表示更新</button>
+              </form>
+              <p class="sidebar-footnote" id="selected-range">表示期間: 全期間</p>
+            </div>
+          </aside>
+          <section class="data-table-container" aria-live="polite">
+            <div class="data-table-header">
+              <h2>粉体物性情報</h2>
+              <p class="data-table-meta" id="record-count">表示件数: 0件</p>
+            </div>
+            <div class="data-table-wrapper">
+              <table class="data-table" id="information-table">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script>
+      const csvPath = "./data/test_information.csv";
+      let cachedRows = null;
+
+      async function ensureCsvRows() {
+        if (cachedRows) {
+          return cachedRows;
+        }
+        const response = await fetch(csvPath);
+        if (!response.ok) {
+          throw new Error("CSVの取得に失敗しました");
+        }
+        const text = await response.text();
+        cachedRows = parseCsv(text);
+        return cachedRows;
+      }
+
+      function parseCsv(text) {
+        return text
+          .trim()
+          .split(/\r?\n/)
+          .filter((line) => line.trim() !== "")
+          .map((line) => line.split(","));
+      }
+
+      function parseDateInput(value) {
+        if (!value) {
+          return null;
+        }
+        const [year, month, day] = value.split("-").map(Number);
+        if (!year || !month || !day) {
+          return null;
+        }
+        return new Date(year, month - 1, day);
+      }
+
+      function parseRecordDate(value) {
+        if (!value) {
+          return null;
+        }
+        const [year, month, day] = value.split("-").map(Number);
+        if (!year || !month || !day) {
+          return null;
+        }
+        return new Date(year, month - 1, day);
+      }
+
+      function formatDateForDisplay(value) {
+        if (!value) {
+          return "";
+        }
+        const year = value.getFullYear();
+        const month = String(value.getMonth() + 1).padStart(2, "0");
+        const day = String(value.getDate()).padStart(2, "0");
+        return `${year}/${month}/${day}`;
+      }
+
+      function formatRangeLabel(fromDate, toDate) {
+        if (!fromDate && !toDate) {
+          return "表示期間: 全期間";
+        }
+        if (fromDate && toDate) {
+          return `表示期間: ${formatDateForDisplay(fromDate)} 〜 ${formatDateForDisplay(toDate)}`;
+        }
+        if (fromDate) {
+          return `表示期間: ${formatDateForDisplay(fromDate)} 以降`;
+        }
+        return `表示期間: ${formatDateForDisplay(toDate)} 以前`;
+      }
+
+      function renderTable(rows, fromDate, toDate) {
+        const table = document.getElementById("information-table");
+        const tableHead = table.querySelector("thead");
+        const tableBody = table.querySelector("tbody");
+        tableHead.innerHTML = "";
+        tableBody.innerHTML = "";
+
+        const recordCount = document.getElementById("record-count");
+        const rangeLabel = document.getElementById("selected-range");
+        const headerRange = document.getElementById("header-range");
+        const rangeText = formatRangeLabel(fromDate, toDate);
+        if (rows.length === 0) {
+          recordCount.textContent = "表示件数: 0件";
+          rangeLabel.textContent = rangeText;
+          if (headerRange) {
+            headerRange.textContent = rangeText.replace("表示期間: ", "");
+          }
+          return;
+        }
+
+        const [header, ...records] = rows;
+        const headerRow = document.createElement("tr");
+        header.forEach((label) => {
+          const th = document.createElement("th");
+          th.textContent = label.trim();
+          headerRow.appendChild(th);
+        });
+        tableHead.appendChild(headerRow);
+
+        const filtered = records.filter((row) => {
+          const dateCell = row[0] ? row[0].trim() : "";
+          if (!dateCell) {
+            return false;
+          }
+          const recordDate = parseRecordDate(dateCell);
+          if (!recordDate) {
+            return true;
+          }
+          if (fromDate && recordDate < fromDate) {
+            return false;
+          }
+          if (toDate && recordDate > toDate) {
+            return false;
+          }
+          return true;
+        });
+
+        recordCount.textContent = `表示件数: ${filtered.length}件`;
+        rangeLabel.textContent = rangeText;
+        if (headerRange) {
+          headerRange.textContent = rangeText.replace("表示期間: ", "");
+        }
+
+        if (filtered.length === 0) {
+          const emptyRow = document.createElement("tr");
+          const emptyCell = document.createElement("td");
+          emptyCell.colSpan = header.length;
+          emptyCell.className = "data-table-empty";
+          emptyCell.textContent = "指定された期間のデータはありません";
+          emptyRow.appendChild(emptyCell);
+          tableBody.appendChild(emptyRow);
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        filtered.forEach((row) => {
+          const bodyRow = document.createElement("tr");
+          row.forEach((cell) => {
+            const td = document.createElement("td");
+            td.textContent = cell.trim();
+            bodyRow.appendChild(td);
+          });
+          fragment.appendChild(bodyRow);
+        });
+        tableBody.appendChild(fragment);
+      }
+
+      async function applyFilter() {
+        try {
+          const rows = await ensureCsvRows();
+          const fromInput = document.getElementById("date-from");
+          const toInput = document.getElementById("date-to");
+          const fromDate = parseDateInput(fromInput.value);
+          const toDate = parseDateInput(toInput.value);
+          renderTable(rows, fromDate, toDate);
+        } catch (error) {
+          console.error(error);
+          alert(`データの読み込みに失敗しました: ${error.message}`);
+        }
+      }
+
+      function setupEventHandlers() {
+        const button = document.getElementById("filter-button");
+        const fromInput = document.getElementById("date-from");
+        const toInput = document.getElementById("date-to");
+        if (button) {
+          button.addEventListener("click", applyFilter);
+        }
+        [fromInput, toInput].forEach((input) => {
+          if (!input) {
+            return;
+          }
+          input.addEventListener("change", applyFilter);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        setupEventHandlers();
+        await applyFilter();
+      });
+    </script>
+  </body>
+</html>

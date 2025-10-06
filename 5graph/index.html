@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>粉体物性ダッシュボード案ギャラリー</title>
+    <title>粉体不適合ダッシュボード案一覧</title>
     <style>
       :root {
         color-scheme: light dark;
@@ -13,218 +13,257 @@
       body {
         margin: 0;
         padding: 48px 24px 80px;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        background:
+          radial-gradient(circle at 12% -10%, rgba(56, 189, 248, 0.22), transparent 55%),
+          radial-gradient(circle at 90% 0%, rgba(14, 165, 233, 0.16), transparent 45%),
+          #0f172a;
         color: #e2e8f0;
         display: flex;
         justify-content: center;
+        align-items: center;
         min-height: 100vh;
       }
 
       main {
-        width: min(880px, 100%);
+        width: min(760px, 100%);
         display: grid;
-        gap: 40px;
+        gap: 32px;
+        padding: 40px 40px 48px;
+        border-radius: 28px;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        background: rgba(15, 23, 42, 0.82);
+        box-shadow: 0 28px 64px rgba(8, 14, 35, 0.58);
+        backdrop-filter: blur(12px);
       }
 
       header {
-        text-align: center;
         display: grid;
-        gap: 16px;
-        padding: 32px 0;
+        gap: 12px;
       }
 
-      .logo {
-        font-size: 0.95rem;
+      .eyebrow {
+        margin: 0;
+        font-size: 0.75rem;
         letter-spacing: 0.2em;
         text-transform: uppercase;
         color: #38bdf8;
-        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        background: rgba(15, 23, 42, 0.5);
+        transition: all 200ms ease;
+        text-decoration: none;
+        width: fit-content;
+      }
+
+      .eyebrow::before {
+        content: "←";
+        font-size: 0.85rem;
+      }
+
+      .eyebrow:hover,
+      .eyebrow:focus-visible {
+        background: rgba(56, 189, 248, 0.22);
+        color: #f8fafc;
+        outline: none;
+        border-color: rgba(56, 189, 248, 0.6);
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2.4rem, 6vw, 3.4rem);
-        background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
       }
 
-      .subtitle {
+      .intro {
         margin: 0;
-        font-size: 1.1rem;
         color: #94a3b8;
         line-height: 1.6;
       }
 
-      .gallery-grid {
-        display: grid;
-        gap: 24px;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      }
-
-      .gallery-card {
-        background: rgba(15, 23, 42, 0.82);
-        border: 1px solid rgba(148, 163, 184, 0.18);
-        border-radius: 20px;
-        padding: 28px;
+      ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
         display: grid;
         gap: 16px;
-        transition: all 280ms ease;
+      }
+
+      li {
         position: relative;
         overflow: hidden;
-      }
-
-      .gallery-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #38bdf8, #06b6d4);
-        opacity: 0;
-        transition: opacity 280ms ease;
-      }
-
-      .gallery-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(56, 189, 248, 0.4);
-        box-shadow: 0 20px 48px rgba(2, 8, 23, 0.45);
-      }
-
-      .gallery-card:hover::before {
-        opacity: 1;
-      }
-
-      .card-header {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.88));
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 18px;
+        padding: 20px 22px;
         display: grid;
         gap: 6px;
+        transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
       }
 
-      .card-label {
-        font-size: 0.75rem;
+      li::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0));
+        opacity: 0;
+        transition: opacity 220ms ease;
+      }
+
+      li:hover,
+      li:focus-within {
+        transform: translateY(-4px);
+        border-color: rgba(56, 189, 248, 0.5);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.55);
+      }
+
+      li:hover::before,
+      li:focus-within::before {
+        opacity: 0.85;
+      }
+
+      li > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .label {
+        font-size: 0.85rem;
         letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: #38bdf8;
-        margin: 0;
+        color: rgba(148, 163, 184, 0.8);
       }
 
-      .card-title {
+      h2 {
         margin: 0;
-        font-size: 1.45rem;
-        font-weight: 700;
+        font-size: 1.2rem;
       }
 
-      .card-description {
+      .summary {
         margin: 0;
         color: #94a3b8;
         line-height: 1.6;
       }
 
-      .card-link {
-        color: #bae6fd;
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      a {
+        color: #f0f9ff;
         text-decoration: none;
         font-weight: 600;
-        padding: 12px 20px;
+        padding: 10px 16px;
         border-radius: 12px;
-        border: 1px solid rgba(56, 189, 248, 0.4);
-        transition: all 200ms ease;
-        text-align: center;
-        display: inline-block;
-        margin-top: 8px;
-      }
-
-      .card-link:hover,
-      .card-link:focus-visible {
+        border: 1px solid rgba(56, 189, 248, 0.45);
         background: rgba(56, 189, 248, 0.16);
-        border-color: rgba(56, 189, 248, 0.6);
-        outline: none;
-        transform: translateY(-1px);
+        transition: all 200ms ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
 
-      @media (max-width: 640px) {
+      a::after {
+        content: "→";
+        font-size: 0.9rem;
+        transition: transform 200ms ease;
+      }
+
+      a:hover,
+      a:focus-visible {
+        background: rgba(56, 189, 248, 0.28);
+        outline: none;
+        border-color: rgba(56, 189, 248, 0.65);
+      }
+
+      a:hover::after,
+      a:focus-visible::after {
+        transform: translateX(4px);
+      }
+
+      @media (max-width: 600px) {
         body {
           padding: 32px 16px 64px;
         }
 
-        .gallery-grid {
-          grid-template-columns: 1fr;
+        main {
+          padding: 28px 24px 36px;
+          border-radius: 22px;
         }
 
-        .gallery-card {
-          padding: 22px;
+        li {
+          padding: 18px;
         }
       }
     </style>
   </head>
-  <body class="blue-dashboard">
+  <body>
     <main>
       <header>
-        <p class="logo">5graph Showcase</p>
-        <h1>粉体物性ダッシュボード案ギャラリー</h1>
-        <p class="subtitle">
-          5graph配下にまとめた粉体物性ダッシュボードのレイアウトバリエーションです。<br />
-          基本構成と個別のアレンジを比較し、利用シーンに合う構成を検討できます。
+        <a href="../index.html" class="eyebrow">ホームへ戻る</a>
+        <h1>粉体不適合ダッシュボード案一覧</h1>
+        <p class="intro">
+          粉体不適合の監視・分析スタイルに合わせた 5 つのダッシュボード案です。チャート強調やサイドバー構成など、状況別に比較しやすいパターンを揃えています。
         </p>
       </header>
 
-      <div class="gallery-grid">
-        <div class="gallery-card">
-          <div class="card-header">
-            <p class="card-label">案1</p>
-            <h2 class="card-title">ベースグリッド構成</h2>
-          </div>
-          <p class="card-description">
-            テーブルを主役に据え、5種類の物性指標グラフを3カラムで展開した標準案です。座組みやトーン&マナーの基準として利用できます。
+      <ol>
+        <li>
+          <span class="label">案 1</span>
+          <h2>ベースグリッド構成</h2>
+          <p class="summary">
+            テーブルを主役に据え、5 種類の物性指標チャートを 3 カラムで展開した標準案です。着手しやすい基本構成として社内レビューに活用できます。
           </p>
-          <a class="card-link" href="index1.html">レイアウトを開く</a>
-        </div>
-
-        <div class="gallery-card">
-          <div class="card-header">
-            <p class="card-label">案2</p>
-            <h2 class="card-title">チャート強調型</h2>
+          <div class="links">
+            <a href="index1.html" target="_blank" rel="noopener">画面を開く</a>
           </div>
-          <p class="card-description">
-            テーブルを左カラムに集約し、上段に横幅の広い指標チャートを配置。グラフの視認性を高めて比較検討をしやすくした構成です。
+        </li>
+        <li>
+          <span class="label">案 2</span>
+          <h2>チャート強調型</h2>
+          <p class="summary">
+            上段に横幅の広い指標チャートを配置し、重要なトレンドを一目で確認できます。左側に集約したテーブルで該当データをすぐに掘り下げられます。
           </p>
-          <a class="card-link" href="index2.html">レイアウトを開く</a>
-        </div>
-
-        <div class="gallery-card">
-          <div class="card-header">
-            <p class="card-label">案3</p>
-            <h2 class="card-title">サイドメニュー型</h2>
+          <div class="links">
+            <a href="index2.html" target="_blank" rel="noopener">画面を開く</a>
           </div>
-          <p class="card-description">
-            左側にフィルターとナビゲーションを置き、右側でテーブルとチャートギャラリーを展開。目的の指標へすぐアクセスできる導線を備えています。
+        </li>
+        <li>
+          <span class="label">案 3</span>
+          <h2>サイドメニュー型</h2>
+          <p class="summary">
+            左側にフィルターとナビゲーションをまとめ、右側にテーブルとチャートを展開する構成です。指標ごとの深掘りや担当者レビューに向きます。
           </p>
-          <a class="card-link" href="index3.html">レイアウトを開く</a>
-        </div>
-
-        <div class="gallery-card">
-          <div class="card-header">
-            <p class="card-label">案4</p>
-            <h2 class="card-title">縦スクロール型</h2>
+          <div class="links">
+            <a href="index3.html" target="_blank" rel="noopener">画面を開く</a>
           </div>
-          <p class="card-description">
-            テーブルとチャートセクションを縦に積み上げ、スクロールで一連の分析が完結する構成です。タブレット表示でも順番を崩さず確認できます。
+        </li>
+        <li>
+          <span class="label">案 4</span>
+          <h2>縦スクロール型</h2>
+          <p class="summary">
+            チャートとテーブルを縦に積み上げ、スクロールだけで分析フローが完結します。タブレットでも同じ順序で確認できるよう配置を揃えました。
           </p>
-          <a class="card-link" href="index4.html">レイアウトを開く</a>
-        </div>
-
-        <div class="gallery-card">
-          <div class="card-header">
-            <p class="card-label">案5</p>
-            <h2 class="card-title">インタラクティブ選択型</h2>
+          <div class="links">
+            <a href="index4.html" target="_blank" rel="noopener">画面を開く</a>
           </div>
-          <p class="card-description">
-            サイドバーで表示するグラフを切り替えられるインタラクティブ構成です。選択した指標を大きく表示し、モーダル拡大にも対応します。
+        </li>
+        <li>
+          <span class="label">案 5</span>
+          <h2>インタラクティブ選択型</h2>
+          <p class="summary">
+            サイドバーから表示グラフを切り替え、拡大モーダルで詳細を確認できます。複数指標を比較しながらアクションを検討する場面に効果的です。
           </p>
-          <a class="card-link" href="index5.html">レイアウトを開く</a>
-        </div>
-      </div>
+          <div class="links">
+            <a href="index5.html" target="_blank" rel="noopener">画面を開く</a>
+          </div>
+        </li>
+      </ol>
     </main>
   </body>
 </html>

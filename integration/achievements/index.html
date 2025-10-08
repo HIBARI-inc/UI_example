@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モーダル型実績ビュー</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* モーダル表示用の追加スタイル */
+        .ai-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .ai-modal-overlay.is-active {
+            display: flex;
+        }
+
+        .ai-modal-window {
+            width: min(680px, 92vw);
+            max-height: 80vh;
+        }
+
+        .floating-ai-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            z-index: 50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <header class="masthead masthead--compact">
+            <div>
+                <h1>モーダル型実績ビュー</h1>
+                <p>シンプルな表中心レイアウト。AIはモーダルで詳細を提案します。</p>
+            </div>
+            <div class="dashboard-filters">
+                <div class="filter-group">
+                    <input type="date" class="filter-input" value="2024-01-01" data-jshook="date-from">
+                </div>
+                <div class="filter-group">
+                    <input type="date" class="filter-input" value="2025-12-31" data-jshook="date-to">
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select" data-jshook="category-select">
+                        <option value="">すべて</option>
+                        <option value="disposal">処理・廃棄</option>
+                        <option value="equipment">機器・制御</option>
+                        <option value="extraction">抽出・取出</option>
+                        <option value="maintenance">メンテナンス</option>
+                        <option value="measurement">計測・測定</option>
+                        <option value="plant">プラント・設備</option>
+                        <option value="storage">貯蔵・保管</option>
+                        <option value="supply">供給・投入</option>
+                        <option value="transport">搬送・運搬</option>
+                    </select>
+                </div>
+                <button type="button" class="filter-button" data-jshook="search-button">適用</button>
+            </div>
+        </header>
+
+        <div class="data-table-container">
+            <div class="data-table-header">
+                <h2>実績詳細テーブル</h2>
+                <button type="button" class="control-button" data-jshook="export-button">エクスポート</button>
+            </div>
+            <div class="data-table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日付</th>
+                            <th>カテゴリ</th>
+                            <th>項目名</th>
+                            <th>実績値</th>
+                            <th>単位</th>
+                            <th>状態</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody data-jshook="table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="floating-ai-button" id="modal-open">AI</button>
+
+    <div class="ai-modal-overlay" id="modal-window">
+        <div class="ai-modal-window">
+            <div class="ai-assistant-container">
+                <div class="ai-assistant-header">
+                    <h3>AIアシスタント</h3>
+                    <button type="button" id="modal-close"
+                        style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                </div>
+                <div class="ai-capabilities">
+                    <h4>回答可能な情報</h4>
+                    <div class="capability-grid">
+                        <div class="capability-item">
+                            <div class="capability-icon">📈</div>
+                            <div class="capability-text"><strong>トレンド分析</strong><span>時系列変化、異常検知</span></div>
+                        </div>
+                        <div class="capability-item">
+                            <div class="capability-icon">⚠️</div>
+                            <div class="capability-text"><strong>アラート情報</strong><span>異常状態、注意項目</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-chat-section" style="padding:0; border:0; background:transparent;">
+                    <div class="ai-messages" data-jshook="chat-display"></div>
+                    <div class="ai-input-container">
+                        <div class="ai-input-wrapper">
+                            <input type="text" class="ai-input" placeholder="AIに確認したいことを入力..." data-jshook="chat-input">
+                            <button type="button" class="ai-send-button" data-jshook="chat-send">送信</button>
+                        </div>
+                    </div>
+                </div>
+                <div data-jshook="suggestion-buttons" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // モーダル表示の制御（script.jsと共存）
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalWindow = document.getElementById('modal-window');
+            const openButton = document.getElementById('modal-open');
+            const closeButton = document.getElementById('modal-close');
+
+            if (openButton) {
+                openButton.addEventListener('click', () => modalWindow.classList.add('is-active'));
+            }
+            if (closeButton) {
+                closeButton.addEventListener('click', () => modalWindow.classList.remove('is-active'));
+            }
+            if (modalWindow) {
+                modalWindow.addEventListener('click', (event) => {
+                    if (event.target === modalWindow) {
+                        modalWindow.classList.remove('is-active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

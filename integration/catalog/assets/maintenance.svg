@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="g9" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7971e" />
+      <stop offset="100%" stop-color="#ffd200" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="36" fill="url(#g9)" />
+  <g fill="rgba(46,66,96,0.32)">
+    <rect x="112" y="110" width="280" height="44" rx="16" fill="#ffffff" opacity="0.8" />
+    <rect x="112" y="168" width="240" height="44" rx="16" fill="#ffffff" opacity="0.8" />
+    <rect x="112" y="226" width="200" height="44" rx="16" fill="#ffffff" opacity="0.8" />
+  </g>
+  <text x="72" y="260" fill="#2e4260" font-size="48" font-family="'Hiragino Sans','Noto Sans JP',sans-serif" font-weight="700">MAINTAIN</text>
+</svg>

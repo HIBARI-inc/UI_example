@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="g7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#30cfd0" />
+      <stop offset="100%" stop-color="#330867" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" rx="36" fill="url(#g7)" />
+  <g fill="rgba(255,255,255,0.75)">
+    <rect x="86" y="110" width="120" height="150" rx="16" />
+    <rect x="226" y="110" width="210" height="40" rx="16" />
+    <rect x="226" y="166" width="180" height="26" rx="13" />
+    <rect x="226" y="204" width="196" height="26" rx="13" />
+  </g>
+  <text x="72" y="260" fill="#ffffff" font-size="48" font-family="'Hiragino Sans','Noto Sans JP',sans-serif" font-weight="700">EQUIPMENT</text>
+</svg>

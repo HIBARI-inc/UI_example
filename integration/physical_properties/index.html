@@ -5,289 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>粉体ダッシュボード案4</title>
     <link rel="stylesheet" href="../styles.css" />
-    <style>
-      body.blue-dashboard {
-        margin: 0;
-        min-height: 100vh;
-        display: block;
-        background: var(--gradient-base);
-        color: var(--text-strong);
-        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
-        padding: clamp(1.5rem, 4vw, 3rem);
-      }
-
-      body.modal-open {
-        overflow: hidden;
-      }
-
-      .blue-dashboard__wrap {
-        display: flex;
-        flex-direction: column;
-        gap: clamp(1rem, 2vw, 1.6rem);
-        margin: 0 auto;
-      }
-
-      .blue-hero {
-        background: var(--panel);
-        border-radius: var(--radius-lg);
-        border: 0.0625rem solid var(--border);
-        box-shadow: var(--shadow-md);
-        padding: clamp(1.1rem, 1.6vw, 1.6rem);
-        display: flex;
-        flex-direction: column;
-        gap: clamp(0.6rem, 1vw, 0.9rem);
-      }
-
-      .blue-dashboard__header {
-        margin: 0;
-        text-align: left;
-        color: var(--text-strong);
-        font-size: clamp(1.9rem, 2.3vw, 2.4rem);
-        font-weight: 800;
-        letter-spacing: 0.05em;
-      }
-
-      .blue-dashboard__description {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-      }
-
-      .dashboard-filters {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-end;
-        gap: clamp(0.7rem, 1.2vw, 1rem);
-        background: var(--panel);
-        border-radius: var(--radius-lg);
-        border: 0.0625rem solid var(--border);
-        box-shadow: var(--shadow-md);
-        padding: clamp(1rem, 1.6vw, 1.3rem);
-      }
-
-      .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-      }
-
-      .filter-label {
-        font-size: clamp(0.85rem, 0.3vw + 0.8rem, 0.9rem);
-        color: var(--text-muted);
-      }
-
-      .filter-input {
-        padding: 0.55rem 0.75rem;
-        border-radius: var(--radius-sm);
-        border: 0.0625rem solid var(--border);
-        background: rgba(255, 255, 255, 0.92);
-        color: var(--text-strong);
-      }
-
-      .filter-button {
-        padding: 0.65rem 1.3rem;
-        border: none;
-        border-radius: var(--radius-sm);
-        background: var(--accent-primary);
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-      }
-
-      .filter-button:hover,
-      .filter-button:focus-visible {
-        opacity: 0.9;
-      }
-
-      .blue-section {
-        background: var(--panel);
-        border: 0.0625rem solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: clamp(1rem, 1.4vw, 1.35rem);
-        box-shadow: var(--shadow-md);
-        display: flex;
-        flex-direction: column;
-        gap: clamp(0.8rem, 1.4vw, 1.1rem);
-      }
-
-      .blue-section__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.6rem;
-      }
-
-      .blue-section__title {
-        margin: 0;
-        font-size: clamp(1.1rem, 1.6vw, 1.35rem);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-      }
-
-      .blue-section__note {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-      }
-
-      .table-frame {
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid var(--border);
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.97);
-      }
-
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.95rem;
-      }
-
-      .data-table th,
-      .data-table td {
-        padding: 0.6rem 0.7rem;
-        text-align: left;
-        border-bottom: 0.0625rem solid var(--border);
-      }
-
-      .data-table thead th {
-        position: sticky;
-        top: 0;
-        background: #f5f7ff;
-        box-shadow: inset 0 -0.0625rem 0 var(--border);
-      }
-
-      .data-table-wrapper {
-        max-height: 34rem;
-        overflow: auto;
-      }
-
-      .chart-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-        gap: clamp(1rem, 1.6vw, 1.4rem);
-      }
-
-      .chart-card {
-        display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid var(--border);
-        background: rgba(255, 255, 255, 0.96);
-        padding: clamp(0.9rem, 1.3vw, 1.2rem);
-        box-shadow: var(--shadow-sm);
-      }
-
-      .chart-card__title {
-        margin: 0;
-        font-size: 0.95rem;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-      }
-
-      .chart-card__frame {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid rgba(32, 45, 74, 0.12);
-        background: rgba(255, 255, 255, 0.92);
-        min-height: 15rem;
-        overflow: hidden;
-      }
-
-      .component-image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        cursor: zoom-in;
-      }
-
-      .chart-modal {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(15, 23, 42, 0.65);
-        padding: clamp(1rem, 4vw, 3rem);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 180ms ease;
-        z-index: 999;
-      }
-
-      .chart-modal.is-active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .chart-modal__content {
-        position: relative;
-        max-width: min(90vw, 72rem);
-        max-height: 90vh;
-        border-radius: var(--radius-lg);
-        background: var(--panel);
-        box-shadow: var(--shadow-lg);
-        padding: clamp(1rem, 2vw, 1.8rem);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-
-      .chart-modal__img {
-        width: 100%;
-        height: 100%;
-        max-height: calc(90vh - 6rem);
-        object-fit: contain;
-        border-radius: var(--radius-md);
-        background: #fff;
-      }
-
-      .chart-modal__caption {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        text-align: center;
-      }
-
-      .chart-modal__close {
-        position: absolute;
-        top: 0.6rem;
-        right: 0.6rem;
-        border: none;
-        background: rgba(25, 34, 56, 0.55);
-        color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition);
-      }
-
-      .chart-modal__close:hover,
-      .chart-modal__close:focus-visible {
-        background: rgba(15, 23, 42, 0.8);
-      }
-
-      @media (max-width: 960px) {
-        .chart-card__frame {
-          min-height: 12rem;
-        }
-      }
-    </style>
   </head>
-  <body class="blue-dashboard">
-    <main class="shell shell--wide blue-dashboard__wrap">
-      <h1 class="blue-dashboard__header">粉体物性ダッシュボード案4</h1>
-      <p class="blue-dashboard__description">主要な粉体物性データと棒グラフをまとめて確認できます。</p>
+  <body class="dashboard-body blue-dashboard">
+    <main class="shell shell--wide dashboard-shell">
+      <h1 class="blue-dashboard__header dashboard-title">粉体物性ダッシュボード案4</h1>
 
       <form class="dashboard-filters" aria-label="期間指定フォーム">
         <div class="filter-group">
@@ -298,13 +19,21 @@
           <label for="date-to" class="filter-label">終了日</label>
           <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
         </div>
-        <button type="button" class="filter-button">データ更新</button>
-        <p class="blue-section__note">※日付指定はデモです</p>
+        <button type="button" class="filter-button">検索</button>
       </form>
 
-      <section class="blue-section" aria-labelledby="table-title">
-        <header class="blue-section__header">
-          <h2 id="table-title" class="blue-section__title">粉体物性情報一覧</h2>
+      <section class="blue-section dashboard-section" aria-labelledby="table-title">
+        <header class="blue-section__header dashboard-section__header">
+          <h2 id="table-title" class="blue-section__title dashboard-section__title">粉体物性情報一覧</h2>
+          <button type="button" class="control-button" id="export-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 3a1 1 0 0 1 1 1v8.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 12.59V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 0-2h14a1 1 0 1 1 0 2H5z"
+              ></path>
+            </svg>
+            エクスポート
+          </button>
         </header>
         <div class="table-frame">
           <div class="data-table-wrapper">
@@ -316,10 +45,10 @@
         </div>
       </section>
 
-      <section class="blue-section" aria-label="チャートギャラリー">
-        <header class="blue-section__header">
-          <h2 class="blue-section__title">チャートギャラリー</h2>
-          <p class="blue-section__note">* グラフをクリックすると拡大表示が開きます</p>
+      <section class="blue-section dashboard-section" aria-label="チャートギャラリー">
+        <header class="blue-section__header dashboard-section__header">
+          <h2 class="blue-section__title dashboard-section__title">チャートギャラリー</h2>
+          <p class="blue-section__note dashboard-section__note">* グラフをクリックすると拡大表示が開きます</p>
         </header>
         <div class="chart-grid">
           <article class="chart-card">
@@ -378,6 +107,8 @@
     };
 
     const csvUrl = "./data/powder_properties.csv";
+    let currentHeader = null;
+    let currentFilteredRows = [];
 
     function parseDateString(value) {
       if (!value) return null;
@@ -435,12 +166,15 @@
 
         tableHead.innerHTML = "";
         tableBody.innerHTML = "";
+        currentHeader = null;
+        currentFilteredRows = [];
 
         if (rows.length === 0) {
           return;
         }
 
         const header = rows[0];
+        currentHeader = header;
         const headerRow = document.createElement("tr");
         header.forEach((label) => {
           const th = document.createElement("th");
@@ -461,6 +195,8 @@
           }
           return true;
         });
+
+        currentFilteredRows = filteredRows;
 
         if (filteredRows.length === 0) {
           const emptyRow = document.createElement("tr");
@@ -487,6 +223,32 @@
         console.error(error);
         alert(`CSVの読み込みに失敗しました: ${error.message}`);
       }
+    }
+
+    function escapeCsvCell(value) {
+      const safeValue = value == null ? "" : String(value);
+      return `"${safeValue.replace(/"/g, '""')}"`;
+    }
+
+    function exportCurrentTable() {
+      if (!currentHeader || currentFilteredRows.length === 0) {
+        alert("エクスポートできるデータがありません。条件を変更してください。");
+        return;
+      }
+      const lines = [
+        currentHeader.map((cell) => escapeCsvCell(cell.trim())).join(","),
+        ...currentFilteredRows.map((row) => row.map((cell) => escapeCsvCell((cell || "").trim())).join(",")),
+      ];
+      const csvContent = lines.join("\r\n");
+      const blob = new Blob([`\uFEFF${csvContent}`], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "powder_properties_export.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     }
 
     function registerImageModal() {
@@ -543,6 +305,7 @@
       const refreshButton = document.querySelector(".filter-button");
       const fromInput = document.getElementById("date-from");
       const toInput = document.getElementById("date-to");
+      const exportButton = document.getElementById("export-button");
 
       if (refreshButton) {
         refreshButton.addEventListener("click", () => {
@@ -557,6 +320,10 @@
           loadCsvTable();
         });
       });
+
+      if (exportButton) {
+        exportButton.addEventListener("click", exportCurrentTable);
+      }
     }
 
     document.addEventListener("DOMContentLoaded", initDashboard);

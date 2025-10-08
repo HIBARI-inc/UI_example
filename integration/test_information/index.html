@@ -5,115 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>テスト情報一覧</title>
     <link rel="stylesheet" href="../styles.css" />
-    <style>
-      body.information-dashboard {
-        margin: 0;
-        min-height: 100vh;
-        display: block;
-        background: var(--gradient-base);
-        color: var(--text-strong);
-        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
-        padding: clamp(1.6rem, 3vw, 3rem);
-        overflow-y: auto;
-      }
-
-      .information-shell {
-        display: flex;
-        flex-direction: column;
-        gap: clamp(1.4rem, 2vw, 2.2rem);
-      }
-
-      .information-header {
-        display: flex;
-        flex-wrap: wrap;
-        gap: clamp(1rem, 2vw, 1.6rem);
-        justify-content: space-between;
-        align-items: flex-start;
-      }
-
-      .information-header__titles {
-        display: flex;
-        flex-direction: column;
-        gap: clamp(0.6rem, 1.2vw, 0.9rem);
-        max-width: clamp(32ch, 50vw, 54ch);
-      }
-
-      .information-eyebrow {
-        margin: 0;
-        font-size: clamp(0.8rem, 0.25vw + 0.75rem, 0.95rem);
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent-secondary);
-        font-weight: 700;
-      }
-
-      .information-header h1 {
-        margin: 0;
-        font-size: clamp(1.9rem, 1vw + 1.6rem, 2.4rem);
-        letter-spacing: 0.04em;
-      }
-
-      .information-header p {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: clamp(0.95rem, 0.3vw + 0.85rem, 1.05rem);
-        line-height: 1.6;
-      }
-
-      .information-header__status {
-        background: rgba(63, 114, 255, 0.12);
-        border: 0.0625rem solid rgba(63, 114, 255, 0.22);
-        border-radius: var(--radius-lg);
-        padding: clamp(1rem, 1vw + 0.8rem, 1.4rem);
-        min-width: clamp(14rem, 22vw, 18rem);
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-      }
-
-      .information-header__status-label {
-        margin: 0;
-        font-size: clamp(0.85rem, 0.25vw + 0.8rem, 0.95rem);
-        color: var(--text-muted);
-        font-weight: 600;
-      }
-
-      .information-header__status-value {
-        margin: 0;
-        font-size: clamp(1.1rem, 0.35vw + 1rem, 1.3rem);
-        font-weight: 700;
-        color: var(--accent-primary);
-      }
-
-      .filters-wrapper {
-        display: flex;
-        justify-content: center;
-      }
-
-      .data-table-meta {
-        margin: 0;
-        font-size: clamp(0.85rem, 0.25vw + 0.8rem, 0.95rem);
-        color: var(--text-muted);
-      }
-
-      .data-table-footnote {
-        margin: 0;
-        font-size: clamp(0.8rem, 0.25vw + 0.75rem, 0.9rem);
-        color: var(--text-muted);
-      }
-
-      .data-table-empty {
-        text-align: center;
-        padding: clamp(1.5rem, 1.8vw + 1rem, 2rem);
-        color: var(--text-muted);
-      }
-    </style>
   </head>
-  <body class="information-dashboard">
-    <div class="shell shell--wide information-shell">
+  <body class="dashboard-body information-dashboard">
+    <main class="shell shell--wide dashboard-shell">
       <header class="information-header">
         <div class="information-header__titles">
-          <h1>粉体物性情報ダッシュボード</h1>
+          <h1 class="dashboard-title">粉体物性情報ダッシュボード</h1>
         </div>
         <div class="information-header__status">
           <p class="information-header__status-label">現在の表示期間</p>
@@ -131,27 +28,39 @@
               <label class="filter-label" for="date-to">終了日</label>
               <input class="filter-input" type="date" id="date-to" name="date-to" />
             </div>
-            <button type="button" class="filter-button" id="filter-button">表示更新</button>
+            <button type="button" class="filter-button" id="filter-button">検索</button>
           </form>
         </div>
-        <section class="data-table-container" aria-live="polite">
-          <div class="data-table-header">
-            <h2>粉体物性情報</h2>
-            <p class="data-table-meta" id="record-count">表示件数: 0件</p>
-          </div>
-          <div class="data-table-wrapper">
-            <table class="data-table" id="information-table">
-              <thead></thead>
-              <tbody></tbody>
-            </table>
+        <section class="dashboard-section" aria-live="polite">
+          <header class="dashboard-section__header">
+            <h2 class="dashboard-section__title">粉体物性情報</h2>
+            <button type="button" class="control-button" id="export-button">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 3a1 1 0 0 1 1 1v8.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 12.59V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 0-2h14a1 1 0 1 1 0 2H5z"
+                ></path>
+              </svg>
+              エクスポート
+            </button>
+          </header>
+          <div class="table-frame">
+            <div class="data-table-wrapper">
+              <table class="data-table" id="information-table">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
           </div>
           <p class="data-table-footnote" id="selected-range">表示期間: 全期間</p>
         </section>
       </main>
-    </div>
+    </main>
     <script>
       const csvPath = "./data/test_information.csv";
       let cachedRows = null;
+      let cachedHeader = null;
+      let cachedFilteredRows = [];
 
       // CSVの読み込みと整形を統括
       async function ensureCsvRows() {
@@ -227,12 +136,13 @@
         tableHead.innerHTML = "";
         tableBody.innerHTML = "";
 
-        const recordCount = document.getElementById("record-count");
         const rangeLabel = document.getElementById("selected-range");
         const headerRange = document.getElementById("header-range");
         const rangeText = formatRangeLabel(fromDate, toDate);
+        cachedHeader = null;
+        cachedFilteredRows = [];
+
         if (rows.length === 0) {
-          recordCount.textContent = "表示件数: 0件";
           rangeLabel.textContent = rangeText;
           if (headerRange) {
             headerRange.textContent = rangeText.replace("表示期間: ", "");
@@ -241,6 +151,8 @@
         }
 
         const [header, ...records] = rows;
+        cachedHeader = header;
+
         const headerRow = document.createElement("tr");
         header.forEach((label) => {
           const th = document.createElement("th");
@@ -267,7 +179,7 @@
           return true;
         });
 
-        recordCount.textContent = `表示件数: ${filtered.length}件`;
+        cachedFilteredRows = filtered;
         rangeLabel.textContent = rangeText;
         if (headerRange) {
           headerRange.textContent = rangeText.replace("表示期間: ", "");
@@ -315,6 +227,7 @@
         const button = document.getElementById("filter-button");
         const fromInput = document.getElementById("date-from");
         const toInput = document.getElementById("date-to");
+        const exportButton = document.getElementById("export-button");
         if (button) {
           button.addEventListener("click", applyFilter);
         }
@@ -324,12 +237,41 @@
           }
           input.addEventListener("change", applyFilter);
         });
+        if (exportButton) {
+          exportButton.addEventListener("click", exportFilteredRows);
+        }
       }
 
       document.addEventListener("DOMContentLoaded", async () => {
         setupEventHandlers();
         await applyFilter();
       });
+
+      function escapeCsvCell(value) {
+        const safeValue = value == null ? "" : String(value);
+        return `"${safeValue.replace(/"/g, '""')}"`;
+      }
+
+      function exportFilteredRows() {
+        if (!cachedHeader || cachedFilteredRows.length === 0) {
+          alert("エクスポートできるデータがありません。条件を変更してください。");
+          return;
+        }
+        const lines = [
+          cachedHeader.map((cell) => escapeCsvCell((cell || "").trim())).join(","),
+          ...cachedFilteredRows.map((row) => row.map((cell) => escapeCsvCell((cell || "").trim())).join(",")),
+        ];
+        const csvContent = lines.join("\r\n");
+        const blob = new Blob([`\uFEFF${csvContent}`], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "test_information_export.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
     </script>
   </body>
 </html>

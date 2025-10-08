@@ -5,348 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>不適合情報ダッシュボード案6</title>
     <link rel="stylesheet" href="../styles.css" />
-    <style>
-      body.blue-dashboard {
-        margin: 0;
-        min-height: 100vh;
-        display: block;
-        background: var(--gradient-base);
-        color: var(--text-strong);
-        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
-        padding: clamp(1.5rem, 4vw, 3rem);
-      }
-
-      body.modal-open {
-        overflow: hidden;
-      }
-
-      .blue-dashboard__wrap {
-        display: flex;
-        flex-direction: column;
-        gap: clamp(1.2rem, 2.4vw, 2rem);
-      }
-
-      .blue-dashboard__header {
-        margin: 0;
-        text-align: center;
-        color: var(--text-strong);
-        font-size: clamp(1.85rem, 2.2vw, 2.4rem);
-        font-weight: 800;
-        letter-spacing: 0.06em;
-      }
-
-      .dashboard-layout {
-        display: grid;
-        grid-template-columns: minmax(22rem, 1.3fr) minmax(20rem, 1fr);
-        gap: clamp(1.2rem, 2.4vw, 2rem);
-        align-items: start;
-      }
-
-      .dashboard-left,
-      .dashboard-right {
-        display: flex;
-        flex-direction: column;
-        gap: clamp(1rem, 2vw, 1.5rem);
-      }
-
-      .dashboard-filters {
-        background: var(--panel);
-        border-radius: var(--radius-lg);
-        border: 0.0625rem solid var(--border);
-        box-shadow: var(--shadow-md);
-        padding: clamp(1rem, 1.6vw, 1.3rem);
-        display: grid;
-        grid-template-columns: repeat(2, minmax(9rem, 1fr));
-        gap: clamp(0.7rem, 1.2vw, 1rem);
-        align-content: start;
-      }
-
-      .dash-filter__hint {
-        grid-column: 1 / -1;
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-      }
-
-      .blue-card {
-        background: var(--panel);
-        border: 0.0625rem solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: clamp(1rem, 1.4vw, 1.4rem);
-        box-shadow: var(--shadow-md);
-        display: flex;
-        flex-direction: column;
-        gap: clamp(0.8rem, 1.3vw, 1.1rem);
-        overflow: hidden;
-      }
-
-      .blue-card__header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 0.6rem;
-        position: relative;
-        z-index: 3;
-      }
-
-      .blue-card__title {
-        margin: 0;
-        font-size: clamp(1.1rem, 1.6vw, 1.35rem);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-      }
-
-      .chart-menu {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        background: var(--panel);
-        border: 0.0625rem solid var(--border);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        padding: clamp(0.8rem, 1.4vw, 1.2rem);
-      }
-
-      .chart-menu__item {
-        background: transparent;
-        border: 0.0625rem solid var(--border);
-        border-radius: var(--radius-md);
-        color: var(--text-muted);
-        font-size: clamp(0.95rem, 1.1vw, 1.05rem);
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        padding: 0.75rem 1rem;
-        text-align: left;
-        cursor: pointer;
-        transition: var(--transition);
-      }
-
-      .chart-menu__item:hover,
-      .chart-menu__item:focus {
-        outline: none;
-        border-color: var(--accent-primary);
-        color: var(--accent-primary);
-        box-shadow: 0 0 0 0.125rem rgba(63, 114, 255, 0.2);
-      }
-
-      .chart-menu__item.is-active {
-        background: var(--accent-soft);
-        border-color: var(--accent-primary);
-        color: var(--accent-primary);
-      }
-
-      .chart-display {
-        background: var(--panel);
-        border-radius: var(--radius-lg);
-        border: 0.0625rem solid var(--border);
-        box-shadow: var(--shadow-md);
-        padding: clamp(1rem, 1.8vw, 1.6rem);
-        min-height: 20rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        gap: clamp(0.8rem, 1.4vw, 1.2rem);
-      }
-
-      .chart-panel {
-        display: none;
-        margin: 0;
-      }
-
-      .chart-panel.is-active {
-        display: block;
-      }
-
-      .chart-panel__title {
-        margin: 0;
-        font-size: clamp(1.1rem, 1.5vw, 1.35rem);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: var(--text-strong);
-      }
-
-      .component-frame {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        min-height: 12rem;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-      }
-
-      .component-frame--bar,
-      .component-frame--pie {
-        min-height: 16rem;
-        aspect-ratio: 16 / 9;
-      }
-
-      .component-frame--table {
-        min-height: 30rem;
-        display: block;
-      }
-
-      .component-image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        cursor: zoom-in;
-      }
-
-      .data-table-container {
-        position: relative;
-        border-radius: var(--radius-md);
-        background: var(--panel);
-        padding: 0.6rem;
-      }
-
-      .data-table-wrapper {
-        max-height: 34rem;
-        overflow: auto;
-        border-radius: var(--radius-md);
-        border: 0.0625rem solid var(--border);
-        box-sizing: border-box;
-      }
-
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.95rem;
-      }
-
-      .data-table th,
-      .data-table td {
-        padding: 0.55rem 0.65rem;
-        text-align: left;
-        border-bottom: 0.0625rem solid var(--border);
-      }
-
-      .data-table thead th {
-        position: sticky;
-        top: 0;
-        background: #f5f7ff;
-        box-shadow: inset 0 -0.0625rem 0 var(--border);
-        z-index: 2;
-      }
-
-      .note-card {
-        gap: 0.6rem;
-      }
-
-      .note-card p {
-        margin: 0;
-        line-height: 1.6;
-      }
-
-      .chart-modal {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(15, 23, 42, 0.65);
-        padding: clamp(1rem, 4vw, 3rem);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 180ms ease;
-        z-index: 999;
-      }
-
-      .chart-modal.is-active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .chart-modal__content {
-        position: relative;
-        max-width: min(90vw, 72rem);
-        max-height: 90vh;
-        border-radius: var(--radius-lg);
-        background: var(--panel);
-        box-shadow: var(--shadow-lg);
-        padding: clamp(1rem, 2vw, 1.8rem);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-
-      .chart-modal__img {
-        width: 100%;
-        height: 100%;
-        max-height: calc(90vh - 6rem);
-        object-fit: contain;
-        border-radius: var(--radius-md);
-        background: #fff;
-      }
-
-      .chart-modal__caption {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-      }
-
-      .chart-modal__close {
-        position: absolute;
-        top: 0.6rem;
-        right: 0.6rem;
-        border: none;
-        background: rgba(25, 34, 56, 0.55);
-        color: #fff;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition);
-      }
-
-      .chart-modal__close:hover {
-        background: rgba(15, 23, 42, 0.8);
-      }
-
-      @media (max-width: 1100px) {
-        .dashboard-layout {
-          grid-template-columns: 1fr;
-        }
-
-        .dashboard-right {
-          order: -1;
-        }
-
-        .chart-menu {
-          flex-direction: row;
-          flex-wrap: wrap;
-        }
-
-        .chart-menu__item {
-          flex: 1 1 calc(50% - 0.6rem);
-        }
-      }
-
-      @media (max-width: 720px) {
-        .dashboard-filters {
-          grid-template-columns: 1fr;
-        }
-
-        .chart-menu__item {
-          flex: 1 1 100%;
-        }
-      }
-    </style>
   </head>
-  <body class="blue-dashboard">
-    <main class="shell shell--wide blue-dashboard__wrap">
-      <h1 class="blue-dashboard__header">不適合情報ダッシュボード案6</h1>
+  <body class="dashboard-body blue-dashboard">
+    <main class="shell shell--wide dashboard-shell">
+      <h1 class="blue-dashboard__header dashboard-title">不適合情報ダッシュボード案6</h1>
 
       <div class="dashboard-layout">
         <section class="dashboard-left" aria-label="集計条件と一覧">
-          <form class="dashboard-filters" aria-label="期間指定フォーム">
+          <form class="dashboard-filters dashboard-filters--grid" aria-label="期間指定フォーム">
             <div class="filter-group">
               <label for="date-from" class="filter-label">開始日</label>
               <input type="date" id="date-from" class="filter-input" value="2024-01-01" />
@@ -356,18 +22,24 @@
               <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
             </div>
             <button type="button" class="filter-button">検索</button>
-            <p class="dash-filter__hint">※現在検索機能はつけていません</p>
           </form>
 
-          <section class="blue-card data-card" aria-label="客先別不適合一覧">
-            <header class="blue-card__header">
-              <h2 class="blue-card__title">客先別不適合一覧</h2>
+          <section class="blue-card dashboard-card data-card" aria-label="客先別不適合一覧">
+            <header class="blue-card__header dashboard-card__header">
+              <h2 class="blue-card__title dashboard-card__title">客先別不適合一覧</h2>
+              <button type="button" class="control-button" id="export-button">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M12 3a1 1 0 0 1 1 1v8.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 12.59V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 0-2h14a1 1 0 1 1 0 2H5z"
+                  ></path>
+                </svg>
+                エクスポート
+              </button>
             </header>
+            <h3 class="sr-only">客先別不適合一覧表</h3>
             <div class="component-frame component-frame--table">
-              <div class="data-table-container">
-                <div class="data-table-header">
-                  <h3 class="sr-only">客先別不適合一覧表</h3>
-                </div>
+              <div class="table-frame">
                 <div class="data-table-wrapper">
                   <table id="data-table" class="data-table" aria-label="不適合情報一覧">
                     <thead></thead>
@@ -492,6 +164,8 @@
         item_name: "品名",
         powder_name: "粉体名",
       };
+      let currentHeader = null;
+      let currentRows = [];
 
       function formatDisplayDate(value) {
         const match = value.match(/^(\d{4})Q([1-4])$/);
@@ -547,12 +221,15 @@
 
           tableHead.innerHTML = "";
           tableBody.innerHTML = "";
+          currentHeader = null;
+          currentRows = [];
 
           if (rows.length === 0) {
             return;
           }
 
           const header = rows[0];
+          currentHeader = header;
           const headerRow = document.createElement("tr");
           header.forEach((label) => {
             const key = label.trim();
@@ -562,7 +239,9 @@
           });
           tableHead.appendChild(headerRow);
 
-          rows.slice(1).forEach((row) => {
+          const bodyRecords = rows.slice(1);
+          currentRows = bodyRecords;
+          bodyRecords.forEach((row) => {
             const bodyRow = document.createElement("tr");
             header.forEach((_, index) => {
               const rawCell = row[index] || "";
@@ -578,6 +257,32 @@
           alert(`CSVの読み込みに失敗しました: ${error.message}`);
         }
       }
+
+    function escapeCsvCell(value) {
+      const safeValue = value == null ? "" : String(value);
+      return `"${safeValue.replace(/"/g, '""')}"`;
+    }
+
+    function exportCurrentTable() {
+      if (!currentHeader || currentRows.length === 0) {
+        alert("エクスポートできるデータがありません。条件を変更してください。");
+        return;
+      }
+      const lines = [
+        currentHeader.map((cell) => escapeCsvCell(cell.trim())).join(","),
+        ...currentRows.map((row) => row.map((cell) => escapeCsvCell((cell || "").trim())).join(",")),
+      ];
+      const csvContent = lines.join("\r\n");
+      const blob = new Blob([`\uFEFF${csvContent}`], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "nonconformities_export.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
 
       function registerImageModal() {
         const modal = document.getElementById("chartModal");
@@ -662,11 +367,16 @@
         registerChartMenu();
 
         const refreshButton = document.querySelector(".filter-button");
+        const exportButton = document.getElementById("export-button");
         if (refreshButton) {
           refreshButton.addEventListener("click", () => {
             setImages();
             loadCsvTable();
           });
+        }
+
+        if (exportButton) {
+          exportButton.addEventListener("click", exportCurrentTable);
         }
       }
 

@@ -6,53 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>モーダル型実績ビュー</title>
     <link rel="stylesheet" href="../styles.css">
-    <style>
-        /* モーダル表示用の追加スタイル */
-        .ai-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .ai-modal-overlay.is-active {
-            display: flex;
-        }
-
-        .ai-modal-window {
-            width: min(680px, 92vw);
-            max-height: 80vh;
-        }
-
-        .floating-ai-button {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            border: none;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: #fff;
-            font-weight: 900;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            z-index: 50;
-        }
-    </style>
 </head>
 
-<body>
-    <div class="shell">
+<body class="dashboard-body">
+    <main class="shell shell--wide dashboard-shell">
         <header class="masthead masthead--compact">
             <div>
-                <h1>モーダル型実績ビュー</h1>
-                <p>シンプルな表中心レイアウト。AIはモーダルで詳細を提案します。</p>
+                <h1 class="dashboard-title">モーダル型実績ビュー</h1>
             </div>
             <div class="dashboard-filters">
                 <div class="filter-group">
@@ -75,33 +35,43 @@
                         <option value="transport">搬送・運搬</option>
                     </select>
                 </div>
-                <button type="button" class="filter-button" data-jshook="search-button">適用</button>
+                <button type="button" class="filter-button" data-jshook="search-button">検索</button>
             </div>
         </header>
 
-        <div class="data-table-container">
-            <div class="data-table-header">
-                <h2>実績詳細テーブル</h2>
-                <button type="button" class="control-button" data-jshook="export-button">エクスポート</button>
+        <section class="dashboard-section" aria-label="実績詳細テーブル">
+            <header class="dashboard-section__header">
+                <h2 class="dashboard-section__title">実績詳細テーブル</h2>
+                <button type="button" class="control-button" data-jshook="export-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                            fill="currentColor"
+                            d="M12 3a1 1 0 0 1 1 1v8.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 12.59V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 0-2h14a1 1 0 1 1 0 2H5z"
+                        ></path>
+                    </svg>
+                    エクスポート
+                </button>
+            </header>
+            <div class="table-frame">
+                <div class="data-table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>日付</th>
+                                <th>カテゴリ</th>
+                                <th>項目名</th>
+                                <th>実績値</th>
+                                <th>単位</th>
+                                <th>状態</th>
+                                <th>備考</th>
+                            </tr>
+                        </thead>
+                        <tbody data-jshook="table-body"></tbody>
+                    </table>
+                </div>
             </div>
-            <div class="data-table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>日付</th>
-                            <th>カテゴリ</th>
-                            <th>項目名</th>
-                            <th>実績値</th>
-                            <th>単位</th>
-                            <th>状態</th>
-                            <th>備考</th>
-                        </tr>
-                    </thead>
-                    <tbody data-jshook="table-body"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <button type="button" class="floating-ai-button" id="modal-open">AI</button>
 
@@ -110,8 +80,7 @@
             <div class="ai-assistant-container">
                 <div class="ai-assistant-header">
                     <h3>AIアシスタント</h3>
-                    <button type="button" id="modal-close"
-                        style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+                    <button type="button" id="modal-close" class="ai-modal-close">×</button>
                 </div>
                 <div class="ai-capabilities">
                     <h4>回答可能な情報</h4>
@@ -126,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ai-chat-section" style="padding:0; border:0; background:transparent;">
+                <div class="ai-chat-section ai-chat-section--plain">
                     <div class="ai-messages" data-jshook="chat-display"></div>
                     <div class="ai-input-container">
                         <div class="ai-input-wrapper">

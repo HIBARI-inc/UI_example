@@ -798,6 +798,126 @@ body.dashboard-body.dashboard-body--plain .shell {
   text-align: center;
 }
 
+/* Column controls (表示列) */
+.column-controls-button {
+  /* 基準位置として設定するために必要 */
+  position: relative;
+
+  /* 右側に配置する▾のスペースを確保するため、右のpaddingを少し多めに調整 */
+  padding: clamp(0.6rem, 0.8vw + 0.4rem, 0.8rem) 2.5rem
+    clamp(0.6rem, 0.8vw + 0.4rem, 0.8rem) clamp(0.9rem, 1vw + 0.6rem, 1.2rem);
+
+  /* 以下は既存のスタイル */
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  border: 0.0625rem solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel-muted);
+  color: var(--text-strong);
+  font-size: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+  cursor: pointer;
+  transition: var(--transition);
+  box-sizing: border-box;
+  width: auto;
+  min-width: 12rem;
+  max-width: 12rem;
+}
+
+/* ボタンの末尾に▾を追加して配置する設定 */
+.column-controls-button::after {
+  content: "▾"; /* 表示する記号 */
+  position: absolute; /* 親要素(button)を基準に絶対配置する */
+  right: clamp(
+    0.9rem,
+    1vw + 0.6rem,
+    1.2rem
+  ); /* 右端からの距離をpaddingと合わせる */
+  top: 50%; /* 上から50%の位置へ */
+  transform: translateY(
+    -50%
+  ); /* さらに自身の高さの半分だけ上にずらして完全な中央揃えに */
+  pointer-events: none; /* 矢印部分がクリックイベントを妨げないようにする */
+}
+
+.column-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: 0.6rem;
+  position: relative; /* ドロップダウンの表示位置用 */
+  display: inline-flex;
+}
+.column-controls__label {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.column-controls__items {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.column-controls__items label {
+  font-size: 0.9rem;
+  color: var(--text-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.column-controls__items input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Dropdown style for column selector */
+.column-dropdown-panel {
+  /* position may be switched to fixed by JS for accurate placement */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--panel);
+  border: 0.0625rem solid var(--border);
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  box-shadow: var(--shadow-md);
+  z-index: 9999; /* 他要素より前面に出す */
+  margin-top: 0; /* 追加: 不要な隙間を消す */
+  transform-origin: top right;
+  transform: translateY(0); /* ボタン直下に寄せる */
+  box-sizing: border-box;
+  width: auto;
+  min-width: 12rem;
+  max-width: 12rem;
+  overflow-x: auto; /* 万が一長い単語があっても横スクロールで対応 */
+}
+.column-dropdown-actions {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+.column-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 12rem;
+  overflow: auto;
+}
+.column-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.column-option span {
+  white-space: normal; /* ラベルは折り返す */
+}
+.small-button {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.4rem;
+  border: 0.06rem solid var(--border);
+  background: rgba(255, 255, 255, 0.9);
+}
+
 .blue-dashboard__description {
   margin: 0;
   color: var(--text-muted);
@@ -1106,7 +1226,11 @@ body.dashboard-body.dashboard-body--plain .shell {
   height: 4rem;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
   color: #fff;
   font-weight: 900;
   font-size: 1.5rem;

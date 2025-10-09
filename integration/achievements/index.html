@@ -14,6 +14,18 @@
             <div>
                 <h1 class="dashboard-title">モーダル型実績ビュー</h1>
             </div>
+            <div class="column-controls">
+                <button type="button" id="column-dropdown-button" class="column-controls-button">表示列を選択</button>
+                <div id="column-dropdown-panel" class="column-dropdown-panel" aria-hidden="true">
+                    <div class="column-dropdown-actions">
+                        <button type="button" id="col-select-all" class="small-button">すべて選択</button>
+                        <button type="button" id="col-select-none" class="small-button">すべて解除</button>
+                    </div>
+                    <div id="column-options" class="column-options">
+                        <!-- CSVヘッダに応じてここにチェックボックスが動的生成されます -->
+                    </div>
+                </div>
+            </div>
             <div class="dashboard-filters">
                 <div class="filter-group">
                     <input type="date" class="filter-input" value="2024-01-01" data-jshook="date-from">
@@ -21,20 +33,7 @@
                 <div class="filter-group">
                     <input type="date" class="filter-input" value="2025-12-31" data-jshook="date-to">
                 </div>
-                <div class="filter-group">
-                    <select class="filter-select" data-jshook="category-select">
-                        <option value="">すべて</option>
-                        <option value="disposal">処理・廃棄</option>
-                        <option value="equipment">機器・制御</option>
-                        <option value="extraction">抽出・取出</option>
-                        <option value="maintenance">メンテナンス</option>
-                        <option value="measurement">計測・測定</option>
-                        <option value="plant">プラント・設備</option>
-                        <option value="storage">貯蔵・保管</option>
-                        <option value="supply">供給・投入</option>
-                        <option value="transport">搬送・運搬</option>
-                    </select>
-                </div>
+                <!-- カテゴリ検索は不要のため削除 -->
                 <button type="button" class="filter-button" data-jshook="search-button">検索</button>
             </div>
         </header>
@@ -111,6 +110,33 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        // 列表示切替のロジック
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggles = document.querySelectorAll('.col-toggle');
+            const table = document.querySelector('.data-table');
+
+            function setColumnVisibility(colIndex, visible) {
+                // thead
+                const th = table.querySelectorAll('thead th')[colIndex];
+                if (th) th.style.display = visible ? '' : 'none';
+                // tbody rows
+                table.querySelectorAll('tbody tr').forEach(row => {
+                    const cell = row.querySelectorAll('td')[colIndex];
+                    if (cell) cell.style.display = visible ? '' : 'none';
+                });
+            }
+
+            toggles.forEach(toggle => {
+                const col = parseInt(toggle.dataset.col, 10);
+                // initial state already checked by markup, but ensure applied
+                setColumnVisibility(col, toggle.checked);
+                toggle.addEventListener('change', (e) => {
+                    setColumnVisibility(col, e.target.checked);
+                });
+            });
+        });
+    </script>
     <script>
         // モーダル表示の制御（script.jsと共存）
         document.addEventListener('DOMContentLoaded', () => {

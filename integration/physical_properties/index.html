@@ -3,12 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>粉体ダッシュボード案4</title>
+    <title>粉体ダッシュボード</title>
     <link rel="stylesheet" href="../styles.css" />
   </head>
-  <body class="dashboard-body blue-dashboard dashboard-body--plain">
-    <main class="shell shell--wide dashboard-shell">
-      <h1 class="blue-dashboard__header dashboard-title">粉体物性ダッシュボード案4</h1>
+  <body class="dashboard-body mode-fullscreen allow-scroll">
+    <!-- ハンバーガーメニュー -->
+    <button id="nav-toggle" class="site-nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+      <span class="hamburger" aria-hidden="true"></span>
+    </button>
+
+    <nav id="nav-drawer" class="nav-drawer" aria-hidden="true" aria-label="サイトナビゲーション">
+      <h2>ナビゲーション</h2>
+      <ul>
+        <li><a href="../index.html">統合トップ</a></li>
+        <li><a href="../catalog/index.html">カタログ</a></li>
+        <li><a href="../ats/index.html">ATS</a></li>
+        <li><a href="../achievements/index.html">実績</a></li>
+        <li><a href="../nonconformity_information/index.html">不適合情報</a></li>
+        <li><a href="../physical_properties/index.html">物性</a></li>
+      </ul>
+    </nav>
+    <div id="nav-overlay" class="nav-overlay" tabindex="-1" aria-hidden="true"></div>
+    <main class="shell shell--fullscreen dashboard-shell">
+      <header class="masthead masthead--compact">
+        <h1>粉体物性ダッシュボード</h1>
+      </header>
 
       <form class="dashboard-filters" aria-label="期間指定フォーム">
         <div class="filter-group">
@@ -17,7 +36,7 @@
         </div>
         <div class="filter-group">
           <label for="date-to" class="filter-label">終了日</label>
-          <input type="date" id="date-to" class="filter-input" value="2024-06-30" />
+          <input type="date" id="date-to" class="filter-input" value="2025-12-31" />
         </div>
         <button type="button" class="filter-button">検索</button>
       </form>
@@ -328,5 +347,6 @@
 
     document.addEventListener("DOMContentLoaded", initDashboard);
     </script>
+    <script src="../navigation.js"></script>
   </body>
 </html>

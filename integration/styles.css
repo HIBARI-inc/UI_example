@@ -92,6 +92,34 @@ body.mode-fullscreen {
   overflow: hidden;
 }
 
+/* ページ単位でフルスクリーン見た目を保ちつつスクロールを許可するためのフラグ
+   body に `allow-scroll` を付与したページのみ適用される */
+/* より具体的なセレクタで既存の overflow:hidden を上書きして縦スクロールを有効にする */
+body.dashboard-body.mode-fullscreen.allow-scroll {
+  overflow-y: auto !important; /* ルートで縦スクロール可能に */
+}
+body.dashboard-body.mode-fullscreen.allow-scroll .shell--fullscreen {
+  height: auto !important; /* コンテンツの高さに合わせる */
+  min-height: 100vh !important;
+  overflow: visible !important;
+}
+/* ダッシュボード内部が固着している場合の保険（縦スクロールを許可） */
+body.dashboard-body.mode-fullscreen.allow-scroll
+  .shell--fullscreen
+  .dashboard-main {
+  overflow: visible !important;
+}
+
+/* 横スクロールを禁止して幅を画面内に収める（allow-scroll ページ専用） */
+body.dashboard-body.mode-fullscreen.allow-scroll {
+  overflow-x: hidden !important;
+}
+body.dashboard-body.mode-fullscreen.allow-scroll .shell--fullscreen {
+  inline-size: 100vw !important;
+  max-inline-size: 100vw !important;
+  box-sizing: border-box !important;
+}
+
 .masthead h1 {
   margin: 0 0 var(--space-xs);
 }
@@ -798,6 +826,214 @@ body.dashboard-body.dashboard-body--plain .shell {
   text-align: center;
 }
 
+/* --- ハンバーガーとスライドメニュー共通スタイル --- */
+.site-nav-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1200;
+  background: rgba(255, 255, 255, 0.95);
+  border: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+}
+
+.site-nav-toggle:focus {
+  outline: 3px solid rgba(63, 114, 255, 0.22);
+}
+
+.site-nav-toggle .hamburger {
+  width: 22px;
+  height: 2px;
+  background: var(--text-strong);
+  position: relative;
+  display: inline-block;
+  transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.site-nav-toggle .hamburger::before,
+.site-nav-toggle .hamburger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: var(--text-strong);
+  transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 160ms ease,
+    top 200ms ease;
+}
+.site-nav-toggle .hamburger::before {
+  top: -7px;
+}
+.site-nav-toggle .hamburger::after {
+  top: 7px;
+}
+
+.site-nav-toggle[aria-expanded="true"] .hamburger {
+  transform: rotate(45deg) translateY(0);
+}
+.site-nav-toggle[aria-expanded="true"] .hamburger::before {
+  transform: rotate(-90deg) translateX(-1px);
+  top: 0;
+}
+.site-nav-toggle[aria-expanded="true"] .hamburger::after {
+  transform: scaleX(0.1);
+  opacity: 0;
+}
+
+/* ヘッダーのタイトルと被らないように、メインヘッダー領域に左マージンを追加する（モバイルでは小さめ） */
+.masthead--compact {
+  padding-left: 3.4rem; /* ハンバーガーの幅 + マージン確保 */
+}
+
+@media (min-width: 900px) {
+  .masthead--compact {
+    padding-left: 3.8rem;
+  }
+}
+
+/* 全ページに適用するヘッダー左余白（ハンバーガーと被らないように） */
+.masthead--compact,
+.information-header,
+.information-header__titles,
+.blue-dashboard__header,
+.dashboard-title {
+  padding-left: 3.6rem;
+}
+
+@media (min-width: 900px) {
+  .masthead--compact,
+  .information-header,
+  .information-header__titles,
+  .blue-dashboard__header,
+  .dashboard-title {
+    padding-left: 4.2rem;
+  }
+}
+
+/* メニュー開時にハンバーガーがメニュー項目と被らないよう非表示にする */
+.site-nav-toggle[aria-expanded="true"] {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  /* When expanded, push the toggle behind the overlay/drawer to avoid overlap */
+  z-index: 1160;
+}
+
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: min(320px, 85%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.95)
+  );
+  transform: translateX(-110%);
+  transition: transform var(--transition) ease;
+  z-index: 1190;
+  box-shadow: 2px 0 12px rgba(25, 34, 56, 0.18);
+  padding: clamp(1rem, 2vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 閉じるボタン（ドロワー内の ×） */
+.nav-close-button {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.6rem;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+.nav-close-button:focus {
+  outline: 3px solid rgba(63, 114, 255, 0.22);
+}
+.nav-close-button:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* drawer 内の相対位置出しのため、drawer を相対位置にする */
+.nav-drawer {
+  position: fixed;
+  /* 既存の fixed を活かすが、相対位置の子要素を使うために transform context を維持 */
+}
+
+.nav-drawer.is-open {
+  transform: translateX(0);
+}
+
+.nav-drawer h2 {
+  margin: 0 0 0.6rem 0;
+  font-size: 1.05rem;
+}
+
+.nav-drawer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.nav-drawer a {
+  text-decoration: none;
+  color: var(--text-strong);
+  padding: 0.6rem 0.4rem 0.6rem 1.4rem; /* 左に余白を増やして被り回避 */
+  border-radius: 0.5rem;
+  display: block;
+}
+.nav-drawer a:hover,
+.nav-drawer a:focus {
+  background: rgba(63, 114, 255, 0.06);
+  color: var(--accent-primary);
+  outline: none;
+}
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition) ease,
+    visibility 0s linear var(--transition);
+  z-index: 1180;
+}
+.nav-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* body が nav-open のときにスクロールロック */
+body.nav-open {
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .site-nav-toggle {
+    left: 1.25rem;
+    top: 1.25rem;
+  }
+}
+
 /* Column controls (表示列) */
 .column-controls-button {
   /* 基準位置として設定するために必要 */
@@ -807,14 +1043,17 @@ body.dashboard-body.dashboard-body--plain .shell {
   padding: clamp(0.6rem, 0.8vw + 0.4rem, 0.8rem) 2.5rem
     clamp(0.6rem, 0.8vw + 0.4rem, 0.8rem) clamp(0.9rem, 1vw + 0.6rem, 1.2rem);
 
-  /* 以下は既存のスタイル */
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  border: 0.0625rem solid var(--border);
+  border: 0.0625rem solid #cfd8e3; /* 控えめな薄いグレー青混合 */
   border-radius: var(--radius-sm);
-  background: var(--panel-muted);
-  color: var(--text-strong);
+  background: linear-gradient(
+    180deg,
+    #f6f8fb,
+    #eef3fb
+  ); /* ごく薄いグレー/青のグラデ */
+  color: #112; /* 濃いめのテキスト（黒より柔らかい） */
   font-size: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
   cursor: pointer;
   transition: var(--transition);
@@ -822,6 +1061,16 @@ body.dashboard-body.dashboard-body--plain .shell {
   width: auto;
   min-width: 12rem;
   max-width: 12rem;
+  font-weight: 600;
+}
+
+.column-controls-button:hover,
+.column-controls-button:focus {
+  background: linear-gradient(180deg, #eef6ff, #e6eefb);
+  border-color: #b7c6df;
+  color: #0b2540;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11, 51, 102, 0.06);
 }
 
 /* ボタンの末尾に▾を追加して配置する設定 */

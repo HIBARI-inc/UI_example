@@ -1,0 +1,17 @@
+{
+  "items": [
+    { "label": "統合トップ", "href": "../index.html" },
+    { "label": "カタログ", "href": "../catalog/index.html" },
+    { "label": "ATS", "href": "../ats/index.html" },
+    { "label": "実績", "href": "../achievements/index.html" },
+    {
+      "label": "不適合情報",
+      "href": "../nonconformity_information/index.html"
+    },
+    {
+      "label": "粉体物性情報ダッシュボード",
+      "href": "../test_information/index.html"
+    },
+    { "label": "物性", "href": "../physical_properties/index.html" }
+  ]
+}

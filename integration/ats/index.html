@@ -7,9 +7,26 @@
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body class="dashboard-body mode-fullscreen">
+    <!-- ハンバーガーメニュー -->
+    <button id="nav-toggle" class="site-nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+      <span class="hamburger" aria-hidden="true"></span>
+    </button>
+
+    <nav id="nav-drawer" class="nav-drawer" aria-hidden="true" aria-label="サイトナビゲーション">
+      <h2>ナビゲーション</h2>
+      <ul>
+        <li><a href="../index.html">統合トップ</a></li>
+        <li><a href="../catalog/index.html">カタログ</a></li>
+        <li><a href="../ats/index.html">ATS</a></li>
+        <li><a href="../achievements/index.html">実績</a></li>
+        <li><a href="../nonconformity_information/index.html">不適合情報</a></li>
+        <li><a href="../physical_properties/index.html">物性</a></li>
+      </ul>
+    </nav>
+    <div id="nav-overlay" class="nav-overlay" tabindex="-1" aria-hidden="true"></div>
     <main class="shell shell--fullscreen">
       <header class="masthead masthead--compact">
-        <h1>ドキュメントカタログビュー</h1>
+        <h1>ATS</h1>
       </header>
 
       <section class="layout layout--branch layout--branch-fullscreen" aria-labelledby="layout-branch-fullscreen-heading">
@@ -91,7 +108,8 @@
     </main>
 
     <script src="script.js"></script>
-    <script>
+  <script src="../navigation.js"></script>
+  <script>
       (() => {
         const layout = document.querySelector('.layout--branch');
         const nav = document.querySelector('.branch-rail');

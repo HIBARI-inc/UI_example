@@ -8,12 +8,43 @@
     <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="dashboard-body dashboard-body--plain">
-    <main class="shell shell--wide dashboard-shell">
+<body class="dashboard-body mode-fullscreen allow-scroll">
+    <!-- ハンバーガーメニュー -->
+    <button id="nav-toggle" class="site-nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span class="hamburger" aria-hidden="true"></span>
+    </button>
+
+    <nav id="nav-drawer" class="nav-drawer" aria-hidden="true" aria-label="サイトナビゲーション">
+        <h2>ナビゲーション</h2>
+        <ul>
+            <li><a href="../index.html">統合トップ</a></li>
+            <li><a href="../catalog/index.html">カタログ</a></li>
+            <li><a href="../ats/index.html">ATS</a></li>
+            <li><a href="../achievements/index.html">実績</a></li>
+            <li><a href="../nonconformity_information/index.html">不適合情報</a></li>
+            <li><a href="../physical_properties/index.html">物性</a></li>
+        </ul>
+    </nav>
+    <div id="nav-overlay" class="nav-overlay" tabindex="-1" aria-hidden="true"></div>
+    <main class="shell shell--fullscreen dashboard-shell">
         <header class="masthead masthead--compact">
-            <div>
-                <h1 class="dashboard-title">モーダル型実績ビュー</h1>
+            <h1>モーダル型実績ビュー</h1>
+        </header>
+
+        <!-- 表示列選択は期間フィルタ内に移動しました -->
+
+        <div class="dashboard-filters">
+            <div class="filter-group">
+                <label for="ach-date-from" class="filter-label">開始日</label>
+                <input id="ach-date-from" type="date" class="filter-input" value="2024-01-01" data-jshook="date-from">
             </div>
+            <div class="filter-group">
+                <label for="ach-date-to" class="filter-label">終了日</label>
+                <input id="ach-date-to" type="date" class="filter-input" value="2025-12-31" data-jshook="date-to">
+            </div>
+            <!-- カテゴリ検索は不要のため削除 -->
+            <button type="button" class="filter-button" data-jshook="search-button">検索</button>
+
             <div class="column-controls">
                 <button type="button" id="column-dropdown-button" class="column-controls-button">表示列を選択</button>
                 <div id="column-dropdown-panel" class="column-dropdown-panel" aria-hidden="true">
@@ -26,17 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="dashboard-filters">
-                <div class="filter-group">
-                    <input type="date" class="filter-input" value="2024-01-01" data-jshook="date-from">
-                </div>
-                <div class="filter-group">
-                    <input type="date" class="filter-input" value="2025-12-31" data-jshook="date-to">
-                </div>
-                <!-- カテゴリ検索は不要のため削除 -->
-                <button type="button" class="filter-button" data-jshook="search-button">検索</button>
-            </div>
-        </header>
+        </div>
 
         <section class="dashboard-section" aria-label="実績詳細テーブル">
             <header class="dashboard-section__header">
@@ -110,6 +131,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="script.js"></script>
+    <script src="../navigation.js"></script>
     <script>
         // 列表示切替のロジック
         document.addEventListener('DOMContentLoaded', () => {
@@ -157,6 +179,38 @@
                     }
                 });
             }
+        });
+    </script>
+    <script>
+        // 埋め込みAIチャット（ハリボテ）の最小動作
+        document.addEventListener('DOMContentLoaded', () => {
+            const display = document.querySelector('[data-jshook="embedded-chat-display"]');
+            const input = document.querySelector('[data-jshook="embedded-chat-input"]');
+            const send = document.querySelector('[data-jshook="embedded-chat-send"]');
+
+            function appendMessage(text, cls) {
+                const el = document.createElement('div');
+                el.className = 'ai-message ' + cls;
+                el.textContent = text;
+                display.appendChild(el);
+                display.scrollTop = display.scrollHeight;
+            }
+
+            function userSend() {
+                const v = input.value && input.value.trim();
+                if (!v) return;
+                appendMessage(v, 'ai-message--user');
+                input.value = '';
+                // 擬似応答（ハリボテ）
+                setTimeout(() => {
+                    appendMessage('これはデモ応答です: 「' + v + '」については現在データ参照機能がありません。', 'ai-message--bot');
+                }, 500);
+            }
+
+            if (send) send.addEventListener('click', userSend);
+            if (input) input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') userSend();
+            });
         });
     </script>
 </body>
